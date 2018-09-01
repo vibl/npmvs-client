@@ -24,5 +24,5 @@ const mapRecurse = mapper => object => {
     }
   }
   return result;
-}
+};
 export const mapper = mem(mapRecurse);

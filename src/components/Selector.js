@@ -29,7 +29,11 @@ const Option = (props) => {
           {d.label}
         </div>
         <div style={{width: 100}}>
-          {Math.round(d.popularity*100)}
+          <div style={{
+            backgroundColor: '#eecccc',
+            height: 30,
+            width: Math.round(d.popularity*100)
+          }}/>
         </div>
         <div style={{width: 600}}>
           {d.description}
@@ -42,10 +46,6 @@ class PackageSelector extends React.Component {
   constructor(props) {
     super(props);
     this.selectRef = React.createRef();
-  }
-  componentWillUpdate() {
-    console.log("Selector state before update: ",
-      this.selectRef.current.select.select.selectValue);
   }
   componentDidMount() {
     this.updateSelection();
@@ -66,9 +66,8 @@ class PackageSelector extends React.Component {
       //   .map( packName => ({label: packName, value: packName}))
       // options.forEach( option => refSelect.select.select.selectOption(option) );
     }
-    console.log("Selector state after update: ",
-      this.selectRef.current.select.select.state.selectValue);
   }
+  
   render() {
 
 

@@ -4,11 +4,10 @@ import getRows from './mapper/getRows';
 import {mapper} from './mapper/mapper';
 import {set, store} from './store';
 import isEmpty from "lodash/isEmpty";
-import http from './http';
+import {fetchChartData, getPackageRawData} from './data-fetching';
 import {getSelectionFromLocation} from './router-utils';
-import {append, assoc, difference, dissoc, filter, insert, map, mergeDeepLeft, pipe, trim} from 'ramda';
-const {collect, dissocAll, log, mergeTablesNotBlank,
-  tablify, transform, updateWhere} = require('./vibl-pure').default;
+import {assoc, difference, dissoc, insert, map, mergeDeepLeft, pipe} from 'ramda';
+const {collect, mergeTablesNotBlank, tablify} = require('./vibl-pure').default;
 
 if( isEmpty(store.getState()) ) {
   let rows = getRows(npmsMap);
@@ -21,36 +20,43 @@ if( isEmpty(store.getState()) ) {
     selection: [],
   });
 }
-const config = {
-  url: {
-    npmsAPI: 'https://api.npms.io/v2/package/',
-    npmDownloads: 'https://api.npmjs.org/downloads/',
-  }
-};
-const getDownloadData = (query) => http.memGet(config.url.npmDownloads + query);
 
-const getPackageRawData = (packageName) => http.memGet(config.url.npmsAPI + encodeURIComponent(packageName));
-
-const getChartData = async (packageName) => {
-  const query = "range/2017-08-28:2018-08-28/" + encodeURIComponent(packageName) ;
-  const resp = await getDownloadData(query);
-  return agreggateDownloads(30, resp.data.downloads);
-};
 async function addChartData(packageName) {
-  const chartAry = await getChartData(packageName);
+  const resp = await fetchChartData(packageName);
+  const chartAry = agreggateDownloads(30, resp.data.downloads);
   const chartTab = tablify(packageName)(chartAry);
   set({compData:{chart:{chartData:mergeTablesNotBlank(chartTab)}}});
 }
-const process = pipe(
-  tablify(packageName),
+// function enhanceRow(row) {
+//     switch( row.type) {
+//       case:
+//         break;
+//       case:
+//         break;
+//       default:
+//     }
+//   return row
+// }
 
-);
+// function enhanceDataPoint(raw) {
+//   const type =
+//   return {
+//     type,
+//     raw,
+//
+//   }
+// }
+
 async function addCompData(packageName) {
   const resp = await getPackageRawData(packageName);
-  const data = mapper(npmsMap, resp.data);
-  const index = process(data);
-  const computedData =
-  set({compData: mergeDeepLeft(index)});
+  const process = pipe(
+    mapper(npmsMap),
+    // map(enhanceDataPoint),
+    tablify(packageName),
+  );
+  const data = process(resp.data);
+  set({compData: mergeDeepLeft(data)});
+  // set({compData: map(enhanceRow)});
 }
 export const addPackage = collect(addCompData, addChartData);
 

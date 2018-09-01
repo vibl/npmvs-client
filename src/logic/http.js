@@ -1,5 +1,6 @@
 import axios from 'axios';
 import mem from 'mem';
+import debounce from "debounce-promise";
 
 // const serverBaseURL = 'https://api.npms.io/';
 //
@@ -20,7 +21,15 @@ export const get = (...args) => {
 
 export const memGet = mem(get);
 
+export const config = {
+  debounceDelay: 150,
+};
+export const debounceGet = debounce(
+  query => get(query),
+  config.debounceDelay,
+);
 export default {
+  debounceGet,
   get,
   memGet,
 }

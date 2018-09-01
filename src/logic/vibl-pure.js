@@ -342,7 +342,7 @@ const reduceSteps = curry3( (fn, ary, obj) => reduce(flip(fn), obj, ary) );
 const dissocAll = reduceSteps(dissoc);
 
 const viblPure = {
-  allEquals, appendStr,assocDotPath,
+  allEquals, appendStr, assocDotPath,
   bindAll, bindAllDeep, budge,
   collect, combine, concatArray, concatLeft, curry2, curry3, curryFlip,
   discard, dissocAll, doesMatch, dotPath, dotStringToPath, equals, equalsAny,

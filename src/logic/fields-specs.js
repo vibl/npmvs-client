@@ -1,300 +1,325 @@
-{ name:
+const {last} = require('ramda');
+
+const ident = val => val;
+const none = () => undefined;
+const joinComma = ary => ary.join(", ");
+const count = val => size(val);
+const author = (o) => o.name;
+const publisher = (o) => o.username;
+const repository = (o) => o.url;
+const releases = (a) => a[3].count;
+const downloads = (a) => a[5].count;
+const commits = (a) => a[4].count;
+const linters = (o) => o.js && o.js[0];
+
+// Number of contributors who have contributed 80% of the commits.
+const paretoContributors = list => {
+  const first = list.shift().commitsCount;
+  // Accumulate sums of commits.
+  const sums = list.reduce( (acc, o) => [...acc, last(acc) + o.commitsCount], [first]);
+  const total = last(sums);
+  // Count contributors until 80% of commits are reached.
+  return sums.reduce( (acc, val) => val/total <= 0.8 ? acc + 1 : acc, 0);
+};
+module.exports = {
+  name:
    { id: 'name',
      name: 'Name',
      source: 'npms',
      path: 'collected.metadata.name',
      process: ident },
-  scope:
+  scope: 
    { id: 'scope',
      name: 'Scope',
      source: 'npms',
      path: 'collected.metadata.scope',
      process: ident },
-  version:
+  version: 
    { id: 'version',
      name: 'Version',
      source: 'npms',
      path: 'collected.metadata.version',
      process: ident },
-  description:
+  description: 
    { id: 'description',
      name: 'Description',
      source: 'npms',
      path: 'collected.metadata.description',
      process: ident },
-  keywords:
+  keywords: 
    { id: 'keywords',
      name: 'Keywords',
      source: 'npms',
      path: 'collected.metadata.keywords',
      process: joinComma },
-  date:
+  date: 
    { id: 'date',
      name: 'Date',
      source: 'npms',
      path: 'collected.metadata.date',
      process: none },
-  author:
+  author: 
    { id: 'author',
      name: 'Author',
      source: 'npms',
      path: 'collected.metadata.author',
      process: author },
-  publisher:
+  publisher: 
    { id: 'publisher',
      name: 'Publisher',
      source: 'npms',
      path: 'collected.metadata.publisher',
      process: publisher },
-  maintainers:
+  maintainers: 
    { id: 'maintainers',
      name: 'Maintainers',
      source: 'npms',
      path: 'collected.metadata.maintainers',
      process: count },
-  repository:
+  repository: 
    { id: 'repository',
      name: 'Repository',
      source: 'npms',
      path: 'collected.metadata.links.repository',
      process: ident },
-  npm:
+  npm: 
    { id: 'npm',
      name: 'Npm',
      source: 'npms',
      path: 'collected.metadata.links.npm',
      process: ident },
-  homepage:
+  homepage: 
    { id: 'homepage',
      name: 'Homepage',
      source: 'npms',
      path: 'collected.github.homepage',
      process: ident },
-  bugs:
+  bugs: 
    { id: 'bugs',
      name: 'Bugs',
      source: 'npms',
      path: 'collected.metadata.links.bugs',
      process: ident },
-  license:
+  license: 
    { id: 'license',
      name: 'License',
      source: 'npms',
      path: 'collected.metadata.license',
      process: none },
-  dependencies:
+  dependencies: 
    { id: 'dependencies',
      name: 'Dependencies',
      source: 'npms',
      path: 'collected.metadata.dependencies',
      process: count },
-  releases:
+  releases: 
    { id: 'releases',
      name: 'Releases',
      source: 'npms',
      path: 'collected.metadata.releases',
      process: releases },
-  readme:
+  readme: 
    { id: 'readme',
      name: 'Readme',
      source: 'npms',
      path: 'collected.metadata.readme',
      process: none },
-  downloads:
+  downloads: 
    { id: 'downloads',
      name: 'Downloads',
      source: 'npms',
      path: 'collected.npm.downloads',
      process: downloads },
-  dependentsCount:
+  dependentsCount: 
    { id: 'dependentsCount',
      name: 'Dependents count',
      source: 'npms',
      path: 'evaluation.popularity.dependentsCount',
      process: ident },
-  starsCount:
+  starsCount: 
    { id: 'starsCount',
      name: 'Stars count',
      source: 'npms',
      path: 'collected.github.starsCount',
      process: ident },
-  forksCount:
+  forksCount: 
    { id: 'forksCount',
      name: 'Forks count',
      source: 'npms',
      path: 'collected.github.forksCount',
      process: ident },
-  subscribersCount:
+  subscribersCount: 
    { id: 'subscribersCount',
      name: 'Subscribers count',
      source: 'npms',
      path: 'collected.github.subscribersCount',
      process: ident },
-  count:
+  count: 
    { id: 'count',
      name: 'Count',
      source: 'npms',
      path: 'collected.github.issues.count',
      process: ident },
-  openCount:
+  openCount: 
    { id: 'openCount',
      name: 'Open count',
      source: 'npms',
      path: 'collected.github.issues.openCount',
      process: ident },
-  distribution:
+  distribution: 
    { id: 'distribution',
      name: 'Distribution',
      source: 'npms',
      path: 'collected.github.issues.distribution',
      process: none },
-  isDisabled:
+  isDisabled: 
    { id: 'isDisabled',
      name: 'Is disabled',
      source: 'npms',
      path: 'collected.github.issues.isDisabled',
      process: ident },
-  contributors:
+  contributors: 
    { id: 'contributors',
      name: 'Contributors',
      source: 'npms',
      path: 'collected.github.contributors',
      process: paretoContributors },
-  commits:
+  commits: 
    { id: 'commits',
      name: 'Commits',
      source: 'npms',
      path: 'collected.github.commits',
      process: commits },
-  statuses:
+  statuses: 
    { id: 'statuses',
      name: 'Statuses',
      source: 'npms',
      path: 'collected.github.statuses',
      process: none },
-  readmeSize:
+  readmeSize: 
    { id: 'readmeSize',
      name: 'Readme size',
      source: 'npms',
      path: 'collected.source.files.readmeSize',
      process: ident },
-  testsSize:
+  testsSize: 
    { id: 'testsSize',
      name: 'Tests size',
      source: 'npms',
      path: 'collected.source.files.testsSize',
      process: ident },
-  hasNpmIgnore:
+  hasNpmIgnore: 
    { id: 'hasNpmIgnore',
      name: 'Has npm ignore',
      source: 'npms',
      path: 'collected.source.files.hasNpmIgnore',
      process: ident },
-  hasChangelog:
+  hasChangelog: 
    { id: 'hasChangelog',
      name: 'Has changelog',
      source: 'npms',
      path: 'collected.source.files.hasChangelog',
      process: ident },
-  badges:
+  badges: 
    { id: 'badges',
      name: 'Badges',
      source: 'npms',
      path: 'collected.source.badges',
      process: none },
-  linters:
+  linters: 
    { id: 'linters',
      name: 'Linters',
      source: 'npms',
      path: 'collected.source.linters',
      process: linters },
-  carefulness:
+  carefulness: 
    { id: 'carefulness',
      name: 'Carefulness',
      source: 'npms',
      path: 'evaluation.quality.carefulness',
      process: ident },
-  tests:
+  tests: 
    { id: 'tests',
      name: 'Tests',
      source: 'npms',
      path: 'evaluation.quality.tests',
      process: ident },
-  health:
+  health: 
    { id: 'health',
      name: 'Health',
      source: 'npms',
      path: 'evaluation.quality.health',
      process: ident },
-  branding:
+  branding: 
    { id: 'branding',
      name: 'Branding',
      source: 'npms',
      path: 'evaluation.quality.branding',
      process: ident },
-  communityInterest:
+  communityInterest: 
    { id: 'communityInterest',
      name: 'Community interest',
      source: 'npms',
      path: 'evaluation.popularity.communityInterest',
      process: ident },
-  downloadsCount:
+  downloadsCount: 
    { id: 'downloadsCount',
      name: 'Downloads count',
      source: 'npms',
      path: 'evaluation.popularity.downloadsCount',
      process: ident },
-  downloadsAcceleration:
+  downloadsAcceleration: 
    { id: 'downloadsAcceleration',
      name: 'Downloads acceleration',
      source: 'npms',
      path: 'evaluation.popularity.downloadsAcceleration',
      process: ident },
-  releasesFrequency:
+  releasesFrequency: 
    { id: 'releasesFrequency',
      name: 'Releases frequency',
      source: 'npms',
      path: 'evaluation.maintenance.releasesFrequency',
      process: ident },
-  commitsFrequency:
+  commitsFrequency: 
    { id: 'commitsFrequency',
      name: 'Commits frequency',
      source: 'npms',
      path: 'evaluation.maintenance.commitsFrequency',
      process: ident },
-  openIssues:
+  openIssues: 
    { id: 'openIssues',
      name: 'Open issues',
      source: 'npms',
      path: 'evaluation.maintenance.openIssues',
      process: ident },
-  issuesDistribution:
+  issuesDistribution: 
    { id: 'issuesDistribution',
      name: 'Issues distribution',
      source: 'npms',
      path: 'evaluation.maintenance.issuesDistribution',
      process: ident },
-  final:
+  final: 
    { id: 'final',
      name: 'Final',
      source: 'npms',
      path: 'score.final',
      process: ident },
-  quality:
+  quality: 
    { id: 'quality',
      name: 'Quality',
      source: 'npms',
      path: 'score.detail.quality',
      process: ident },
-  popularity:
+  popularity: 
    { id: 'popularity',
      name: 'Popularity',
      source: 'npms',
      path: 'score.detail.popularity',
      process: ident },
-  maintenance:
+  maintenance: 
    { id: 'maintenance',
      name: 'Maintenance',
      source: 'npms',
      path: 'score.detail.maintenance',
-     process: ident } }
+     process: ident }
+};

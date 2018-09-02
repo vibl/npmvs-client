@@ -1,6 +1,3 @@
-const util = require('util');
-const fs = require('fs');
-
 function getName(str) {
   let acc = "";
   for (let i = 0; i < str.length; i++) {
@@ -41,12 +38,5 @@ const recurse = (parentPath, obj) => {
   return result;
 };
 
-const createFieldSpec = (mapper) => recurse('', mapper);
+module.exports = (mapper) => recurse('', mapper);
 
-// const objStr = util.inspect(fieldsSpecs)
-//   .replace(/\[Function: (\w+)\]/g, '$1');
-//
-// fs.writeFileSync(__dirname + '/field-specs.js', objStr);
-// console.log(objStr);
-
-export default createFieldSpec;

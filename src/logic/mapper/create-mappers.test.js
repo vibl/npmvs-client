@@ -4,8 +4,6 @@ const createMapper = require('./create-mapper');
 import createFieldSpec from '../create-fields-specs';
 import npmsMap from "./npms-map";
 
-
-
 const sampleDataFile = '/home/vianney/dev/idea/npmvs/tmp/sampleData-react.json';
 
 // const sampleDataUrl = 'https://api.npms.io/v2/package/react';
@@ -21,6 +19,6 @@ const mapper = createMapper(fieldsSpecs);
 
 async function main() {
   const sampleData = JSON.parse(fs.readFileSync(sampleDataFile, {encoding: 'utf8'}));
-  mapper
+  
 }
 main().then(console.log).catch(console.log);

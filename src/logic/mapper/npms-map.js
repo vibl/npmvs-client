@@ -1,4 +1,3 @@
-import {last} from 'ramda';
 import {count, ident, none, joinComma} from "./mapper";
 
 // Number of contributors who have contributed 80% of the commits.

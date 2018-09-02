@@ -13,7 +13,7 @@ const {
   identity, ifElse, infinity, intersection, intersperse, isEmpty,
   juxt, keys, length, lensPath, 
   map, match, merge, mergeAll, mergeDeepRight, mergeDeepWith, nth,
-  objOf, or, pick, pipe, prepend,
+  objOf, or, path, pick, pipe, prepend,
   range, reduce, replace,
   slice, sort, split, tap, toPairs, trim, unapply, values, without, zip, zipWith
 } = R;
@@ -196,6 +196,8 @@ const lensDotPath = pipe(dotPath, lensPath);
 
 const assocDotPath = curry3((path, val, obj) => assocPath(dotPath(path), val, obj));
 
+const getDotPath = curry2( (str, obj) => path(dotPath(str), obj) );
+
 const overlaps = pipe(intersection, notEmpty);
 
 const equalsAny = curry2((ary, val) => {
@@ -347,7 +349,7 @@ const viblPure = {
   collect, combine, concatArray, concatLeft, curry2, curry3, curryFlip,
   discard, dissocAll, doesMatch, dotPath, dotStringToPath, equals, equalsAny,
   fnOr, filterKeys, filterP, flipAll, from,
-  get,
+  get, getDotPath,
   interleave, isBlank, isFunction, isNumber, isObject, isObjectLike, isPlainObject, isString,
   keep, keepRandom,
   lensDotPath,  lineBreaksToSpace, log, logEach,

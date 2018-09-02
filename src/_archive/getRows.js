@@ -1,5 +1,5 @@
 import mem from 'mem';
-import {none} from './mapper';
+import {none} from './field-mapper';
 
 function getName(s) {
   let acc = "";

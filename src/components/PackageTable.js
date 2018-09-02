@@ -35,28 +35,28 @@ class TableCell extends Component {
     //  <td>ok</td>;
   }
 }
-const TableRow = ({row, packages, data} ) => {
+const TableRow = ({field, packages, data} ) => {
   return (
     <S_tr>
-      <th>{row.name}</th>
+      <th>{field.name}</th>
       {packages.map( packName => <TableCell key={packName} packName={packName} data={data}/> )}
     </S_tr>
   );
 }
-const PackageTable = pure( ({compData, rows}) => {
-  return isEmpty(compData.name) ? null :
+const PackageTable = pure( ({fields, fieldsOrder}) => {
+  return isEmpty(fields.name) ? null :
     <S_table>
       <tbody>
-      {rows.map( (row) =>
+      {fields.map( (field) =>
         <TableRow
-          key={row.id}
-          row={row}
-          packages={Object.keys(compData.name)}
-          data={compData[row.id]}
+          key={field.id}
+          field={field}
+          packages={Object.keys(fields.name)}
+          data={fields[field.id]}
         /> )}
       </tbody>
     </S_table>
 });
-const mapStateToProps = pickAll(['compData', 'rows']);
+const mapStateToProps = pickAll(['fields', 'fieldsOrder']);
 
 export default connect(mapStateToProps)(PackageTable);

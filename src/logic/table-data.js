@@ -1,22 +1,32 @@
 import mem from "mem";
-import npmsMap from './mapper/npms-map';
-import getRows from './mapper/getRows';
-import {mapper} from './mapper/mapper';
+import {importData} from './mapper/import-data';
 import {set, store} from './store';
 import isEmpty from "lodash/isEmpty";
 import {fetchChartData, getPackageRawData} from './data-fetching';
 import {getSelectionFromLocation} from './router-utils';
-import {assoc, difference, dissoc, insert, map, mergeDeepLeft, pipe} from 'ramda';
-const {collect, mergeTablesNotBlank, tablify} = require('./vibl-pure').default;
+import createFieldsTree from './mapper/create-fields-tree';
+import fieldsSpecs from './field-specs';
+import {add, assoc, difference, dissoc, insert, keys, last,
+  map, mapObjIndexed, mergeDeepLeft, pipe, reduce, toPairs, values} from 'ramda';
+import size from 'lodash/size';
+const {collect, mergeTablesNotBlank} = require('./vibl-pure').default;
 
-if( isEmpty(store.getState()) ) {
-  let rows = getRows(npmsMap);
-  rows = insert(2, {id: 'chart', name: 'Chart'})(rows);
-  const compData = rows.reduce((acc, o) => assoc(o.id, {}, acc), {});
-  compData['chart'] = {chartData: []};
+
+
+function initState() {
+  if( ! isEmpty(store.getState()) ) return;
+  const compDataInitReducer = (field, id) => ({
+    meta: {
+      id,
+      ...field,
+    },
+    data: {},
+  });
+  const compData = mapObjIndexed(compDataInitReducer)(fieldsSpecs);
+  compData.downloadsChart.chartData = [];
   set({
-    compData,
-    rows,
+    fields,
+    fieldsOrder: keys(fieldsSpecs),
     selection: [],
   });
 }
@@ -25,17 +35,17 @@ async function addChartData(packageName) {
   const resp = await fetchChartData(packageName);
   const chartAry = agreggateDownloads(30, resp.data.downloads);
   const chartTab = tablify(packageName)(chartAry);
-  set({compData:{chart:{chartData:mergeTablesNotBlank(chartTab)}}});
+  set({fields:{chart:{chartData:mergeTablesNotBlank(chartTab)}}});
 }
-// function enhanceRow(row) {
-//     switch( row.type) {
+// function enhancefield(field) {
+//     switch( field.type) {
 //       case:
 //         break;
 //       case:
 //         break;
 //       default:
 //     }
-//   return row
+//   return field
 // }
 
 // function enhanceDataPoint(raw) {
@@ -46,22 +56,21 @@ async function addChartData(packageName) {
 //
 //   }
 // }
+const tablify = pipe(objOf, map);
 
+const processAndMerge = (packageName, data) => (current) => {
+  // Reprendre le code de tablify et de mergeDeepLeft ou de transform.
+  return newObj;
+};
 async function addCompData(packageName) {
   const resp = await getPackageRawData(packageName);
-  const process = pipe(
-    mapper(npmsMap),
-    // map(enhanceDataPoint),
-    tablify(packageName),
-  );
-  const data = process(resp.data);
-  set({compData: mergeDeepLeft(data)});
-  // set({compData: map(enhanceRow)});
+  set({fields: importData(packageName, resp.data)});
+  // set({fields: map(enhancefield)});
 }
 export const addPackage = collect(addCompData, addChartData);
 
-const removeCompData = (packageName) => set({compData: map(dissoc(packageName))});
-const removeChartData = (packageName) => set({compData:{chart:{chartData: map(dissoc(packageName))}}});
+const removeCompData = (packageName) => set({fields: map(dissoc(packageName))});
+const removeChartData = (packageName) => set({fields:{chart:{chartData: map(dissoc(packageName))}}});
 export const removePackage = collect(removeCompData, removeChartData);
 
 export const setSelection = (newSelection) => {
@@ -88,3 +97,5 @@ export const agreggateDownloads = mem( (period, data) => {
   }
   return res;
 });
+
+initState()

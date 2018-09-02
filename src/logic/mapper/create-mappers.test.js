@@ -1,6 +1,6 @@
 const axios = require('axios');
 const fs = require('fs');
-const createMapper = require('./create-mapper');
+const createMapper = require('./create-fields-tree');
 import createFieldSpec from '../create-fields-specs';
 import npmsMap from "./npms-map";
 

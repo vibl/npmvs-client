@@ -3,7 +3,7 @@ const createFieldsSpecs = require('../create-fields-specs');
 const stringifyObjectLiteral = require('./stringify-object-literal');
 const npmsMap = require('./npms-map').default;
 
-const file = __dirname + '/../fields-specs.js';
+const file = __dirname + '/../field-specs.js';
 const obj = createFieldsSpecs(npmsMap);
 const objLiteral = stringifyObjectLiteral(obj);
 console.log(objLiteral);

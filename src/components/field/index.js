@@ -9,4 +9,3 @@ context.keys().forEach( file =>
 );
 
 export default components;
-

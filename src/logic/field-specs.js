@@ -77,7 +77,7 @@ module.exports = {
      path: 'collected.metadata.links.repository',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'Simple',
+     component: 'Link',
   },
   npm: {
      label: 'NPM',
@@ -85,7 +85,7 @@ module.exports = {
      path: 'collected.metadata.links.npm',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'Simple',
+     component: 'Link',
   },
   homepage: {
      label: 'Homepage',
@@ -93,7 +93,7 @@ module.exports = {
      path: 'collected.github.homepage',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'Simple',
+     component: 'Link',
   },
   bugs: {
      label: 'Bugs',
@@ -101,7 +101,7 @@ module.exports = {
      path: 'collected.metadata.links.bugs',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'Simple',
+     component: 'Link',
   },
   license: {
      label: 'License',
@@ -132,7 +132,7 @@ module.exports = {
      source: 'npms',
      path: 'collected.metadata.readme',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'shorten20chars',
      component: 'Simple',
   },
   downloads: {
@@ -268,7 +268,7 @@ module.exports = {
      source: 'npms',
      path: 'evaluation.quality.carefulness',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'percent',
      component: 'Simple',
   },
   tests: {
@@ -276,7 +276,7 @@ module.exports = {
      source: 'npms',
      path: 'evaluation.quality.tests',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'percent',
      component: 'Simple',
   },
   health: {
@@ -284,7 +284,7 @@ module.exports = {
      source: 'npms',
      path: 'evaluation.quality.health',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'percent',
      component: 'Simple',
   },
   branding: {
@@ -292,7 +292,7 @@ module.exports = {
      source: 'npms',
      path: 'evaluation.quality.branding',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'percent',
      component: 'Simple',
   },
   communityInterest: {
@@ -324,7 +324,7 @@ module.exports = {
      source: 'npms',
      path: 'evaluation.maintenance.releasesFrequency',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'percent',
      component: 'Simple',
   },
   commitsFrequency: {
@@ -332,7 +332,7 @@ module.exports = {
      source: 'npms',
      path: 'evaluation.maintenance.commitsFrequency',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'percent',
      component: 'Simple',
   },
   openIssues: {
@@ -340,7 +340,7 @@ module.exports = {
      source: 'npms',
      path: 'evaluation.maintenance.openIssues',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'percent',
      component: 'Simple',
   },
   issuesDistribution: {
@@ -348,7 +348,7 @@ module.exports = {
      source: 'npms',
      path: 'evaluation.maintenance.issuesDistribution',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'percent',
      component: 'Simple',
   },
   final: {
@@ -356,7 +356,7 @@ module.exports = {
      source: 'npms',
      path: 'score.final',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'percent',
      component: 'Simple',
   },
   quality: {
@@ -364,7 +364,7 @@ module.exports = {
      source: 'npms',
      path: 'score.detail.quality',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'percent',
      component: 'Simple',
   },
   popularity: {
@@ -372,7 +372,7 @@ module.exports = {
      source: 'npms',
      path: 'score.detail.popularity',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'percent',
      component: 'Simple',
   },
   maintenance: {
@@ -380,7 +380,7 @@ module.exports = {
      source: 'npms',
      path: 'score.detail.maintenance',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'percent',
      component: 'Simple',
   },
 };

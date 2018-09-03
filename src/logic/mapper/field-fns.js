@@ -14,6 +14,8 @@ export default {
   downloads: getDotPath('5.count'), // (a) => a[5] && a[5].count,
   commits: getDotPath('4.count'), // (a) => a[4] && a[4].count,
   linters: getDotPath('js.0'), // (o) => o && o.js && o.js[0],
+  shorten20chars: str => str.slice(0, 20),
+  percent: n => Math.round(n * 100).toString() + "%",
   // Number of contributors who have contributed 80% of the commits.
   paretoContributors: list => {
     const first = list.shift().commitsCount;

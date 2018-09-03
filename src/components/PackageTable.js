@@ -35,7 +35,7 @@ class TableCell extends Component {
 const TableRow = ({field, packages} ) => {
   return (
     <S_tr>
-      <th>{field.meta.id}</th>
+      <th>{field.meta.label}</th>
       {packages.map( pack => <TableCell key={pack} pack={pack} field={field}/> )}
     </S_tr>
   );

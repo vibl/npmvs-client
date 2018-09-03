@@ -136,7 +136,7 @@ module.exports = {
      component: 'Simple',
   },
   downloads: {
-     label: 'Downloads',
+     label: 'Downloads in one year',
      source: 'npms',
      path: 'collected.npm.downloads',
      rawFn: 'ident',
@@ -148,7 +148,7 @@ module.exports = {
      source: 'npms',
      path: 'evaluation.popularity.dependentsCount',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'thousands',
      component: 'Simple',
   },
   starsCount: {
@@ -156,7 +156,7 @@ module.exports = {
      source: 'npms',
      path: 'collected.github.starsCount',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'thousands',
      component: 'Simple',
   },
   forksCount: {
@@ -164,7 +164,7 @@ module.exports = {
      source: 'npms',
      path: 'collected.github.forksCount',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'thousands',
      component: 'Simple',
   },
   subscribersCount: {
@@ -172,19 +172,19 @@ module.exports = {
      source: 'npms',
      path: 'collected.github.subscribersCount',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'thousands',
      component: 'Simple',
   },
   count: {
-     label: 'Count',
+     label: 'Issues',
      source: 'npms',
      path: 'collected.github.issues.count',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'thousands',
      component: 'Simple',
   },
   openCount: {
-     label: 'Open count',
+     label: 'Open issues',
      source: 'npms',
      path: 'collected.github.issues.openCount',
      rawFn: 'ident',
@@ -228,7 +228,7 @@ module.exports = {
      source: 'npms',
      path: 'collected.source.files.readmeSize',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'thousands',
      component: 'Simple',
   },
   testsSize: {
@@ -236,7 +236,7 @@ module.exports = {
      source: 'npms',
      path: 'collected.source.files.testsSize',
      rawFn: 'ident',
-     displayFn: 'ident',
+     displayFn: 'thousands',
      component: 'Simple',
   },
   hasNpmIgnore: {

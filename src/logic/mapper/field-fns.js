@@ -2,6 +2,9 @@ import size from "lodash/size";
 import {add, filter, last,map, pipe, reduce, toPairs} from 'ramda';
 const {getDotPath} = require('../vibl-pure');
 
+const twoSignificantDigits = n => n >= 100 ? Math.round(n).toString() : Number.parseFloat(n).toPrecision(2);
+const thousands = n => twoSignificantDigits(n/1000).toString() + 'k';
+
 export default {
   ident: val => val,
   none: () => undefined,
@@ -11,12 +14,14 @@ export default {
   publisher: getDotPath('username'), // (o) => o && o.username,
   repository: getDotPath('url'), // (o) => o && o.url,
   releases: getDotPath('3.count'), //(a) => a && a[3] && a[3].count,
-  downloads: getDotPath('5.count'), // (a) => a[5] && a[5].count,
+  downloads: pipe(getDotPath('5.count'), thousands), // (a) => a[5] && a[5].count,
   commits: getDotPath('4.count'), // (a) => a[4] && a[4].count,
   linters: getDotPath('js.0'), // (o) => o && o.js && o.js[0],
   shorten20chars: str => str.slice(0, 20),
   percent: n => Math.round(n * 100).toString() + "%",
-  // Number of contributors who have contributed 80% of the commits.
+  thousands,
+  twoSignificantDigits,
+      // Number of contributors who have contributed 80% of the commits.
   paretoContributors: list => {
     const first = list.shift().commitsCount;
     // Accumulate sums of commits.

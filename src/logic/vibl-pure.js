@@ -343,8 +343,17 @@ const reduceSteps = curry3( (fn, ary, obj) => reduce(flip(fn), obj, ary) );
 
 const dissocAll = reduceSteps(dissoc);
 
+// Reverses the arguments as compared to`difference`.
+const added = (b, a) => difference(a, b);
+const removed = flip(added);
+// Probably not useful: reduces legibility and lacks flexibility.
+// const collectFilterMap = pipe(
+//   map( fns => pipe(fns[0], map(fns[1])) ),
+//   juxt,
+// );
+
 const viblPure = {
-  allEquals, appendStr, assocDotPath,
+  added, allEquals, appendStr, assocDotPath,
   bindAll, bindAllDeep, budge,
   collect, combine, concatArray, concatLeft, curry2, curry3, curryFlip,
   discard, dissocAll, doesMatch, dotPath, dotStringToPath, equals, equalsAny,
@@ -358,7 +367,7 @@ const viblPure = {
   notBlank, notEmpty, notMatch,
   overlaps,
   pickValues, pipeLog, pMap, prefixLine, preIntersperse,
-  random, rangeMap, rangeStep, reduceFirst, reduceFirstP, reduceIndexed, reduceP, reduceSteps, removeShortest, rest, reverseDifference,
+  random, rangeMap, rangeStep, reduceFirst, reduceFirstP, reduceIndexed, reduceP, reduceSteps, removed, removeShortest, rest, reverseDifference,
   splitLinesTrim, splitProperties, store,
   tablify, takeLastUntil, toNumber, toPairsSorted, transform, trimIfString,
   updateWhere,

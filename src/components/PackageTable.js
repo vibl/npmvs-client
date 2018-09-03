@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
+import mem from 'mem';
 import styled from 'react-emotion'
-import {isEmpty, pickAll} from 'ramda';
+import {isEmpty, keys, pickAll} from 'ramda';
+import fns from '../logic/mapper/field-fns';
 import Chart from './Chart';
 
 const S_tr = styled.tr`
@@ -27,36 +29,38 @@ class TableCell extends Component {
   // }
   render() {
     // console.log('Rendering TableCell');
-    const {packName, data} = this.props;
-    const content = data.chartData
-      ? <Chart packName={packName} data={data.chartData}/>
-      : data[packName];
+    const {field, packName} = this.props;
+    const content = field.data.chartData
+      ? <Chart packName={packName} data={field.data.chartData}/>
+      : fns[field.meta.displayFn](field.data[packName]);
     return <S_td>{content}</S_td>
     //  <td>ok</td>;
   }
 }
-const TableRow = ({field, packages, data} ) => {
+const TableRow = ({field, packages} ) => {
   return (
     <S_tr>
-      <th>{field.name}</th>
-      {packages.map( packName => <TableCell key={packName} packName={packName} data={data}/> )}
+      <th>{field.meta.id}</th>
+      {packages.map( packName => <TableCell key={packName} packName={packName} field={field}/> )}
     </S_tr>
   );
-}
-const PackageTable = pure( ({fields, fieldsOrder}) => {
-  return isEmpty(fields.name) ? null :
-    <S_table>
+};
+const PackageTable = pure(
+  ({fields, fieldsOrder, packages}) =>
+    ! packages ? null :
+     <S_table>
       <tbody>
-      {fields.map( (field) =>
-        <TableRow
-          key={field.id}
-          field={field}
-          packages={Object.keys(fields.name)}
-          data={fields[field.id]}
-        /> )}
+      { fieldsOrder.map( (fieldId) => <TableRow key={fieldId} packages={packages} field={fields[fieldId]}/> )}
       </tbody>
     </S_table>
+);
+// Memoizing is important here, otherwise a new array would be created each time, which would render the component.
+const getPackages = mem(keys);
+
+const mapStateToProps = (state) => ({
+  fields: state.fields,
+  fieldsOrder: state.fieldsOrder,
+  packages: state.fields.label && getPackages(state.fields.label.data),
 });
-const mapStateToProps = pickAll(['fields', 'fieldsOrder']);
 
 export default connect(mapStateToProps)(PackageTable);

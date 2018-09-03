@@ -24,8 +24,7 @@ class App extends Component {
             {/*<Link to="/compare">Compare packages</Link>*/}
             <Route path="/compare" component={SelectionChange}/>
             <Route path="/compare" component={ComparisonPage}/>
-            {/*<Route exact path="/compare" render={() => <div>a</div>}/>*/}
-            {/*<ComparisonPage/>*/}
+            {/*<Route path="/compare" render={() => <div>a</div>}/>*/}
           </div>
         </Provider>
       </Router>

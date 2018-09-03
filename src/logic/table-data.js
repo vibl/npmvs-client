@@ -1,17 +1,13 @@
 import mem from "mem";
-import {importData} from './mapper/import-data';
+import importData from './mapper/import-data';
 import {set, store} from './store';
 import isEmpty from "lodash/isEmpty";
 import {fetchChartData, getPackageRawData} from './data-fetching';
 import {getSelectionFromLocation} from './router-utils';
-import createFieldsTree from './mapper/create-fields-tree';
 import fieldsSpecs from './field-specs';
-import {add, assoc, difference, dissoc, insert, keys, last,
+import {add, assoc, difference, dissoc, dissocPath, filter, flip, insert, juxt, keys, last,
   map, mapObjIndexed, mergeDeepLeft, pipe, reduce, toPairs, values} from 'ramda';
-import size from 'lodash/size';
-const {collect, mergeTablesNotBlank} = require('./vibl-pure').default;
-
-
+const {added, removed, collect, mergeTablesNotBlank, notEmpty, tablify} = require('./vibl-pure').default;
 
 function initState() {
   if( ! isEmpty(store.getState()) ) return;
@@ -22,61 +18,45 @@ function initState() {
     },
     data: {},
   });
-  const compData = mapObjIndexed(compDataInitReducer)(fieldsSpecs);
-  compData.downloadsChart.chartData = [];
+  const fields = mapObjIndexed(compDataInitReducer)(fieldsSpecs);
+  fields.downloadsChart.chartData = [];
   set({
     fields,
     fieldsOrder: keys(fieldsSpecs),
     selection: [],
   });
 }
-
 async function addChartData(packageName) {
   const resp = await fetchChartData(packageName);
   const chartAry = agreggateDownloads(30, resp.data.downloads);
   const chartTab = tablify(packageName)(chartAry);
-  set({fields:{chart:{chartData:mergeTablesNotBlank(chartTab)}}});
+  set({fields:{downloadsChart:{chartData:mergeTablesNotBlank(chartTab)}}});
 }
-// function enhancefield(field) {
-//     switch( field.type) {
-//       case:
-//         break;
-//       case:
-//         break;
-//       default:
-//     }
-//   return field
-// }
-
-// function enhanceDataPoint(raw) {
-//   const type =
-//   return {
-//     type,
-//     raw,
-//
-//   }
-// }
-const tablify = pipe(objOf, map);
-
-const processAndMerge = (packageName, data) => (current) => {
-  // Reprendre le code de tablify et de mergeDeepLeft ou de transform.
-  return newObj;
-};
-async function addCompData(packageName) {
+async function addPackageData(packageName) {
+  if( ! packageName ) debugger;
   const resp = await getPackageRawData(packageName);
-  set({fields: importData(packageName, resp.data)});
-  // set({fields: map(enhancefield)});
+  set({fields: importData(packageName, 'npms', resp.data)});
 }
-export const addPackage = collect(addCompData, addChartData);
+export const addPackage = collect(addPackageData, addChartData);
 
-const removeCompData = (packageName) => set({fields: map(dissoc(packageName))});
-const removeChartData = (packageName) => set({fields:{chart:{chartData: map(dissoc(packageName))}}});
-export const removePackage = collect(removeCompData, removeChartData);
+const removePackageData = (packageName) => set({fields: map(dissocPath(['data', packageName]))});
+const removeChartData = (packageName) => set({fields:{downloadsChart:{chartData: map(dissoc(packageName))}}});
+export const removePackage = collect(removePackageData, removeChartData);
 
 export const setSelection = (newSelection) => {
   const currentSelection = store.getState().selection;
-  difference(currentSelection, newSelection).forEach(removePackage);
-  difference(newSelection, currentSelection).forEach(addPackage);
+  collect(
+    pipe(
+      added,
+      filter(notEmpty),
+      map(addPackage)
+    ),
+    pipe(
+      removed,
+      filter(notEmpty),
+      map(removePackage),
+    ),
+  )(currentSelection, newSelection);
   set({selection: newSelection});
 };
 export const updateSelectionFromLocation = pipe(
@@ -98,4 +78,4 @@ export const agreggateDownloads = mem( (period, data) => {
   return res;
 });
 
-initState()
+initState();

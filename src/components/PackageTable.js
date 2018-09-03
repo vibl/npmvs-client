@@ -4,7 +4,7 @@ import {pure} from 'recompose';
 import mem from 'mem';
 import styled from 'react-emotion'
 import {isEmpty, keys, pickAll} from 'ramda';
-import fieldComponents from './field/fieldComponents';
+import fieldComponents from './field';
 
 const S_tr = styled.tr`
   border: 1px solid #d4d2d2;

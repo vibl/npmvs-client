@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react';
 import { AreaChart, Area, Tooltip } from 'recharts';
-import {store} from '../../logic/store';
 import {keys, pipe, prepend, without} from 'ramda';
 const {putFirst} = require('../../logic/vibl-pure');
 
@@ -78,6 +77,5 @@ class LineChart extends PureComponent {
 //     <Area type="monotone" dataKey="downloads" dot={false} stroke="#8884d8" />
 //   </AreaChart>
 // );
-
 export default LineChart;
 

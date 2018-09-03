@@ -5,7 +5,7 @@ module.exports = {
      path: 'collected.metadata.name',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   scope: {
      label: 'Scope',
@@ -13,7 +13,7 @@ module.exports = {
      path: 'collected.metadata.scope',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   downloadsChart: {
     label: 'Downloads last year',
@@ -21,7 +21,7 @@ module.exports = {
     path: '',
     rawFn: 'ident',
     displayFn: 'ident',
-    component: 'line-chart',
+    component: 'LineChart',
   },
   version: {
      label: 'Version',
@@ -29,7 +29,7 @@ module.exports = {
      path: 'collected.metadata.version',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   description: {
      label: 'Description',
@@ -37,7 +37,7 @@ module.exports = {
      path: 'collected.metadata.description',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   keywords: {
      label: 'Keywords',
@@ -45,7 +45,7 @@ module.exports = {
      path: 'collected.metadata.keywords',
      rawFn: 'ident',
      displayFn: 'joinComma',
-     component: 'simple',
+     component: 'Simple',
   },
   author: {
      label: 'Author',
@@ -53,7 +53,7 @@ module.exports = {
      path: 'collected.metadata.author',
      rawFn: 'ident',
      displayFn: 'author',
-     component: 'simple',
+     component: 'Simple',
   },
   publisher: {
      label: 'Publisher',
@@ -61,7 +61,7 @@ module.exports = {
      path: 'collected.metadata.publisher',
      rawFn: 'ident',
      displayFn: 'publisher',
-     component: 'simple',
+     component: 'Simple',
   },
   maintainers: {
      label: 'Maintainers',
@@ -69,7 +69,7 @@ module.exports = {
      path: 'collected.metadata.maintainers',
      rawFn: 'ident',
      displayFn: 'count',
-     component: 'simple',
+     component: 'Simple',
   },
   repository: {
      label: 'Repository',
@@ -77,7 +77,7 @@ module.exports = {
      path: 'collected.metadata.links.repository',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   npm: {
      label: 'NPM',
@@ -85,7 +85,7 @@ module.exports = {
      path: 'collected.metadata.links.npm',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   homepage: {
      label: 'Homepage',
@@ -93,7 +93,7 @@ module.exports = {
      path: 'collected.github.homepage',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   bugs: {
      label: 'Bugs',
@@ -101,7 +101,7 @@ module.exports = {
      path: 'collected.metadata.links.bugs',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   license: {
      label: 'License',
@@ -109,7 +109,7 @@ module.exports = {
      path: 'collected.metadata.license',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   dependencies: {
      label: 'Dependencies',
@@ -117,7 +117,7 @@ module.exports = {
      path: 'collected.metadata.dependencies',
      rawFn: 'ident',
      displayFn: 'count',
-     component: 'simple',
+     component: 'Simple',
   },
   releases: {
      label: 'Releases',
@@ -125,7 +125,7 @@ module.exports = {
      path: 'collected.metadata.releases',
      rawFn: 'ident',
      displayFn: 'releases',
-     component: 'simple',
+     component: 'Simple',
   },
   readme: {
      label: 'Readme',
@@ -133,7 +133,7 @@ module.exports = {
      path: 'collected.metadata.readme',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   downloads: {
      label: 'Downloads',
@@ -141,7 +141,7 @@ module.exports = {
      path: 'collected.npm.downloads',
      rawFn: 'ident',
      displayFn: 'downloads',
-     component: 'simple',
+     component: 'Simple',
   },
   dependentsCount: {
      label: 'Dependents count',
@@ -149,7 +149,7 @@ module.exports = {
      path: 'evaluation.popularity.dependentsCount',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   starsCount: {
      label: 'Stars count',
@@ -157,7 +157,7 @@ module.exports = {
      path: 'collected.github.starsCount',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   forksCount: {
      label: 'Forks count',
@@ -165,7 +165,7 @@ module.exports = {
      path: 'collected.github.forksCount',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   subscribersCount: {
      label: 'Subscribers count',
@@ -173,7 +173,7 @@ module.exports = {
      path: 'collected.github.subscribersCount',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   count: {
      label: 'Count',
@@ -181,7 +181,7 @@ module.exports = {
      path: 'collected.github.issues.count',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   openCount: {
      label: 'Open count',
@@ -189,7 +189,7 @@ module.exports = {
      path: 'collected.github.issues.openCount',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   distribution: {
      label: 'Average open issue duration',
@@ -197,7 +197,7 @@ module.exports = {
      path: 'collected.github.issues.distribution',
      rawFn: 'ident',
      displayFn: 'averageOpenIssueDuration',
-     component: 'simple',
+     component: 'Simple',
   },
   isDisabled: {
      label: 'Is disabled',
@@ -205,7 +205,7 @@ module.exports = {
      path: 'collected.github.issues.isDisabled',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   contributors: {
      label: 'Contributors',
@@ -213,7 +213,7 @@ module.exports = {
      path: 'collected.github.contributors',
      rawFn: 'ident',
      displayFn: 'paretoContributors',
-     component: 'simple',
+     component: 'Simple',
   },
   commits: {
      label: 'Commits',
@@ -221,7 +221,7 @@ module.exports = {
      path: 'collected.github.commits',
      rawFn: 'ident',
      displayFn: 'commits',
-     component: 'simple',
+     component: 'Simple',
   },
   readmeSize: {
      label: 'Readme size',
@@ -229,7 +229,7 @@ module.exports = {
      path: 'collected.source.files.readmeSize',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   testsSize: {
      label: 'Tests size',
@@ -237,7 +237,7 @@ module.exports = {
      path: 'collected.source.files.testsSize',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   hasNpmIgnore: {
      label: 'Has npm ignore',
@@ -245,7 +245,7 @@ module.exports = {
      path: 'collected.source.files.hasNpmIgnore',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   hasChangelog: {
      label: 'Has changelog',
@@ -253,7 +253,7 @@ module.exports = {
      path: 'collected.source.files.hasChangelog',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   linters: {
      label: 'Linters',
@@ -261,7 +261,7 @@ module.exports = {
      path: 'collected.source.linters',
      rawFn: 'ident',
      displayFn: 'linters',
-     component: 'simple',
+     component: 'Simple',
   },
   carefulness: {
      label: 'Carefulness',
@@ -269,7 +269,7 @@ module.exports = {
      path: 'evaluation.quality.carefulness',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   tests: {
      label: 'Tests',
@@ -277,7 +277,7 @@ module.exports = {
      path: 'evaluation.quality.tests',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   health: {
      label: 'Health',
@@ -285,7 +285,7 @@ module.exports = {
      path: 'evaluation.quality.health',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   branding: {
      label: 'Branding',
@@ -293,7 +293,7 @@ module.exports = {
      path: 'evaluation.quality.branding',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   communityInterest: {
      label: 'Community interest',
@@ -301,7 +301,7 @@ module.exports = {
      path: 'evaluation.popularity.communityInterest',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   downloadsCount: {
      label: 'Downloads count',
@@ -309,7 +309,7 @@ module.exports = {
      path: 'evaluation.popularity.downloadsCount',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   downloadsAcceleration: {
      label: 'Downloads acceleration',
@@ -317,7 +317,7 @@ module.exports = {
      path: 'evaluation.popularity.downloadsAcceleration',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   releasesFrequency: {
      label: 'Releases frequency',
@@ -325,7 +325,7 @@ module.exports = {
      path: 'evaluation.maintenance.releasesFrequency',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   commitsFrequency: {
      label: 'Commits frequency',
@@ -333,7 +333,7 @@ module.exports = {
      path: 'evaluation.maintenance.commitsFrequency',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   openIssues: {
      label: 'Open issues',
@@ -341,7 +341,7 @@ module.exports = {
      path: 'evaluation.maintenance.openIssues',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   issuesDistribution: {
      label: 'Issues distribution',
@@ -349,7 +349,7 @@ module.exports = {
      path: 'evaluation.maintenance.issuesDistribution',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   final: {
      label: 'Final',
@@ -357,7 +357,7 @@ module.exports = {
      path: 'score.final',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   quality: {
      label: 'Quality',
@@ -365,7 +365,7 @@ module.exports = {
      path: 'score.detail.quality',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   popularity: {
      label: 'Popularity',
@@ -373,7 +373,7 @@ module.exports = {
      path: 'score.detail.popularity',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
   maintenance: {
      label: 'Maintenance',
@@ -381,6 +381,6 @@ module.exports = {
      path: 'score.detail.maintenance',
      rawFn: 'ident',
      displayFn: 'ident',
-     component: 'simple',
+     component: 'Simple',
   },
 };

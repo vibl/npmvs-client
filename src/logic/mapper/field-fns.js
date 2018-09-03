@@ -1,18 +1,19 @@
 import size from "lodash/size";
 import {add, filter, last,map, pipe, reduce, toPairs} from 'ramda';
+const {getDotPath} = require('../vibl-pure');
 
 export default {
   ident: val => val,
   none: () => undefined,
   joinComma: ary => ary.join(", "),
   count: val => size(val),
-  author: (o) => o && o.name,
-  publisher: (o) => o && o.username,
-  repository: (o) => o && o.url,
-  releases: (a) => a.length > 4 && a[3].count,
-  downloads: (a) => a[5].count,
-  commits: (a) => a[4].count,
-  linters: (o) => o.js && o.js[0],
+  author: getDotPath('name'), // (o) => o && o.name,
+  publisher: getDotPath('username'), // (o) => o && o.username,
+  repository: getDotPath('url'), // (o) => o && o.url,
+  releases: getDotPath('3.count'), //(a) => a && a[3] && a[3].count,
+  downloads: getDotPath('5.count'), // (a) => a[5] && a[5].count,
+  commits: getDotPath('4.count'), // (a) => a[4] && a[4].count,
+  linters: getDotPath('js.0'), // (o) => o && o.js && o.js[0],
   // Number of contributors who have contributed 80% of the commits.
   paretoContributors: list => {
     const first = list.shift().commitsCount;

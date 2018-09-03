@@ -63,7 +63,7 @@ class PackageSelector extends React.Component {
         const options = selection.map( packName => ({label: packName, value: packName}));
         selectInstance.setValue(options);
       }
-      //   .map( packName => ({label: packName, value: packName}))
+      //   .map( pack => ({label: pack, value: pack}))
       // options.forEach( option => refSelect.select.select.selectOption(option) );
     }
   }

@@ -1,7 +1,8 @@
 import React, {PureComponent} from 'react';
 import { AreaChart, Area, Tooltip } from 'recharts';
-import {store} from '../logic/store';
+import {store} from '../../logic/store';
 import {keys, pipe, prepend, without} from 'ramda';
+const {putFirst} = require('../../logic/vibl-pure');
 
 function shortenNumber(num) {
   return num > 1000 ? Math.round(num / 1000) : (num / 1000).toPrecision(1)
@@ -41,17 +42,13 @@ const CustomTooltip = (props) => {
       {/*<p className="desc">Anything you want can be displayed here.</p>*/}
     </div>
   );
-}
-
-class Chart extends PureComponent {
+};
+class LineChart extends PureComponent {
   render() {
-    const {packName: currentPack, data} = this.props;
+    const {pack: currentPack, field} = this.props;
+    const data = field.data.chartData;
     if( data.length === 0 ) return null;
-    const packages = pipe(
-      keys,
-      without([currentPack]),
-      prepend(currentPack),
-    )(data[0]);
+    const packages = pipe(keys, putFirst(currentPack))(data[0]);
     return (
       <AreaChart width={200} height={100} data={data}>
         <Tooltip
@@ -60,14 +57,14 @@ class Chart extends PureComponent {
           content={CustomTooltip}
         />
         {
-          packages.map( name => (
+          packages.map( pack => (
             <Area
-              key={name}
-              fillOpacity={name === currentPack ? 1 : 0}
+              key={pack}
+              fillOpacity={pack === currentPack ? 1 : 0}
               fill="#000"
               isAnimationActive={false}
               type="monotone"
-              dataKey={name}
+              dataKey={pack}
               dot={false}
               stroke="#CCC" />
           ))
@@ -76,11 +73,11 @@ class Chart extends PureComponent {
       )
   }
 }
-// const Chart = ({data}) => (
+// const LineChart = ({data}) => (
 //   <AreaChart width={100} height={40} data={data}>
 //     <Area type="monotone" dataKey="downloads" dot={false} stroke="#8884d8" />
 //   </AreaChart>
 // );
 
-export default Chart;
+export default LineChart;
 

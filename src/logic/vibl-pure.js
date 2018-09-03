@@ -351,6 +351,7 @@ const removed = flip(added);
 //   map( fns => pipe(fns[0], map(fns[1])) ),
 //   juxt,
 // );
+const putFirst = curry2( (element, list) => pipe(discard(element), prepend(element))(list) );
 
 const viblPure = {
   added, allEquals, appendStr, assocDotPath,
@@ -366,7 +367,7 @@ const viblPure = {
   mergeAllTables, mergeAllTablesNotBlank, mergeTables, mergeTablesNotBlank,
   notBlank, notEmpty, notMatch,
   overlaps,
-  pickValues, pipeLog, pMap, prefixLine, preIntersperse,
+  pickValues, pipeLog, pMap, prefixLine, preIntersperse, putFirst,
   random, rangeMap, rangeStep, reduceFirst, reduceFirstP, reduceIndexed, reduceP, reduceSteps, removed, removeShortest, rest, reverseDifference,
   splitLinesTrim, splitProperties, store,
   tablify, takeLastUntil, toNumber, toPairsSorted, transform, trimIfString,

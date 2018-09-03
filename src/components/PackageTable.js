@@ -4,8 +4,7 @@ import {pure} from 'recompose';
 import mem from 'mem';
 import styled from 'react-emotion'
 import {isEmpty, keys, pickAll} from 'ramda';
-import fns from '../logic/mapper/field-fns';
-import Chart from './Chart';
+import fieldComponents from './field/fieldComponents';
 
 const S_tr = styled.tr`
   border: 1px solid #d4d2d2;
@@ -28,20 +27,16 @@ class TableCell extends Component {
   //   return nextProps.value !== this.props.value;
   // }
   render() {
-    // console.log('Rendering TableCell');
-    const {field, packName} = this.props;
-    const content = field.data.chartData
-      ? <Chart packName={packName} data={field.data.chartData}/>
-      : fns[field.meta.displayFn](field.data[packName]);
-    return <S_td>{content}</S_td>
-    //  <td>ok</td>;
+    const {field} = this.props;
+    const FieldComponent = fieldComponents[field.meta.component];
+    return <S_td><FieldComponent {...this.props}/></S_td>
   }
 }
 const TableRow = ({field, packages} ) => {
   return (
     <S_tr>
       <th>{field.meta.id}</th>
-      {packages.map( packName => <TableCell key={packName} packName={packName} field={field}/> )}
+      {packages.map( pack => <TableCell key={pack} pack={pack} field={field}/> )}
     </S_tr>
   );
 };

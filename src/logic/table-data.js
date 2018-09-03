@@ -19,7 +19,7 @@ function initState() {
     data: {},
   });
   const fields = mapObjIndexed(compDataInitReducer)(fieldsSpecs);
-  fields.downloadsChart.chartData = [];
+  fields.downloadsChart.data.chartData = [];
   set({
     fields,
     fieldsOrder: keys(fieldsSpecs),
@@ -30,7 +30,7 @@ async function addChartData(packageName) {
   const resp = await fetchChartData(packageName);
   const chartAry = agreggateDownloads(30, resp.data.downloads);
   const chartTab = tablify(packageName)(chartAry);
-  set({fields:{downloadsChart:{chartData:mergeTablesNotBlank(chartTab)}}});
+  set({fields:{downloadsChart:{data:{chartData:mergeTablesNotBlank(chartTab)}}}});
 }
 async function addPackageData(packageName) {
   if( ! packageName ) debugger;
@@ -40,7 +40,7 @@ async function addPackageData(packageName) {
 export const addPackage = collect(addPackageData, addChartData);
 
 const removePackageData = (packageName) => set({fields: map(dissocPath(['data', packageName]))});
-const removeChartData = (packageName) => set({fields:{downloadsChart:{chartData: map(dissoc(packageName))}}});
+const removeChartData = (packageName) => set({fields:{downloadsChart:{data:{chartData: map(dissoc(packageName))}}}});
 export const removePackage = collect(removePackageData, removeChartData);
 
 export const setSelection = (newSelection) => {

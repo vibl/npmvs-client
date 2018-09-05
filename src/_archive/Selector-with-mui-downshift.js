@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import MuiDownshift from 'mui-downshift';
 import PropTypes from 'prop-types';
-import {getSuggestions} from '../logic/table-data';
+import {getSuggestions} from './table-data';
 
 //const items = starwarsNames.map((label, value) => ({ label, value }));
 

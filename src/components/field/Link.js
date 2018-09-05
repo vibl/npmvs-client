@@ -1,8 +1,8 @@
 import React from 'react';
-import Simple from './Simple';
+import Display from './Display';
 
 const Link = (props) => {
-  const url = Simple(props);
+  const url = Display(props);
   return <a href={url}>{url}</a>;
 };
 export default Link;

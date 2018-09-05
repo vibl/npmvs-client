@@ -2,7 +2,7 @@ const {assoc, has, filter, map} = require('ramda');
 const transformLiteralFile = require('./transform-literal-file');
 // const {transform} = require('../vibl-pure');
 
-const file = '/home/vianney/dev/idea/npmvs/src/logic/field-specs.js';
+const file = '/home/vianney/dev/idea/npmvs/src/logic/npms.js';
 
 const filterFn = o => o.displayFn !== 'none';
 const transformation = filter(filterFn);

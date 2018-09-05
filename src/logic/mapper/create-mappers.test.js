@@ -2,9 +2,9 @@ const axios = require('axios');
 const fs = require('fs');
 const createMapper = require('./create-fields-tree');
 import createFieldSpec from '../create-fields-specs';
-import npmsMap from "./npms-map";
+import npmsMap from "../../_archive/npms-map";
 
-const sampleDataFile = '/home/vianney/dev/idea/npmvs/tmp/sampleData-react.json';
+const sampleDataFile = '/home/vianney/dev/idea/npmvs/tmp/react.json';
 
 // const sampleDataUrl = 'https://api.npms.io/v2/package/react';
 //

@@ -4,7 +4,7 @@ import {pure} from 'recompose';
 import mem from 'mem';
 import styled from 'react-emotion'
 import {isEmpty, keys, pickAll} from 'ramda';
-import fieldComponents from './field';
+import fieldComponents from '../components/field/index';
 
 const S_tr = styled.tr`
   border: 1px solid #d4d2d2;
@@ -12,10 +12,12 @@ const S_tr = styled.tr`
 const S_td = styled.td`
   border: 1px solid #d4d2d2;
   min-width: 300px;
+  padding: 0;
 `;
 const S_table = styled.table`
   border: 1px solid #d4d2d2;
   border-collapse: collapse;
+  font-size: 14px;
   text-align: left;      
 `;
 

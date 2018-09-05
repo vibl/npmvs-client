@@ -1,11 +1,13 @@
 import size from "lodash/size";
-import {add, filter, last,map, pipe, reduce, toPairs} from 'ramda';
+import mem from 'mem';
+import {add, filter, last, map, pipe, props, reduce, toPairs} from 'ramda';
 const {getDotPath} = require('../vibl-pure');
 
 const twoSignificantDigits = n => n >= 100 ? Math.round(n).toString() : Number.parseFloat(n).toPrecision(2);
 const thousands = n => twoSignificantDigits(n/1000).toString() + 'k';
+const round = Math.round;
 
-export default {
+export const fieldFns = {
   ident: val => val,
   none: () => undefined,
   joinComma: ary => ary.join(", "),
@@ -14,11 +16,13 @@ export default {
   publisher: getDotPath('username'), // (o) => o && o.username,
   repository: getDotPath('url'), // (o) => o && o.url,
   releases: getDotPath('3.count'), //(a) => a && a[3] && a[3].count,
-  downloads: pipe(getDotPath('5.count'), thousands), // (a) => a[5] && a[5].count,
-  commits: getDotPath('4.count'), // (a) => a[4] && a[4].count,
+  downloads: getDotPath('5.count'), // (a) => a[5] && a[5].count,
+  commits6months: getDotPath('3.count'), // (a) => a[4] && a[4].count,
   linters: getDotPath('js.0'), // (o) => o && o.js && o.js[0],
   shorten20chars: str => str.slice(0, 20),
   percent: n => Math.round(n * 100).toString() + "%",
+  hoursFromSeconds: n => round(n / 3600),
+  round,
   thousands,
   twoSignificantDigits,
       // Number of contributors who have contributed 80% of the commits.
@@ -42,3 +46,12 @@ export default {
     return averageHour;
   }
 };
+
+const orNull = f => arg => f(arg) || null;
+
+export const fn = pipe(
+  map(orNull),
+  map(mem),
+)(fieldFns);
+
+export const pipeFn = (...args) => pipe(...props(args, fn));

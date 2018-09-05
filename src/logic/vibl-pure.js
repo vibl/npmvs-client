@@ -12,10 +12,10 @@ const {
   difference, dissoc, drop, evolve, filter, flatten, flip, forEachObjIndexed,
   identity, ifElse, infinity, intersection, intersperse, isEmpty,
   juxt, keys, length, lensPath, 
-  map, match, merge, mergeAll, mergeDeepRight, mergeDeepWith, nth,
+  map, match, max, merge, mergeAll, mergeDeepRight, mergeDeepWith, nth,
   objOf, or, path, pick, pipe, prepend,
   range, reduce, replace,
-  slice, sort, split, tap, toPairs, trim, unapply, values, without, zip, zipWith
+  slice, sort, split, tap, toPairs, trim, unapply, values, without, zip, zipObj, zipWith
 } = R;
 
 const {
@@ -353,6 +353,10 @@ const removed = flip(added);
 // );
 const putFirst = curry2( (element, list) => pipe(discard(element), prepend(element))(list) );
 
+const listMax = apply(Math.max);
+
+const zipObjMap = curry2( (fn, list) => zipObj(list, map(fn, list)) );
+
 const viblPure = {
   added, allEquals, appendStr, assocDotPath,
   bindAll, bindAllDeep, budge,
@@ -362,16 +366,18 @@ const viblPure = {
   get, getDotPath,
   interleave, isBlank, isFunction, isNumber, isObject, isObjectLike, isPlainObject, isString,
   keep, keepRandom,
-  lensDotPath,  lineBreaksToSpace, log, logEach,
+  lensDotPath,  lineBreaksToSpace, listMax, log, logEach,
   mapDeep, mapIf, mapIndex, mapKeys, mergeDeepWithArray, mergeLeft,
   mergeAllTables, mergeAllTablesNotBlank, mergeTables, mergeTablesNotBlank,
   notBlank, notEmpty, notMatch,
   overlaps,
   pickValues, pipeLog, pMap, prefixLine, preIntersperse, putFirst,
-  random, rangeMap, rangeStep, reduceFirst, reduceFirstP, reduceIndexed, reduceP, reduceSteps, removed, removeShortest, rest, reverseDifference,
+  random, rangeMap, rangeStep, reduceFirst, reduceFirstP, reduceIndexed, reduceP,
+  reduceSteps, removed, removeShortest, rest, reverseDifference,
   splitLinesTrim, splitProperties, store,
   tablify, takeLastUntil, toNumber, toPairsSorted, transform, trimIfString,
   updateWhere,
+  zipObjMap,
 };
 
 module.exports = viblPure;

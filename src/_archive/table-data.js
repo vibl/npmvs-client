@@ -1,13 +1,13 @@
 import mem from "mem";
-import importData from './mapper/import-data';
-import {set, store} from './store';
+import importData from '../logic/process-data';
+import {set, store} from '../logic/store';
 import isEmpty from "lodash/isEmpty";
-import {fetchChartData, getPackageRawData} from './data-fetching';
-import {getSelectionFromLocation} from './router-utils';
-import fieldsSpecs from './field-specs';
+import {fetchChartData, getPackageRawData} from '../logic/package-data';
+import {getSelectionFromLocation} from '../logic/router-utils';
+import fieldsSpecs from '../logic/sources/npms';
 import {add, assoc, difference, dissoc, dissocPath, filter, flip, insert, juxt, keys, last,
   map, mapObjIndexed, mergeDeepLeft, pipe, reduce, toPairs, values} from 'ramda';
-const {added, removed, collect, mergeTablesNotBlank, notEmpty, tablify} = require('./vibl-pure').default;
+const {added, removed, collect, mergeTablesNotBlank, notEmpty, tablify} = require('../logic/vibl-pure').default;
 
 function initState() {
   if( ! isEmpty(store.getState()) ) return;
@@ -33,7 +33,6 @@ async function addChartData(packageName) {
   set({fields:{downloadsChart:{data:{chartData:mergeTablesNotBlank(chartTab)}}}});
 }
 async function addPackageData(packageName) {
-  if( ! packageName ) debugger;
   const resp = await getPackageRawData(packageName);
   set({fields: importData(packageName, 'npms', resp.data)});
 }
@@ -63,19 +62,6 @@ export const updateSelectionFromLocation = pipe(
   getSelectionFromLocation,
   setSelection,
 );
-export const agreggateDownloads = mem( (period, data) => {
-  const res = [];
-  let count = 0, acc = 0;
-  for( let obj of data ) {
-    count++;
-    acc += obj.downloads;
-    if( count === period ) {
-      res.push(acc);
-      acc = 0;
-      count = 0;
-    }
-  }
-  return res;
-});
+
 
 initState();

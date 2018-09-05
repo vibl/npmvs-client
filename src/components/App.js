@@ -5,25 +5,28 @@ import {pure} from 'recompose';
 import {Redirect, Route, Router } from 'react-router-dom';
 import history from '../logic/history';
 import './App.css';
-import {store} from '../logic/store';
+import state from '../logic/store';
 import ComparisonPage from "./ComparisonPage";
-import {updateSelectionFromLocation} from '../logic/table-data';
-import {pipe} from 'ramda';
+import selection from '../logic/selection';
 
 // A component must return at least null!
-const SelectionChange = pure(pipe(updateSelectionFromLocation, ()=>null));
+const SelectionChange = pure( ({location}) => {
+  selection.update(location.pathname);
+  return null;
+});
 
 class App extends Component {
   render() {
     return (
       <Router history={history}>
-        <Provider store={store}>
+        <Provider store={state.store}>
           <div>
             {/*<div>Top</div>*/}
             {/*<Redirect to="/compare"/>*/}
             {/*<Link to="/compare">Compare packages</Link>*/}
             <Route path="/compare" component={SelectionChange}/>
             <Route path="/compare" component={ComparisonPage}/>
+            {/*<Route path="/sample" component={SamplePage}/>*/}
             {/*<Route path="/compare" render={() => <div>a</div>}/>*/}
           </div>
         </Provider>

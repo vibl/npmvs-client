@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {set} from '../logic/store';
-import {getPackages} from '../logic/table-data';
+import {getPackages} from './table-data';
 import {trim} from 'lib/vibl/ramda';
 
 set('inputValue', 'victory');

@@ -1,22 +1,23 @@
 import history from './history';
-import {append} from "ramda";
+import {append, match} from 'ramda';
 const {discard} = require('./vibl-pure').default;
 
 const stringSeparator = '-vs-';
 const firstPathSegment = '/compare/';
-const firstPathSegmentRegex = /^\/compare\/?/;
+const lastUrlSegmentRegex = /\/([^/]+)$/;
 
-export function selectionFromPath(path) {
-  const lastPathSegment = path.replace(firstPathSegmentRegex,'');
+export const selectionFromUrlPath = (urlPath) => {
+  const lastPathSegment = match(lastUrlSegmentRegex, urlPath)[1] || '';
   const ary = lastPathSegment.split(stringSeparator);
   return  ary.length === 1 && ary[0] === '' ? [] : ary;
-}
+};
+
 export function pathFromSelection(selection) {
   const lastPathSegment = selection.join(stringSeparator);
   return firstPathSegment + lastPathSegment;
 }
 export function getSelectionFromLocation() {
-   return selectionFromPath(history.location.pathname);
+   return selectionFromUrlPath(history.location.pathname);
 }
 export function pushHistoryFromSelection(selection) {
   const locationPath = pathFromSelection(selection);

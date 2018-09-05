@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import AsyncSelect from 'react-select/lib/Async';
 import { components } from 'react-select';
 import {equals, pickAll} from 'ramda';
-import {getSuggestions} from '../logic/select-data';
+import {getSuggestions} from '../logic/selector';
 import {selectPackage, deselectPackage} from '../logic/router-utils';
 
 const onChange = (value, arg) => {

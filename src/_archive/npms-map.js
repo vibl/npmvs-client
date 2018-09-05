@@ -1,5 +1,5 @@
 import {last} from 'ramda';
-import {count, ident, none, joinComma} from "../../_archive/field-mapper";
+import {count, ident, none, joinComma} from "./field-mapper";
 
 // Number of contributors who have contributed 80% of the commits.
 const paretoContributors = list => {

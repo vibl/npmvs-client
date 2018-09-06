@@ -15,14 +15,14 @@ const makeUrlBuilder =
 const urlBuilder = zipObjMap(makeUrlBuilder, ['range', 'point']);
 
 const stateTransformers = {
-  add: (packName, data) => {
+  adding: (packName, data) => {
     const chartTab = tablify(packName)(data);
-    return {fields: {downloadsChart: {data: {chartData: mergeTablesNotBlank(chartTab)}}}};
+    return {charts: {downloads: {data: mergeTablesNotBlank(chartTab)}}};
   },
-  remove: (packName) => ({fields:{downloadsChart:{data:{chartData: map(dissoc(packName))}}}}),
+  removing: (packName) => (
+    {charts: {downloads: {data: map(dissoc(packName))}}}
+    ),
 };
-
-
 export default {
   stateTransformers,
   urlRoot,

@@ -4,8 +4,9 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.0.0",
-    "@material-ui/core": "^1.5.1",
+    "@material-ui/core": "^3.0.2",
     "@material-ui/icons": "^3.0.1",
+    "@material-ui/lab": "^3.0.0-alpha.14",
     "axios": "^0.18.0",
     "babel-plugin-emotion": "^9.2.6",
     "babel-plugin-transform-commonjs-es2015-modules": "^4.0.1",

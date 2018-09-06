@@ -1,12 +1,10 @@
 import React from 'react';
-import Selector from "./Selector";
-import PackList from "./PackList";
+import ControlPanel from './ControlPanel';
 
 const ComparisonPage = ({props}) => (
   <div css={'width: 100%;'}>
     {/*<div>ComparisonPage</div>*/}
-    <Selector/>
-    <PackList/>
+    <ControlPanel/>
   </div>
 );
 

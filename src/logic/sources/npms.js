@@ -9,13 +9,14 @@ const urlBuilder = {
 };
 
 const stateTransformers = {
-  adding: (packName, data, extractTree) =>
-    ({packages: assoc(packName, processData(packName, 'npms', extractTree, data))}),
+  adding: (packName, data, extractTree) => (
+    {packages: assoc(packName, processData(packName, 'npms', extractTree, data))}
+    ),
 
-  removing: (packName) => ({
-    packages: dissoc(packName),
+  removing: (packName) => (
+    {packages: dissoc(packName) }
     // charts: map()
-  }),
+  ),
 };
 export default {
   stateTransformers,

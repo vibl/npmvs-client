@@ -16,5 +16,11 @@ export default () => {
     packages: {},
     charts: {},
     selection: [],
+    color: {
+      hues: [0, 120, 240, 60, 330, 180, 90, 270, 30, 150, 300, 210],
+      hueOffset: 0,
+      saturation: 50,
+      lightness: 50,
+    }
   });
 }

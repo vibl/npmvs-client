@@ -22,7 +22,7 @@ class App extends Component {
       <Router history={history}>
         <Provider store={state.store}>
           <div>
-            <Route path="/" component={HomePage}/>
+            <Route exact path="/" component={HomePage}/>
             {/*<div>Top</div>*/}
             {/*<Redirect to="/compare"/>*/}
             {/*<Link to="/compare">Compare packages</Link>*/}

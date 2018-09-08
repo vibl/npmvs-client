@@ -3,15 +3,18 @@ import http from './http';
 import state from './store';
 import dataPoints from './data-points';
 import sources from './sources/index';
-import {processData} from "./process-data";
+import dataFields from "./data-fields";
 const {discard} = require('./vibl-pure');
 
+const setChartList = () => {
+  const chartsList = keys(state.get().charts);
+  state.set({chartsList});
+};
 const addEndpointData = async (packId, source, [{params, extractTree}, endpoint]) => {
   const {stateTransformer, urlBuilder} = sources[source];
   const url = urlBuilder[endpoint](packId, params);
   const resp = await http.memGet(url);
-  const data = processData(packId, source, extractTree, resp.data);
-  const transformer = stateTransformer.adding(packId, data, extractTree);
+  const transformer = stateTransformer.adding(packId, resp.data, extractTree);
   state.set(transformer);
 };
 const add = async (packId) => {
@@ -19,13 +22,14 @@ const add = async (packId) => {
   for(let source in dataPoints) {
     const endpoints = dataPoints[source];
     // Promises should be executed in parallel. No need for the return values.
-    Promise.all(
+    await Promise.all(
       pipe(
         mapObjIndexed( (...args) => addEndpointData(packId, source, args) ),
         values,
       )(endpoints)
     );
   }
+  setChartList();
 };
 const removeEndpointData = async (packId, source) => {
   const {stateTransformer} = sources[source];

@@ -1,6 +1,10 @@
 import React, {PureComponent} from 'react';
 import { AreaChart, Area, Tooltip } from 'recharts';
 import {keys, pipe, prepend, without} from 'ramda';
+import isEmpty from "lodash/isEmpty";
+import {pure} from "recompose";
+import {connect} from "react-redux";
+import {getPackageColors, getUnfocusedColor} from "../../logic/derived-state";
 const {putFirst} = require('../../logic/vibl-pure');
 
 function shortenNumber(num) {
@@ -44,38 +48,40 @@ const CustomTooltip = (props) => {
 };
 class LineChart extends PureComponent {
   render() {
-    const {pack: currentPack, field} = this.props;
-    const data = field.data.chartData;
-    if( data.length === 0 ) return null;
-    const packages = pipe(keys, putFirst(currentPack))(data[0]);
-    return (
-      <AreaChart width={200} height={100} data={data}>
+    const {data, fieldId, focus, packageColors, selection, unfocusedColor} = this.props;
+    return isEmpty(selection) || isEmpty(data) ? null : (
+      <AreaChart width={400} height={100} data={data}>
         <Tooltip
           // offset={600}
           // coordinate={{ x: 100, y: 140 }}
           content={CustomTooltip}
         />
-        {
-          packages.map( pack => (
+        { selection.map( (packId, row) => {
+          const isFocused = packId === focus;
+          const color = ! focus || isFocused ? packageColors[row].value : unfocusedColor;
+          return (
             <Area
-              key={pack}
-              fillOpacity={pack === currentPack ? 1 : 0}
-              fill="#000"
-              isAnimationActive={false}
-              type="monotone"
-              dataKey={pack}
-              dot={false}
-              stroke="#CCC" />
-          ))
-        }
+                key={packId}
+                fillOpacity={0}
+                fill="#000"
+                isAnimationActive={false}
+                type="monotone"
+                dataKey={packId}
+                dot={false}
+                stroke={color}
+            />
+        )})}
       </AreaChart>
       )
   }
 }
-// const LineChart = ({data}) => (
-//   <AreaChart width={100} height={40} data={data}>
-//     <Area type="monotone" dataKey="downloads" dot={false} stroke="#8884d8" />
-//   </AreaChart>
-// );
-export default LineChart;
-
+const mapStateToProps = (state) => ({
+  focus: state.focus,
+  selection: state.selection,
+  unfocusedColor: getUnfocusedColor(state.color.lightness),
+  packageColors: getPackageColors(state.color, state.selection),
+});
+export default pipe(
+  // pure,
+  connect(mapStateToProps),
+)(LineChart);

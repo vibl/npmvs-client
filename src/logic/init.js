@@ -17,7 +17,7 @@ export default () => {
   state.set({
     packages: {},
     charts: {},
-    chartsList: keys(dataFields.charts),
+    chartsList: [],
     selection: [],
     focus: undefined,
     color: {

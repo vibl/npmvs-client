@@ -18,7 +18,7 @@ const ChartsList = ({chartsData, chartsList}) => {
   return (
     <Container>
       { columns.map ( (charts, i) =>
-        <Column>
+        <Column key={i}>
           { charts.map( fieldId => (
               <ChartCard key={fieldId} fieldId={fieldId} data={chartsData[fieldId]} />
           ))}

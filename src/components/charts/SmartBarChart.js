@@ -66,8 +66,8 @@ class SmartBarChart extends PureComponent {
   render() {
     let {data} = this.props;
     const {fieldId, focus, packageColors, selection, unfocusedColor} = this.props;
-    console.log('Rendering BarChart:', {data, selection});
-    const isNegative = dataFields.charts[fieldId].negative;
+    // console.log('Rendering BarChart:', {data, selection});
+    const isNegative = dataFields[fieldId].negative;
     if( isNegative ) {
       data = complement(data);
     }

@@ -1,31 +1,44 @@
-import {concat, dissoc, keys, map, without} from "ramda";
+import {dissoc, map} from "ramda";
 import config from '../../config';
 const {mergeTablesNotBlank, tablify, zipObjMap} = require('../vibl-pure').default;
 
-// Top keys are endpoints name.
-const extractPaths = {
-
+const agreggateDownloadsData = (period, data) => {
+  const res = [];
+  let count = 0, acc = 0;
+  for( let obj of data ) {
+    count++;
+    acc += obj.downloads;
+    if( count === period ) {
+      res.push(acc);
+      acc = 0;
+      count = 0;
+    }
+  }
+  return res;
 };
+
+
 const makeUrlBuilder =
   endpoint =>
     (packName, {timeFrame}) =>
-      config.sources.npms + endpoint + '/' + timeFrame + '/' + encodeURIComponent(packName);
+      config.sources.npmDownloads + endpoint + '/' + timeFrame + '/' + encodeURIComponent(packName);
 
 const urlBuilder = zipObjMap(makeUrlBuilder, ['range', 'point']);
 
+
 const stateTransformer = {
   adding: (packName, data) => {
-    const chartTable = tablify(packName, data.charts);
+    const aggregated = agreggateDownloadsData(30, data.downloads);
+    const chartTable = tablify(packName, aggregated);
     return {
-      charts: {downloads: {data: mergeTablesNotBlank(chartTable)}},
+      charts: {downloads: mergeTablesNotBlank(chartTable)},
     };
   },
   removing: (packName) => ({
-    charts: {downloads: {data: map(dissoc(packName))}},
+    charts: {downloads: map(dissoc(packName))},
   }),
 };
 export default {
   stateTransformer,
-  extractPaths,
   urlBuilder,
 };

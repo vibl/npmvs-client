@@ -1,4 +1,4 @@
-import {map} from 'ramda';
+import {filter, map} from 'ramda';
 import fields from './data-fields';
 import {fn} from './mapper/field-fns';
 
@@ -25,7 +25,8 @@ export const processData = (packName, source, extractTree, data) => {
   const rawData = mapRecurse(extractTree, [], data);
   // First level to map: `packages:` and `charts:`
   // Second level to map: field ids.
-  return map(map(
+  const npmsFields = filter( field => rawData[field.dataPoint] )(fields);
+  return map(
     (field) => {
       const rawValue = rawData[field.dataPoint];
       if( ! rawValue ) {
@@ -34,5 +35,5 @@ export const processData = (packName, source, extractTree, data) => {
       }
       const fnName = field.computeFn;
       return fnName ? fn[fnName](rawValue) : rawValue;
-    }))(fields);
+    })(npmsFields);
 };

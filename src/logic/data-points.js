@@ -1,14 +1,14 @@
 export default {
-  // npmDownloads: {
-  //   range: {
-  //     params: {
-  //       timeFrame: '2017-08-28:2018-08-28',
-  //     },
-  //     extractTree: {
-  //       downloads: 1,
-  //     },
-  //   },
-  // },
+  npmDownloads: {
+    range: {
+      params: {
+        timeFrame: '2017-08-28:2018-08-28',
+      },
+      extractTree: {
+        downloads: 1,
+      },
+    },
+  },
   npms: {
     package: {
       params: {},

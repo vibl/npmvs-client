@@ -1,25 +1,24 @@
-import {processData} from '../process-data';
-import {assoc, dissoc} from 'ramda';
-
-const urlRoot = 'http://localhost:3333/package/';
-// const urlRoot = 'https://api.npms.io/package/v2/package/';
+import {assoc, concat, dissoc, keys, map, mergeDeepLeft, without} from 'ramda';
+import config from '../../config';
+const {tablify} = require('../vibl-pure').default;
 
 const urlBuilder = {
-  package: (packageName) => urlRoot + encodeURIComponent(packageName),
+  package: (packId) => config.sources.npms + encodeURIComponent(packId),
 };
-
-const stateTransformers = {
-  adding: (packName, data, extractTree) => (
-    {packages: assoc(packName, processData(packName, 'npms', extractTree, data))}
-    ),
-
-  removing: (packName) => (
-    {packages: dissoc(packName) }
-    // charts: map()
-  ),
+const stateTransformer = {
+  adding: (packId, data) => {
+    const table = tablify(packId, data.charts);
+    return {
+      packages: assoc(packId, data.packages),
+      charts: mergeDeepLeft(table),
+    };
+  },
+  removing: (packId) => ({
+    packages: dissoc(packId),
+    charts: map(map(dissoc(packId))),
+  }),
 };
 export default {
-  stateTransformers,
+  stateTransformer,
   urlBuilder,
-  urlRoot,
 };

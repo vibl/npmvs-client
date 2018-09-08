@@ -10,7 +10,6 @@ const set = (newSelection) => {
     pipe(added, map(packageData.add)),
     pipe(removed, map(packageData.remove)),
   )(currentSelection, newSelection);
-  state.set({selection: newSelection});
 };
 const update = pipe(
   selectionFromUrlPath,

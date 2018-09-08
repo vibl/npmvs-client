@@ -1,11 +1,16 @@
 import React from 'react';
-import ControlPanel from './ControlPanel';
+import styled from 'react-emotion';
+import ControlPanel from './control/ControlPanel';
+import ChartsList from './charts/ChartsList';
 
-const ComparisonPage = ({props}) => (
-  <div css={'width: 100%;'}>
-    {/*<div>ComparisonPage</div>*/}
+const Wrapper = styled.div`
+  background-color: hsl(40, 20%, 95%);
+`;
+const ComparisonPage = () => (
+  <Wrapper>
     <ControlPanel/>
-  </div>
+    <ChartsList/>
+  </Wrapper>
 );
 
 export default ComparisonPage;

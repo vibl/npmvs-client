@@ -2,7 +2,7 @@ export default {
   // medianIssueDuration: https://github.com/IndigoUnited/node-gh-issues-stats/blob/master/index.js
   // issuesOpenMoreThanTenDays: issues.distribution
   // dependenciesWithLessThan100000downloadsLastYear: dependencies,
-  info: {
+  packages: {
     name: {
       label: 'Name',
       dataPoint: 'name',
@@ -84,19 +84,18 @@ export default {
       dataPoint: 'subscribersCount',
       displayFn: 'thousands',
     },
-    averageOpenIssueDuration: {
-      label: 'Average open issue duration',
+    percentIssuesClosedIn3daysOrLess: {
+      label: 'Percentage of issues closed in 3 days or less',
       dataPoint: 'issues.distribution',
-      computeFn: 'averageOpenIssueDuration',
-      displayFn: 'hoursFromSeconds',
+      computeFn: 'percentIssuesClosedIn3daysOrLess',
     },
     contributors: {
-      label: 'Contributors',
+      label: 'Number of contributors',
       dataPoint: 'contributors',
       computeFn: 'paretoContributors',
     },
     commits6months: {
-      label: 'Commits',
+      label: 'Number of commits during the last 6 months',
       dataPoint: 'commits',
       computeFn: 'commits6months',
     },

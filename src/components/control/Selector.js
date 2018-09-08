@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 import AsyncSelect from 'react-select/lib/Async';
 import { components } from 'react-select';
 import {equals, pickAll} from 'ramda';
-import {getSuggestions} from '../logic/selector';
-import {selectPackage, deselectPackage} from '../logic/router-utils';
+import {getSuggestions} from '../../logic/selector';
+import {selectPackage, deselectPackage} from '../../logic/router-utils';
 
 const onChange = (value, arg) => {
   // console.log('onChange:', arg);
@@ -16,7 +16,6 @@ const onChange = (value, arg) => {
       deselectPackage(arg.removedValue.value);
       break;
     default:
-        console.log('Selector action was not processed: ', arg);
   }
 };
 
@@ -69,8 +68,6 @@ class PackageSelector extends React.Component {
   }
   
   render() {
-
-
     return (
       <AsyncSelect
         ref={this.selectRef}

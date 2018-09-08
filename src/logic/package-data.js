@@ -1,40 +1,45 @@
-import {keys, mapObjIndexed, pipe, values} from 'ramda';
+import {append, keys, mapObjIndexed, pipe, values} from 'ramda';
 import http from './http';
-import dataPoints from './data-points';
 import state from './store';
+import dataPoints from './data-points';
 import sources from './sources/index';
+import {processData} from "./process-data";
+const {discard} = require('./vibl-pure');
 
-const addEndpointData = async (packName, source, [{params, extractTree}, endpoint]) => {
-  const {stateTransformers, urlBuilder} = sources[source];
-  const url = urlBuilder[endpoint](packName, params);
+const addEndpointData = async (packId, source, [{params, extractTree}, endpoint]) => {
+  const {stateTransformer, urlBuilder} = sources[source];
+  const url = urlBuilder[endpoint](packId, params);
   const resp = await http.memGet(url);
-  const transformer = stateTransformers.adding(packName, resp.data, extractTree);
-  return state.set(transformer);
+  const data = processData(packId, source, extractTree, resp.data);
+  const transformer = stateTransformer.adding(packId, data, extractTree);
+  state.set(transformer);
 };
-const add = async (packName) => {
+const add = async (packId) => {
+  state.set({selection: append(packId)});
   for(let source in dataPoints) {
     const endpoints = dataPoints[source];
     // Promises should be executed in parallel. No need for the return values.
     Promise.all(
       pipe(
-        mapObjIndexed( (...args) => addEndpointData(packName, source, args) ),
+        mapObjIndexed( (...args) => addEndpointData(packId, source, args) ),
         values,
       )(endpoints)
     );
   }
 };
-const removeEndpointData = async (packName, source, [endpoint, {params, extractTree}]) => {
-  const {stateTransformers} = sources[source];
-  const transformer = stateTransformers.removing(packName);
-  return state.set(transformer);
+const removeEndpointData = async (packId, source) => {
+  const {stateTransformer} = sources[source];
+  const transformer = stateTransformer.removing(packId);
+  state.set(transformer);
 };
-const remove = async (packName) => {
+const remove = async (packId) => {
+  state.set({selection: discard(packId)});
   for(let source in dataPoints) {
     const endpoints = dataPoints[source];
     // Promises should be executed in parallel. No need for the return values.
     await Promise.all(
       pipe(
-        mapObjIndexed( (...args) => removeEndpointData(packName, source, args)),
+        mapObjIndexed( () => removeEndpointData(packId, source)),
         values,
       )(endpoints)
     );

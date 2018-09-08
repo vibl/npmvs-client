@@ -1,18 +1,6 @@
-import mem from "mem";
-import {map, mapObjIndexed} from 'ramda';
+import {map} from 'ramda';
 import fields from './data-fields';
 import {fn} from './mapper/field-fns';
-const {getDotPath, transform} = require('./vibl-pure').default;
-
-export default (packageName, source, data) => fields => {
-  const mapFn = (field) => {
-    if( field.meta.source !== source ) return field;
-    const rawValue = getDotPath(field.meta.path, data);
-    const value = fn[field.meta.rawFn](rawValue);
-    return transform({data:{[packageName]: value}})(field);
-  };
-  return map(mapFn, fields);
-};
 
 const idFromPath = (level, path) => {
   const nameSegments = path.slice(path.length - level, path.length);
@@ -35,17 +23,16 @@ const mapRecurse = (parent, parentPath, data) => {
 };
 export const processData = (packName, source, extractTree, data) => {
   const rawData = mapRecurse(extractTree, [], data);
-  return mapObjIndexed(
-    (field, fieldId) => {
+  // First level to map: `packages:` and `charts:`
+  // Second level to map: field ids.
+  return map(map(
+    (field) => {
       const rawValue = rawData[field.dataPoint];
       if( ! rawValue ) {
         console.log('NO DATAPOINT WITH THIS ID:', field.dataPoint);
         return
       }
       const fnName = field.computeFn;
-      const value = fnName ? fn[fnName](rawValue) : rawValue;
-      return {...field, value};
-    })(fields.info);
+      return fnName ? fn[fnName](rawValue) : rawValue;
+    }))(fields);
 };
-
-export const fieldMapper = mem(mapRecurse);

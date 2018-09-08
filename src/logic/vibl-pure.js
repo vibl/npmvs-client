@@ -333,7 +333,9 @@ const mergeTablesNotBlank = curry2( (t1, t2) => mergeAllTablesNotBlank([t1, t2])
 // Removes an element from an array.
 const discard = curry2( (val, list) => without([val], list) );
 // Make a table (array of objects) out of an array, with the key provided as a first argument.
-const tablify = pipe(objOf, map);
+const tablify = curry( (key, obj) =>
+  map(objOf(key), obj)
+);
 // Returns a function that applies arguments to several functions and returns an array of results.
 const collect = unapply(juxt);
 

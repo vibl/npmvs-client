@@ -1,4 +1,4 @@
-import mem from "mem";
+import mem from 'mem';
 import http from './http';
 
 export const getSuggestions = mem(async (str) => {

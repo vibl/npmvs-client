@@ -1,6 +1,6 @@
 import size from "lodash/size";
 import mem from 'mem';
-import {add, filter, last, map, pipe, props, reduce, toPairs} from 'ramda';
+import {add, filter, last, map, pipe, props, reduce, sum, toPairs, values} from 'ramda';
 const {getDotPath} = require('../vibl-pure');
 
 const twoSignificantDigits = n => n >= 100 ? Math.round(n).toString() : Number.parseFloat(n).toPrecision(2);
@@ -35,16 +35,29 @@ export const fieldFns = {
     return sums.reduce( (acc, val) => val/total <= 0.8 ? acc + 1 : acc, 0);
   },
   averageOpenIssueDuration: dist => {
-    const issuesCount = reduce(add)(dist);
+    const issuesCount = sum(values(dist));
     const averageReducer = (acc, pair) => acc + parseInt(pair[0]) * pair[1];
     const total = pipe(
       toPairs,
       reduce(averageReducer, 0)
     )(dist);
     const averageSeconds = total / issuesCount;
-    const averageHour = Math.round(averageSeconds / 3600);
-    return averageHour;
+    const averageDays = Math.round(averageSeconds / 3600 / 24);
+    return averageDays;
+  },
+  percentIssuesClosedIn3daysOrLess: dist => {
+    let lessThan3daysCount = 0, totalCount = 0, seconds;
+    for(seconds in dist) {
+      const issues = parseInt(dist[seconds]);
+      totalCount += issues;
+      const days = parseInt(seconds) / 3600 / 24;
+      if( days < 3.5 ) {
+        lessThan3daysCount += issues;
+      }
+    }
+    return Math.round(lessThan3daysCount / totalCount * 100);
   }
+
 };
 
 const orNull = f => arg => f(arg) || null;

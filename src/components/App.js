@@ -8,6 +8,7 @@ import './App.css';
 import state from '../logic/store';
 import ComparisonPage from "./ComparisonPage";
 import selection from '../logic/selection';
+import HomePage from './HomePage';
 
 // A component must return at least null!
 const SelectionChange = pure( ({location}) => {
@@ -21,6 +22,7 @@ class App extends Component {
       <Router history={history}>
         <Provider store={state.store}>
           <div>
+            <Route path="/" component={HomePage}/>
             {/*<div>Top</div>*/}
             {/*<Redirect to="/compare"/>*/}
             {/*<Link to="/compare">Compare packages</Link>*/}

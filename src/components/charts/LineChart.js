@@ -58,7 +58,7 @@ class LineChart extends PureComponent {
         />
         { selection.map( (packId, row) => {
           const isFocused = packId === focus;
-          const color = ! focus || isFocused ? packageColors[row].value : unfocusedColor;
+          const color = ! focus || isFocused ? packageColors[packId].value : unfocusedColor;
           return (
             <Area
                 key={packId}

@@ -1,9 +1,9 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
-import {XYPlot, LineSeries, HorizontalBarSeries,} from 'react-vis';
+import {XYPlot, HorizontalBarSeries} from 'react-vis';
 import isEmpty from 'lodash/isEmpty';
-import {keys, map, max, pipe, reduce, values} from 'ramda';
+import {keys, map, max, pipe, prop, reduce, reverse, values, zipObj} from 'ramda';
 import {getPackageColors, getUnfocusedColor} from "../../logic/derived-state";
 import fields from '../../logic/data-fields';
 import fns from '../../logic/mapper/field-fns';
@@ -25,64 +25,27 @@ class SmartBarChart extends PureComponent {
     let {data} = this.props;
     const {fieldId, focus, packageColors, selection, unfocusedColor} = this.props;
     // console.log('Rendering BarChart:', {data, selection});
+    const allData = reverse(selection).map( (packId) => {
+      const isFocused = packId === focus;
+      const fillColor = !focus || isFocused ? packageColors[packId].value : unfocusedColor;
+      return {
+        y: packId,
+        x: data[packId] * 100,
+        color: fillColor
+      }
+    });
     return isEmpty(selection) || isEmpty(data) ? null : (
       <XYPlot
-        width={300}
-        height={300}>
+        width={400}
+        height={150}
+        yType="ordinal"
+        yDistance={20}
+      >
         <HorizontalBarSeries
-          data={[
-            {y: 2, x: 10},
-            {y: 4, x: 5},
-            {y: 5, x: 15}
-          ]}
+          data={allData}
+          colorType="literal"
         />
-        <HorizontalBarSeries
-          data={[
-            {y: 2, x: 12},
-            {y: 4, x: 2},
-            {y: 5, x: 11}
-          ]}/>
       </XYPlot>
-      // <BarChart
-      //   width={400}
-      //   height={100}
-      //   margin={{ top: 5, right: 50, bottom: 5, left: 5 }}
-      //   layout="vertical"
-      //   data={[data]}>
-      //   <XAxis type="number" hide={true}/>
-      //   <YAxis type="category" hide={true}/>
-      //   { selection.map( (packId, row) => {
-      //       const isFocused = packId === focus;
-      //       const fillColor = ! focus || isFocused ? packageColors[row].value : unfocusedColor;
-      //
-      //       return (
-      //         [
-      //         <Bar
-      //           fill={isNegative ? '#FFFFFF' : fillColor}
-      //           dataKey={packId}
-      //           stackId={packId}
-      //           onMouseOver={() => handleMouseOver(packId)}
-      //           onMouseOut={handleMouseOut}
-      //         >
-      //           { isFocused && ! isNegative && <LabelList dataKey={packId} position="right" /> }
-      //         </Bar>,
-      //         isNegative &&
-      //           <Bar
-      //             fill={fillColor}
-      //             dataKey={packId + '_complement'}
-      //             stackId={packId}>
-      //             {isFocused && <LabelList dataKey={packId} position="right"/>}
-      //           </Bar>
-      //        ]
-      //       )
-      //   })}
-      //
-      //   {/*<Tooltip*/}
-      //     {/*// offset={600}*/}
-      //     {/*// coordinate={{ x: 100, y: 140 }}*/}
-      //     {/*content={CustomTooltip}*/}
-      //   {/*/>*/}
-      // </BarChart>
     )
   };
 }

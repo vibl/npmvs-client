@@ -14,7 +14,7 @@ const PackageList = ({color, focus, packages, packageColors, selection, unfocuse
     { selection.map( (packId, row) => {
       const pack = packages[packId];
       const isFocused = packId === focus;
-      const color = ! focus || isFocused ? packageColors[row].value : unfocusedColor;
+      const color = ! focus || isFocused ? packageColors[packId].value : unfocusedColor;
       return pack && <PackageItem key={packId} {...{packId, pack, color}}/>;
     })}
   </List>

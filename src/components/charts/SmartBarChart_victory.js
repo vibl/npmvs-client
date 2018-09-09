@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
-import {Hint, HorizontalBarSeries, LabelSeries, XYPlot} from 'react-vis';
+import { VictoryBar } from 'victory';
 import isEmpty from 'lodash/isEmpty';
 import {keys, map, max, pick, pipe, props, reduce, reverse, values, zipObj} from 'ramda';
 import {getPackageColors, getUnfocusedColor} from "../../logic/derived-state";
@@ -20,20 +20,6 @@ const handleMouseOut = () => {
 };
 
 class SmartBarChart extends PureComponent {
-  // constructor(props) {
-  //   super(props);
-  //   // this.barsRefs = [];
-  //   // this.chart = React.createRef();
-  //   this.state = {labelData: []};
-  // }
-  // componentDidMount() {
-  //   const rectList = this.chart.props.children[0]._owner.child.child.child.child.child.child.pendingProps.children;
-  //   console.log('rectList: ', rectList);
-  //   const labelData = rectList
-  //     .map( ({props: {x, y}}) => ({x, y, label:`${x}, ${y}`}))
-  //     .filter( o => o.x > 0 && o.y > 0);
-  //   labelData.length > 0 && this.setState( s => ({...s, labelData}));
-  // }
 
   render() {
     let {data} = this.props;
@@ -57,17 +43,18 @@ class SmartBarChart extends PureComponent {
     //   yOffset: 5,
     // }));
     return isEmpty(selection) || isEmpty(data) ? null : (
-      <XYPlot
-        width={400}
-        height={150}
-        yType="ordinal"
-        yDistance={20}
-        ref={ inst => this.chart = inst}
-      >
-        <HorizontalBarSeries
-          data={barData}
-          colorType="literal"
-        />
+      <VictoryBar/>
+      {/*<XYPlot*/}
+        {/*width={400}*/}
+        {/*height={150}*/}
+        {/*yType="ordinal"*/}
+        {/*yDistance={20}*/}
+        {/*ref={ inst => this.chart = inst}*/}
+      {/*>*/}
+        {/*<HorizontalBarSeries*/}
+          {/*data={barData}*/}
+          {/*colorType="literal"*/}
+        {/*/>*/}
         {/*{ this.state.labelData.length > 0 &&*/}
         {/*<LabelSeries*/}
           {/*data={this.state.labelData} />*/}
@@ -83,7 +70,7 @@ class SmartBarChart extends PureComponent {
           {/*animation*/}
           {/*allowOffsetToBeReversed*/}
           {/*data={labelData} />*/}
-      </XYPlot>
+      // </XYPlot>
     )
   };
 }

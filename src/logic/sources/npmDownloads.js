@@ -13,10 +13,10 @@ const urlBuilder = zipObjMap(makeUrlBuilder, ['range', 'point']);
 
 const stateTransformer = {
   adding: (packId, data) => {
-    const aggregated = fns.agreggateDownloadsData(30, data.downloads.slice(-365));
+    const aggregated = fns('agreggateDownloadsData')(30, data.downloads.slice(-365));
     const chartTable = tablify(packId, aggregated);
-    const downloadsAverageGrowth = fns[fields.downloadsAverageGrowth.computeFn](data.downloads);
-    const downloadsAcceleration = fns[fields.downloadsAcceleration.computeFn](aggregated);
+    const downloadsAverageGrowth = fns(fields.downloadsAverageGrowth.computeFn)(data.downloads);
+    const downloadsAcceleration = fns(fields.downloadsAcceleration.computeFn)(aggregated);
     return {
       charts: {
         downloads: mergeTablesNotBlank(chartTable),

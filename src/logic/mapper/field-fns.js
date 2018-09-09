@@ -1,8 +1,10 @@
 import size from "lodash/size";
 import mem from 'mem';
-import {add,  apply, dec, divide, filter, juxt, last, length, map, multiply, pipe, product, prop, props,
-  reduce, round, slice, splitAt, sum, toPairs, values} from 'ramda';
-const {concatLeft, curry2, geoMean, getDotPath, nthRoot, percent, pipeDebug} = require('../vibl-pure');
+import {add,  apply, dec, divide, filter, ifElse, juxt, last,
+  length, map, multiply, pipe, product, prop, props,
+  reduce, round, slice, split, splitAt, sum, toPairs, values, unlessEmpty} from 'ramda';
+const {concatLeft, curry2, geoMean, getDotPath, ident, ifDefinedElse,
+  nthRoot, percent, pipeDebug, splitPipe} = require('../vibl-pure');
 
 const significantDigits = curry2(
   (digits, n) =>
@@ -13,8 +15,6 @@ const significantDigits = curry2(
 const percentGrowth = pipe(dec, multiply(100));
 const percent1dec = percent(1);
 const percent2dec = percent(2);
-const percentGrowthOneDecimal = percent(1, percent);
-const percentGrowthTwoDecimals = percent(2, percent);
 
 const thousands = n => significantDigits(2, n/1000).toString() + 'k';
 
@@ -34,8 +34,9 @@ const acceleration = pipe(
   growthSeries,
   geoMean,
 );
-const fieldFns = {
-  ident: val => val,
+const fns = {
+  acceleration,
+  ident,
   none: () => undefined,
   joinComma: ary => ary.join(", "),
   count: val => size(val),
@@ -46,7 +47,7 @@ const fieldFns = {
   downloads: getDotPath('5.count'), // (a) => a[5] && a[5].count,
   commits6months: getDotPath('3.count'), // (a) => a[4] && a[4].count,
   commits12months: getDotPath('4.count'), // (a) => a[4] && a[4].count,
-  closedIssuesRatio: ({count, openCount}) => (count - openCount) / count,
+  closedIssuesRatio: ({count, openCount}) => (count - openCount) / count * 100,
   linters: getDotPath('js.0'), // (o) => o && o.js && o.js[0],
   shorten20chars: str => str.slice(0, 20),
   percent: n => Math.round(n * 100).toString() + "%",
@@ -77,6 +78,7 @@ const fieldFns = {
     const averageDays = Math.round(averageSeconds / 3600 / 24 * 10) / 10;
     return averageDays;
   },
+  percentGrowth,
   percentIssuesClosedIn3daysOrLess: (issues) => {
     const {distribution: dist} = issues;
     let lessThan3daysCount = 0, totalCount = 0, seconds;
@@ -118,8 +120,6 @@ const fieldFns = {
   significanPercentDisplay: pipe(significantDigits(2), concatLeft('%')),
   percent1dec: percent(1),
   percent2dec: percent(2),
-  percentGrowthOneDecimal: percent(1, percent),
-  percentGrowthTwoDecimals: percent(2, percent),
 };
 
 const orNull = f => arg => f(arg) || null;
@@ -127,8 +127,6 @@ const orNull = f => arg => f(arg) || null;
 export const fn = pipe(
   map(orNull),
   map(mem),
-)(fieldFns);
+)(fns);
 
-export const pipeFn = (...args) => pipe(...props(args, fn));
-
-export default fieldFns;
+export default ifDefinedElse(splitPipe(fns), ident) ;

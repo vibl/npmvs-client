@@ -83,14 +83,15 @@ export default {
     label: 'Downloads acceleration in the last 12 months',
     description: 'Average weekly downloads acceleration. Acceleration = (growth for week N) / (growth for week N-1)',
     dataPoint: 'downloads',
-    computeFn: 'downloadsAcceleration',
+    computeFn: 'acceleration|percentGrowth',
     displayFn: 'significanPercentDisplay',
     component: 'SmartBarChart',
   },
   closedIssuesRatio: {
-    label: '(number of closed issues) / (number of open issues)',
+    label: '(number of closed issues) / (total number of issues)',
     dataPoint: 'issues',
     computeFn: 'closedIssuesRatio',
+    displayFn: 'significanPercentDisplay',
     component: 'SmartBarChart',
   },
   percentIssuesClosedIn3daysOrLess: {

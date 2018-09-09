@@ -9,19 +9,20 @@ const RS = _i(require('ramdasauce'));
 const pMapOrig = _i(require('p-map'));
 const deepEql = _i(require("deep-eql"));
 const {
-  F, T, addIndex, append, apply, assoc, assocPath, binary,
+  F, T, addIndex, always, append, apply, assoc, assocPath, binary,
   chain, clone, complement, concat, cond, curry, curryN,
   difference, dissoc, drop, evolve, filter, flatten, flip, forEachObjIndexed,
-  identity, ifElse, infinity, intersection, intersperse, isEmpty,
+  identity, ifElse, infinity, intersection, intersperse,
   juxt, keys, length, lensPath,
   map, match, max, merge, mergeAll, mergeDeepRight, mergeDeepWith, nth,
   objOf, or, path, pick, pipe, prepend,
   range, reduce, replace,
-  slice, sort, split, tap, toPairs, trim, unapply, values, without, zip, zipObj, zipWith
+  slice, sort, split, tap, toPairs, trim, unapply, unless, values,
+  when, without, zip, zipObj, zipWith
 } = R;
 
 const {
-  isArray, isFunction, isNumber, isUndefined,
+  isArray, isEmpty, isFunction, isNumber, isUndefined,
   isObject, isArrayLike, isObjectLike, isPlainObject, isString, random, toNumber
 } = _;
 
@@ -81,6 +82,7 @@ const rangeStep = curry((step, start, stop) => {
   https://github.com/ramda/ramda/wiki/What-Function-Should-I-Use%3F
  */
 
+const ident = x => x;
 const isBlank = val => ! val || isEmpty(val);
 const notBlank = complement(isBlank);
 
@@ -184,7 +186,7 @@ function toIntIfNumber(val) {
 
 const dotStringToPath = pipe(split('.'), map(toIntIfNumber));
 // Accepts dot-separated strings as path, or an array of dot-separated strings.
-let dotPath;
+let dotPath = () => {};
 dotPath = cond([
   [Array.isArray, pipe(chain, dotPath)],
   [_.isString, dotStringToPath]
@@ -232,7 +234,7 @@ const filterIndexed = addIndex(filter);
 const filterP = (promiseFn) => async (list) => {
   const tests = await Promise.all(map(promiseFn, list));
   return filterIndexed((item, i) => tests[i])(list);
-}
+};
 const reduceP = (fn, acc) => async (list) => {
   const len = list.length;
   for (let i = 0; i < len; i++) {
@@ -251,8 +253,8 @@ const fnOr = curry2((fn1, fn2) => (...args) => fn1(...args) || fn2(...args));
 
 const from = (n) => slice(n, infinity);
 
-var takeLastUntil = curry2((fn, list) => {
-  var i = list.length - 1;
+const takeLastUntil = curry2((fn, list) => {
+  let i = list.length - 1;
   while (i >= 0 && !fn(list[i])) {
     i -= 1;
   }
@@ -260,13 +262,13 @@ var takeLastUntil = curry2((fn, list) => {
   return slice(i, Infinity, list);
 });
 
-const toPairsSorted = curry2((arr, obj) => {
-  let res = [];
-  arr.forEach(key => res.push([key, obj[key]]));
-  const firstKeys = intersection(arr, keys(obj));
-  const otherKeys = difference(arr, keys(obj));
-  //TODO Finish
-});
+// const toPairsSorted = curry2((arr, obj) => {
+//   let res = [];
+//   arr.forEach(key => res.push([key, obj[key]]));
+//   const firstKeys = intersection(arr, keys(obj));
+//   const otherKeys = difference(arr, keys(obj));
+//   //TODO Finish
+// });
 
 // fn has signature: (acc, currentValue, currentIndex, arr)
 const reduceIndexed = curry3((fn, initialValue, arr) => arr.reduce(fn, initialValue));
@@ -366,11 +368,29 @@ const geoMean = (list) => pipe(
 
 const round = curry2( (dec, x) => Math.round( x * 10**dec ) / 10**dec);
 
-const percent = curry2( (dec, x) => pipe(
-  multiply(100),
-  round(dec),
-  concat('%'),
-));
+const percent = curry2(
+  (decimal, x) =>
+    pipeDebug(
+      multiply(100),
+      round(decimal),
+      concat('%'),
+    )(x)
+);
+// Creates a parser of function names separated py the pipe charater : 'fn1|fn2|fn3'
+// These are sometimes called "filters" in template languages.
+// fns is an object with functions as properties.
+const splitPipe = fns => pipe(
+  split('|'),
+  map(str => fns[str]),
+  filter(isFunction),
+  ifElse(isEmpty, always(ident), apply(pipe)),
+);
+
+const ifDefinedElse = curry3( (fn, value, arg) => arg !== undefined ? fn(arg) : value );
+
+const whenDefined = unless(isUndefined);
+
+const unlessEmpty = unless(isEmpty);
 
 const viblPure = {
   added, allEquals, appendStr, assocDotPath,
@@ -378,7 +398,7 @@ const viblPure = {
   collect, combine, concatArray, concatLeft, curry2, curry3, curryFlip,
   discard, dissocAll, doesMatch, dotPath, dotStringToPath, equals, equalsAny,
   fnOr, filterKeys, filterP, flipAll, from,
-  geoMean, get, getDotPath,
+  geoMean, get, getDotPath, ifDefinedElse, ident,
   interleave, isBlank, isFunction, isNumber, isObject, isObjectLike, isPlainObject, isString,
   keep, keepRandom,
   lensDotPath,  lineBreaksToSpace, listMax, log,
@@ -389,9 +409,10 @@ const viblPure = {
   percent, pickValues, pipeDebug, pipeLog, pMap, prefixLine, preIntersperse, putFirst,
   random, rangeMap, rangeStep, reduceFirst, reduceFirstP, reduceIndexed, reduceP,
   reduceSteps, removed, removeShortest, rest, reverseDifference, round,
-  splitLinesTrim, splitProperties, store,
-  tablify, takeLastUntil, toNumber, toPairsSorted, transform, trimIfString,
-  updateWhere,
+  splitLinesTrim, splitPipe, splitProperties, store,
+  tablify, takeLastUntil, toNumber, transform, trimIfString,
+  unlessEmpty, updateWhere,
+  whenDefined,
   zipObjMap,
 };
 

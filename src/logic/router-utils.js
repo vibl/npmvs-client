@@ -4,7 +4,7 @@ const {discard} = require('./vibl-pure').default;
 
 const stringSeparator = '-vs-';
 const firstPathSegment = '/compare/';
-const lastUrlSegmentRegex = /\/([^/]+)$/;
+const lastUrlSegmentRegex = /\/compare\/(.+)\/?$/;
 
 export const selectionFromUrlPath = (urlPath) => {
   const lastPathSegment = match(lastUrlSegmentRegex, urlPath)[1] || '';

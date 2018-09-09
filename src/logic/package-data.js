@@ -38,16 +38,16 @@ const removeEndpointData = async (packId, source) => {
 };
 const remove = async (packId) => {
   state.set({selection: discard(packId)});
-  for(let source in dataPoints) {
-    const endpoints = dataPoints[source];
-    // Promises should be executed in parallel. No need for the return values.
-    await Promise.all(
-      pipe(
-        mapObjIndexed( () => removeEndpointData(packId, source)),
-        values,
-      )(endpoints)
-    );
-  }
+  // for(let source in dataPoints) {
+  //   const endpoints = dataPoints[source];
+  //   // Promises should be executed in parallel. No need for the return values.
+  //   await Promise.all(
+  //     pipe(
+  //       mapObjIndexed( () => removeEndpointData(packId, source)),
+  //       values,
+  //     )(endpoints)
+  //   );
+  // }
 };
 export default {
   add,

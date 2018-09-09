@@ -1,13 +1,40 @@
 import size from "lodash/size";
 import mem from 'mem';
-import {add, filter, last, map, pipe, props, reduce, sum, toPairs, values} from 'ramda';
-const {getDotPath} = require('../vibl-pure');
+import {add,  apply, dec, divide, filter, juxt, last, length, map, multiply, pipe, product, prop, props,
+  reduce, round, slice, splitAt, sum, toPairs, values} from 'ramda';
+const {concatLeft, curry2, geoMean, getDotPath, nthRoot, percent, pipeDebug} = require('../vibl-pure');
 
-const twoSignificantDigits = n => n >= 100 ? Math.round(n).toString() : Number.parseFloat(n).toPrecision(2);
-const thousands = n => twoSignificantDigits(n/1000).toString() + 'k';
-const round = Math.round;
+const significantDigits = curry2(
+  (digits, n) =>
+    n >= 10**digits
+      ? Math.round(n).toString()
+      : Number.parseFloat(n).toPrecision(digits)
+);
+const percentGrowth = pipe(dec, multiply(100));
+const percent1dec = percent(1);
+const percent2dec = percent(2);
+const percentGrowthOneDecimal = percent(1, percent);
+const percentGrowthTwoDecimals = percent(2, percent);
 
-export const fieldFns = {
+const thousands = n => significantDigits(2, n/1000).toString() + 'k';
+
+const growthSeries = (series) => {
+  let i,
+    growth,
+    acc = [],
+    n = series.length;
+  for(i=1;i<n;i++) {
+    growth = series[i-1] === 0 ? 1 : series[i]/series[i-1];
+    acc.push(growth);
+  }
+  return acc;
+};
+const acceleration = pipe(
+  growthSeries,
+  growthSeries,
+  geoMean,
+);
+const fieldFns = {
   ident: val => val,
   none: () => undefined,
   joinComma: ary => ary.join(", "),
@@ -18,13 +45,14 @@ export const fieldFns = {
   releases: getDotPath('3.count'), //(a) => a && a[3] && a[3].count,
   downloads: getDotPath('5.count'), // (a) => a[5] && a[5].count,
   commits6months: getDotPath('3.count'), // (a) => a[4] && a[4].count,
+  commits12months: getDotPath('4.count'), // (a) => a[4] && a[4].count,
+  closedIssuesRatio: ({count, openCount}) => (count - openCount) / count,
   linters: getDotPath('js.0'), // (o) => o && o.js && o.js[0],
   shorten20chars: str => str.slice(0, 20),
   percent: n => Math.round(n * 100).toString() + "%",
-  hoursFromSeconds: n => round(n / 3600),
-  round,
+  hoursFromSeconds: n => Math.round(n / 3600),
   thousands,
-  twoSignificantDigits,
+  significantDisplay: significantDigits(2),
       // Number of contributors who have contributed 80% of the commits.
   paretoContributors: list => {
     const first = list.shift().commitsCount;
@@ -34,6 +62,10 @@ export const fieldFns = {
     // Count contributors until 80% of commits are reached.
     return sums.reduce( (acc, val) => val/total <= 0.8 ? acc + 1 : acc, 0);
   },
+  contributorsWithMoreThan2commits: list => {
+    return list.filter( o => o.commitsCount > 2 ).length
+  },
+  contributorsCount: length,
   averageOpenIssueDuration: dist => {
     const issuesCount = sum(values(dist));
     const averageReducer = (acc, pair) => acc + parseInt(pair[0]) * pair[1];
@@ -42,10 +74,11 @@ export const fieldFns = {
       reduce(averageReducer, 0)
     )(dist);
     const averageSeconds = total / issuesCount;
-    const averageDays = Math.round(averageSeconds / 3600 / 24);
+    const averageDays = Math.round(averageSeconds / 3600 / 24 * 10) / 10;
     return averageDays;
   },
-  percentIssuesClosedIn3daysOrLess: dist => {
+  percentIssuesClosedIn3daysOrLess: (issues) => {
+    const {distribution: dist} = issues;
     let lessThan3daysCount = 0, totalCount = 0, seconds;
     for(seconds in dist) {
       const issues = parseInt(dist[seconds]);
@@ -56,8 +89,37 @@ export const fieldFns = {
       }
     }
     return Math.round(lessThan3daysCount / totalCount * 100);
-  }
-
+  },
+  agreggateDownloadsData: (period, data) => {
+    const res = [];
+    let count = 0, acc = 0;
+    for( let obj of data ) {
+      count++;
+      acc += obj.downloads;
+      if( count === period ) {
+        res.push(acc);
+        acc = 0;
+        count = 0;
+      }
+    }
+    return res;
+  },
+  downloadsAverageGrowth: pipe(
+      map(prop('downloads')),
+      juxt([
+        slice(0, 28),
+        slice(-28, Infinity)
+      ]),
+    map(sum),
+    ([a,b]) => b/a,
+    percentGrowth,
+  ),
+  downloadsAcceleration: pipe(acceleration, percentGrowth),
+  significanPercentDisplay: pipe(significantDigits(2), concatLeft('%')),
+  percent1dec: percent(1),
+  percent2dec: percent(2),
+  percentGrowthOneDecimal: percent(1, percent),
+  percentGrowthTwoDecimals: percent(2, percent),
 };
 
 const orNull = f => arg => f(arg) || null;
@@ -68,3 +130,5 @@ export const fn = pipe(
 )(fieldFns);
 
 export const pipeFn = (...args) => pipe(...props(args, fn));
+
+export default fieldFns;

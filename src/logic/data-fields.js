@@ -68,38 +68,48 @@ export default {
     displayFn: 'shorten20chars',
   },
   downloads: {
-    label: 'Downloads past year',
+    label: 'Downloads in the last 12 months',
     dataPoint: 'downloads',
     component: 'LineChart',
   },
-  forksCount: {
-    label: 'Forks count',
-    dataPoint: 'forksCount',
-    displayFn: 'thousands',
+  downloadsAverageGrowth: {
+    label: 'Average downloads growth in the last 12 months',
+    dataPoint: 'downloads',
+    computeFn: 'downloadsAverageGrowth',
+    displayFn: 'significanPercentDisplay',
     component: 'SmartBarChart',
   },
-  subscribersCount: {
-    label: 'Subscribers count',
-    dataPoint: 'subscribersCount',
-    displayFn: 'thousands',
+  downloadsAcceleration: {
+    label: 'Downloads acceleration in the last 12 months',
+    description: 'Average weekly downloads acceleration. Acceleration = (growth for week N) / (growth for week N-1)',
+    dataPoint: 'downloads',
+    computeFn: 'downloadsAcceleration',
+    displayFn: 'significanPercentDisplay',
+    component: 'SmartBarChart',
+  },
+  closedIssuesRatio: {
+    label: '(number of closed issues) / (number of open issues)',
+    dataPoint: 'issues',
+    computeFn: 'closedIssuesRatio',
     component: 'SmartBarChart',
   },
   percentIssuesClosedIn3daysOrLess: {
     label: 'Percentage of issues closed in 3 days or less',
-    dataPoint: 'issues.distribution',
+    dataPoint: 'issues',
     computeFn: 'percentIssuesClosedIn3daysOrLess',
+    displayFn: 'significanPercentDisplay',
     component: 'SmartBarChart',
   },
   contributors: {
-    label: 'Number of contributors',
+    label: 'Number of contributors with more than 2 commits',
     dataPoint: 'contributors',
-    computeFn: 'paretoContributors',
+    computeFn: 'contributorsWithMoreThan2commits',
     component: 'SmartBarChart',
   },
-  commits6months: {
-    label: 'Number of commits during the last 6 months',
+  commits12months: {
+    label: 'Number of commits in the last 12 months',
     dataPoint: 'commits',
-    computeFn: 'commits6months',
+    computeFn: 'commits12months',
     component: 'SmartBarChart',
   },
 };

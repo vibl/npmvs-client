@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'react-emotion';
-import SmartBarChart from './SmartBarChart';
+import SmartBarChart from './SmartBarChart_react-vis';
 import fields from '../../logic/data-fields';
 import Card from '@material-ui/core/Card';
 import LineChart from "./LineChart";

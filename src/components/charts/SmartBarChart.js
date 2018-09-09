@@ -5,7 +5,8 @@ import {Bar, BarChart, LabelList, XAxis, YAxis} from 'recharts';
 import isEmpty from 'lodash/isEmpty';
 import {keys, map, max, pipe, reduce, values} from 'ramda';
 import {getPackageColors, getUnfocusedColor} from "../../logic/derived-state";
-import dataFields from '../../logic/data-fields';
+import fields from '../../logic/data-fields';
+import fns from '../../logic/mapper/field-fns';
 import state from "../../logic/store";
 const {listMax} = require('../../logic/vibl-pure');
 
@@ -67,7 +68,7 @@ class SmartBarChart extends PureComponent {
     let {data} = this.props;
     const {fieldId, focus, packageColors, selection, unfocusedColor} = this.props;
     // console.log('Rendering BarChart:', {data, selection});
-    const isNegative = dataFields[fieldId].negative;
+    const isNegative = fields[fieldId].negative;
     if( isNegative ) {
       data = complement(data);
     }
@@ -83,6 +84,7 @@ class SmartBarChart extends PureComponent {
         { selection.map( (packId, row) => {
             const isFocused = packId === focus;
             const fillColor = ! focus || isFocused ? packageColors[row].value : unfocusedColor;
+            
             return (
               [
               <Bar

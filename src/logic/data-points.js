@@ -2,7 +2,7 @@ export default {
   npmDownloads: {
     range: {
       params: {
-        timeFrame: '2017-08-28:2018-08-28',
+        timeFrame: '2017-08-01:2018-08-28',
       },
       extractTree: {
         downloads: 1,
@@ -38,9 +38,7 @@ export default {
             homepage: 2,
             forksCount: 1,
             subscribersCount: 1,
-            issues: {
-              distribution: 2,
-            },
+            issues: 1,
             contributors: 1,
             commits: 1,
           },

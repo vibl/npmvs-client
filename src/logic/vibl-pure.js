@@ -1,3 +1,5 @@
+import {multiply, product} from "ramda";
+
 function _i(required) {
   return required && "object" === typeof required && "default" in required ? required.default : required;
 }
@@ -11,7 +13,7 @@ const {
   chain, clone, complement, concat, cond, curry, curryN,
   difference, dissoc, drop, evolve, filter, flatten, flip, forEachObjIndexed,
   identity, ifElse, infinity, intersection, intersperse, isEmpty,
-  juxt, keys, length, lensPath, 
+  juxt, keys, length, lensPath,
   map, match, max, merge, mergeAll, mergeDeepRight, mergeDeepWith, nth,
   objOf, or, path, pick, pipe, prepend,
   range, reduce, replace,
@@ -141,15 +143,11 @@ const bindAllDeep = obj => {
  Logs and returns a value.
  */
 const log = (msg) => tap( val => console.log('TAP LOGGING: "', msg, '"', val));
-/*
- Used in R.pipe and R.pipeP, logs every step of the pipe
- */
-const logEach = intersperse(log);
+// Logs every step of the pipe
+const pipeLog = (...args) => pipe(...intersperse(log, args), log);
 
-const pipeLog = (...args) => {
-  const newArgs = logEach(args);
-  return pipe(...newArgs);
-};
+const debug = x => {debugger; return x};
+const pipeDebug = (...args) => pipe(...intersperse(debug, args), debug);
 
 const rangeMap = (step, start, end, fn) => {
   const range = RS.rangeStep(step, start, end);
@@ -359,23 +357,38 @@ const listMax = apply(Math.max);
 
 const zipObjMap = curry2( (fn, list) => zipObj(list, map(fn, list)) );
 
+const nthRoot = curry2( (nth, x) => Math.pow(x, 1/nth) );
+
+const geoMean = (list) => pipe(
+  product,
+  nthRoot(list.length),
+)(list);
+
+const round = curry2( (dec, x) => Math.round( x * 10**dec ) / 10**dec);
+
+const percent = curry2( (dec, x) => pipe(
+  multiply(100),
+  round(dec),
+  concat('%'),
+));
+
 const viblPure = {
   added, allEquals, appendStr, assocDotPath,
   bindAll, bindAllDeep, budge,
   collect, combine, concatArray, concatLeft, curry2, curry3, curryFlip,
   discard, dissocAll, doesMatch, dotPath, dotStringToPath, equals, equalsAny,
   fnOr, filterKeys, filterP, flipAll, from,
-  get, getDotPath,
+  geoMean, get, getDotPath,
   interleave, isBlank, isFunction, isNumber, isObject, isObjectLike, isPlainObject, isString,
   keep, keepRandom,
-  lensDotPath,  lineBreaksToSpace, listMax, log, logEach,
+  lensDotPath,  lineBreaksToSpace, listMax, log,
   mapDeep, mapIf, mapIndex, mapKeys, mergeDeepWithArray, mergeLeft,
   mergeAllTables, mergeAllTablesNotBlank, mergeTables, mergeTablesNotBlank,
-  notBlank, notEmpty, notMatch,
+  notBlank, notEmpty, notMatch, nthRoot,
   overlaps,
-  pickValues, pipeLog, pMap, prefixLine, preIntersperse, putFirst,
+  percent, pickValues, pipeDebug, pipeLog, pMap, prefixLine, preIntersperse, putFirst,
   random, rangeMap, rangeStep, reduceFirst, reduceFirstP, reduceIndexed, reduceP,
-  reduceSteps, removed, removeShortest, rest, reverseDifference,
+  reduceSteps, removed, removeShortest, rest, reverseDifference, round,
   splitLinesTrim, splitProperties, store,
   tablify, takeLastUntil, toNumber, toPairsSorted, transform, trimIfString,
   updateWhere,

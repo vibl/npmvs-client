@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
-import { VictoryBar, VictoryChart, VictoryGroup} from 'victory';
+import { VictoryBar, VictoryContainer} from 'victory';
 import isEmpty from 'lodash/isEmpty';
 import {keys, map, max, pick, pipe, props, reduce, reverse, values, zipObj} from 'ramda';
 import {getPackageColors, getUnfocusedColor} from "../../logic/derived-state";
@@ -45,17 +45,34 @@ class SmartBarChart extends PureComponent {
     //   yOffset: 5,
     // }));
     return isEmpty(selection) || isEmpty(data) ? null : (
-      <VictoryBar
-        barRatio={2}
-        data={barData}
-        x="x"
-        y="y"
-        labels={d => d.label}
-        horizontal={true}
-        style={{data: {fill: d => d.fill}}}
-        width={400}
-        height={150}
-      />
+      <svg
+        style={{
+          overflow: 'visible',
+          width: '350px',
+          height: '100px',
+        }}
+        viewBox="0, 0, width, height"
+      >
+        <VictoryBar
+          data={barData}
+          x="x"
+          y="y"
+          labels={d => d.label}
+          horizontal={true}
+          style={{
+            data: {
+              fill: d => d.fill,
+              padding: '10px',
+            },
+          }}
+          width={350}
+          height={100}
+          barWidth={15}
+          padding={20}
+          standalone={false}
+        />
+      </svg>
+
       // {/*<XYPlot*/}
       //   {/*width={400}*/}
       //   {/*height={150}*/}

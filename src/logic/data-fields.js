@@ -76,7 +76,7 @@ export default {
     label: 'Average downloads growth in the last 12 months',
     dataPoint: 'downloads',
     computeFn: 'downloadsAverageGrowth',
-    displayFn: 'significanPercentDisplay',
+    displayFn: 'significanPercentDisplay|explicitPlus',
     component: 'SmartBarChart',
   },
   downloadsAcceleration: {
@@ -84,7 +84,7 @@ export default {
     description: 'Average weekly downloads acceleration. Acceleration = (growth for week N) / (growth for week N-1)',
     dataPoint: 'downloads',
     computeFn: 'acceleration|percentGrowth',
-    displayFn: 'significanPercentDisplay',
+    displayFn: 'significanPercentDisplay|explicitPlus',
     component: 'SmartBarChart',
   },
   closedIssuesRatio: {

@@ -7,11 +7,17 @@ import LineChart from "./LineChart";
 
 const Card$ = styled(Card)`
   margin: 5px;
-  padding: 10px;
+  padding: 10px 15px 5px 15px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-items: center;
+  flex-direction: column;
 `;
 const Title = styled.h2`
     font-size: 16px;
-    margin: 0;
+    text-align: center;
+    margin: 5px 0 10px 0;
 `;
 const ChartComponents = {LineChart, SmartBarChart};
 

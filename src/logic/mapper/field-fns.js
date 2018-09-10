@@ -36,6 +36,7 @@ const acceleration = pipe(
 );
 const fns = {
   acceleration,
+  explicitPlus: str => parseFloat(str) > 0 ? '+' + str : str,
   ident,
   none: () => undefined,
   joinComma: ary => ary.join(", "),
@@ -116,7 +117,6 @@ const fns = {
     ([a,b]) => b/a,
     percentGrowth,
   ),
-  downloadsAcceleration: pipe(acceleration, percentGrowth),
   significanPercentDisplay: pipe(significantDigits(2), concatLeft('%')),
   percent1dec: percent(1),
   percent2dec: percent(2),

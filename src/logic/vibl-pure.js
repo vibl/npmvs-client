@@ -9,7 +9,7 @@ const RS = _i(require('ramdasauce'));
 const pMapOrig = _i(require('p-map'));
 const deepEql = _i(require("deep-eql"));
 const {
-  F, T, addIndex, always, append, apply, assoc, assocPath, binary,
+  F, T, addIndex, always, any, append, apply, assoc, assocPath, binary,
   chain, clone, complement, concat, cond, curry, curryN,
   difference, dissoc, drop, evolve, filter, flatten, flip, forEachObjIndexed,
   identity, ifElse, infinity, intersection, intersperse,
@@ -85,6 +85,8 @@ const rangeStep = curry((step, start, stop) => {
 const ident = x => x;
 const isBlank = val => ! val || isEmpty(val);
 const notBlank = complement(isBlank);
+
+const isNegative = x => isNumber(x) && x < 0;
 
 const notEmpty = complement(isEmpty);
 const notMatch = pipe(match, isEmpty);
@@ -356,6 +358,7 @@ const removed = flip(added);
 const putFirst = curry2( (element, list) => pipe(discard(element), prepend(element))(list) );
 
 const listMax = apply(Math.max);
+const listMin = apply(Math.min);
 
 const zipObjMap = curry2( (fn, list) => zipObj(list, map(fn, list)) );
 
@@ -392,16 +395,21 @@ const whenDefined = unless(isUndefined);
 
 const unlessEmpty = unless(isEmpty);
 
+const anyValue = curry2( (condition, obj) => any(condition, values(obj)));
+
+const hsl = (h, s, l) => `hsl(${h},${s}%,${l}%)`;
+
 const viblPure = {
-  added, allEquals, appendStr, assocDotPath,
+  added, allEquals, anyValue, appendStr, assocDotPath,
   bindAll, bindAllDeep, budge,
   collect, combine, concatArray, concatLeft, curry2, curry3, curryFlip,
   discard, dissocAll, doesMatch, dotPath, dotStringToPath, equals, equalsAny,
   fnOr, filterKeys, filterP, flipAll, from,
-  geoMean, get, getDotPath, ifDefinedElse, ident,
-  interleave, isBlank, isFunction, isNumber, isObject, isObjectLike, isPlainObject, isString,
+  geoMean, get, getDotPath, hsl,
+  ifDefinedElse, ident, interleave, isBlank, isFunction,
+  isNegative, isNumber, isObject, isObjectLike, isPlainObject, isString,
   keep, keepRandom,
-  lensDotPath,  lineBreaksToSpace, listMax, log,
+  lensDotPath,  lineBreaksToSpace, listMax, listMin, log,
   mapDeep, mapIf, mapIndex, mapKeys, mergeDeepWithArray, mergeLeft,
   mergeAllTables, mergeAllTablesNotBlank, mergeTables, mergeTablesNotBlank,
   notBlank, notEmpty, notMatch, nthRoot,

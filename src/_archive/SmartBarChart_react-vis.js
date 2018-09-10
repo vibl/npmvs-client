@@ -4,11 +4,11 @@ import {pure} from 'recompose';
 import {Hint, HorizontalBarSeries, LabelSeries, XYPlot} from 'react-vis';
 import isEmpty from 'lodash/isEmpty';
 import {keys, map, max, pick, pipe, props, reduce, reverse, values, zipObj} from 'ramda';
-import {getPackageColors, getUnfocusedColor} from "../../logic/derived-state";
-import fields from '../../logic/data-fields';
-import fns from '../../logic/mapper/field-fns';
-import state from "../../logic/store";
-const {listMax} = require('../../logic/vibl-pure');
+import {getPackageColors, getUnfocusedColor} from "../logic/derived-state";
+import fields from '../logic/data-fields';
+import fns from '../logic/mapper/field-fns';
+import state from "../logic/store";
+const {listMax} = require('../logic/vibl-pure');
 
 let mouseOutTimeout;
 const handleMouseOver = (packId) => {

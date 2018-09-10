@@ -1,7 +1,6 @@
 import mem from 'mem';
-import {zipObj} from 'ramda';
-
-const hsl = (h, s, l) => `hsl(${h},${s}%,${l}%)`
+import {zipObj} from 'ramda'
+const {hsl} = require('./vibl-pure');
 
 export const getPackageColors = mem( (color, selection) => {
   const {hues, hueOffset, saturation, lightness} = color;

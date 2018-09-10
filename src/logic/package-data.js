@@ -6,10 +6,6 @@ import sources from './sources/index';
 import dataFields from "./data-fields";
 const {discard} = require('./vibl-pure');
 
-const setChartList = () => {
-  const chartsList = keys(state.get().charts);
-  state.set({chartsList});
-};
 const addEndpointData = async (packId, source, [{params, extractTree}, endpoint]) => {
   const {stateTransformer, urlBuilder} = sources[source];
   const url = urlBuilder[endpoint](packId, params);
@@ -29,7 +25,6 @@ const add = async (packId) => {
       )(endpoints)
     );
   }
-  setChartList();
 };
 const removeEndpointData = async (packId, source) => {
   const {stateTransformer} = sources[source];

@@ -19,14 +19,14 @@ const stateTransformer = {
     const downloadsAcceleration = fns(fields.downloadsAcceleration.computeFn)(aggregated);
     return {
       charts: {
-        downloads: mergeTablesNotBlank(chartTable),
+        downloadsLineChart: mergeTablesNotBlank(chartTable),
         downloadsAverageGrowth: {[packId]: downloadsAverageGrowth},
         downloadsAcceleration: {[packId]: downloadsAcceleration},
       },
     };
   },
   removing: (packName) => ({
-    charts: {downloads: map(dissoc(packName))},
+    charts: {downloadsLineChart: map(dissoc(packName))},
   }),
 };
 export default {

@@ -17,7 +17,14 @@ export default () => {
   state.set({
     packages: {},
     charts: {},
-    chartsList: [],
+    barChartList: [
+      "closedIssuesRatio",
+      "percentIssuesClosedIn3daysOrLess",
+      "contributors",
+      "commits12months",
+      "downloadsAverageGrowth",
+      "downloadsAcceleration",
+    ],
     selection: [],
     focus: undefined,
     color: {

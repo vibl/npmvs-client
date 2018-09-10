@@ -1,8 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'react-emotion';
-import {splitAt} from 'ramda';
+import {equals, keys, splitAt, values} from 'ramda';
+import isEmpty from 'lodash/isEmpty';
 import ChartCard from './ChartCard';
+
+const barChartColumnSize = 3 ;
 
 const Container = styled.div`
     display: flex;
@@ -10,12 +13,12 @@ const Container = styled.div`
 `;
 const Column = styled.div`
     flex: 1 1 200px;
-    min-width: 450px;
+    min-width: 250px;
 `;
-const ChartsList = ({chartsData, chartsList}) => {
-  const columnSize = Math.round(chartsList.length / 2);
-  const columns = splitAt(columnSize, chartsList);
-  return (
+const ChartsList = ({chartsData, barChartList}) => {
+  const columns = splitAt(barChartColumnSize, barChartList);
+  const downloadsLineChartId = 'downloadsLineChart';
+  return keys(chartsData).length < 6 ? null :
     <Container>
       { columns.map ( (charts, i) =>
         <Column key={i}>
@@ -24,12 +27,14 @@ const ChartsList = ({chartsData, chartsList}) => {
           ))}
         </Column>
       )}
+      <Column>
+        <ChartCard key={downloadsLineChartId} fieldId={downloadsLineChartId} data={chartsData[downloadsLineChartId]} />
+      </Column>
     </Container>
-  )
 };
 
 const mapStateToProps = (state) => ({
   chartsData: state.charts,
-  chartsList: state.chartsList,
+  barChartList: state.barChartList,
 });
 export default connect(mapStateToProps)(ChartsList);

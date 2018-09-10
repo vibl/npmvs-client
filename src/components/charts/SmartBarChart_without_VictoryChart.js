@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
-import {VictoryAxis, VictoryBar, VictoryChart} from 'victory';
+import {VictoryAxis, VictoryBar, VictoryLabel} from 'victory';
 import isEmpty from 'lodash/isEmpty';
 import {keys, map, max, pick, pipe, props, reduce, reverse, values, zipObj} from 'ramda';
 import {getPackageColors, getUnfocusedColor} from "../../logic/derived-state";
@@ -28,18 +28,16 @@ const letterSpacing = "normal";
 const fontSize = 14;
 
 const baseProps = {
-  width: 450,
-  height: 300,
-  padding: 50,
+  overflow: 'visible',
+  padding: 15,
 };
 const baseLabelStyles = {
   fontFamily: sansSerif,
   fontSize,
   letterSpacing,
-  padding: 10,
+  padding: 20,
   stroke: "transparent",
 };
-
 const theme = {
   axis: {
     ...baseProps,
@@ -136,6 +134,8 @@ class SmartBarChart extends PureComponent {
         label: displayFn(value),
       }
     });
+    const height = packages.length * 40;
+    const width = 350;
     // const labelData = packages.map( packId => ({
     //   ...barData[packId],
     //   label: data[packId] * 100,
@@ -143,30 +143,17 @@ class SmartBarChart extends PureComponent {
     //   yOffset: 5,
     // }));
     return isEmpty(selection) || isEmpty(data) ? null : (
-      <VictoryChart
-        theme={theme}
-        style={{
-        overflow: 'visible',
-        width: '350px',
-        height: '100px',
-      }}>
+      <svg
+        width={width}
+      >
         <VictoryAxis
+          height={height}
+          width={width}
           dependentAxis
+          tickLabelComponent={<VictoryLabel/>}
+          standalone={false}
         />
-        <VictoryAxis
-          independentAxis
-          tickFormat={() => ''} />
-        {/*theme={theme}*/}
-    {/*<svg*/}
-    {/*viewBox="0, 0, width, height"*/}
-    {/*style={{*/}
-    {/*overflow: 'visible',*/}
-    {/*width: '350px',*/}
-    {/*height: '100px',*/}
-    {/*}}*/}
-    {/*>*/}
-
-    <VictoryBar
+        <VictoryBar
           data={barData}
           x="x"
           y="y"
@@ -175,17 +162,16 @@ class SmartBarChart extends PureComponent {
           style={{
             data: {
               fill: d => d.fill,
-              padding: '10px',
             },
           }}
-          width={350}
-          height={100}
-          barWidth={15}
-          padding={20}
+          barRatio={1.3}
+          padding={{ top: 20, bottom: 30 }}
+          height={height}
+          width={width}
           standalone={false}
+          // barWidth={15}
         />
-      {/*</svg>*/}
-      </VictoryChart>
+      </svg>
 
     )
   };

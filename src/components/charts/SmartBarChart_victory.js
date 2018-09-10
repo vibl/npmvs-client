@@ -1,13 +1,14 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
-import { VictoryBar, VictoryContainer} from 'victory';
+import {VictoryAxis, VictoryBar, VictoryChart} from 'victory';
 import isEmpty from 'lodash/isEmpty';
 import {keys, map, max, pick, pipe, props, reduce, reverse, values, zipObj} from 'ramda';
 import {getPackageColors, getUnfocusedColor} from "../../logic/derived-state";
 import fields from '../../logic/data-fields';
 import fns from '../../logic/mapper/field-fns';
 import state from "../../logic/store";
+
 const {ident, ifDefinedElse, listMax} = require('../../logic/vibl-pure');
 
 let mouseOutTimeout;
@@ -16,7 +17,104 @@ const handleMouseOver = (packId) => {
   state.set({focus: packId});
 };
 const handleMouseOut = () => {
-  mouseOutTimeout = setTimeout( () => state.set({focus: undefined}), 200);
+  mouseOutTimeout = setTimeout(() => state.set({focus: undefined}), 200);
+};
+
+
+// Typography
+const sansSerif =
+  "'Gill Sans', 'Gill Sans MT', 'Ser­avek', 'Trebuchet MS', sans-serif";
+const letterSpacing = "normal";
+const fontSize = 14;
+
+const baseProps = {
+  width: 450,
+  height: 300,
+  padding: 50,
+};
+const baseLabelStyles = {
+  fontFamily: sansSerif,
+  fontSize,
+  letterSpacing,
+  padding: 10,
+  stroke: "transparent",
+};
+
+const theme = {
+  axis: {
+    ...baseProps,
+    style: {
+      axis: {
+        stroke: "none",
+      },
+      axisLabel: {
+        display: 'none',
+      },
+      independentAxis: {
+        axisLabel: {
+          display: 'none',
+        }
+      },
+      dependentAxis: {
+        axisLabel: {
+          ...baseLabelStyles,
+        },
+      },
+      grid: {
+        fill: "none",
+        stroke: "none",
+        pointerEvents: "painted"
+      },
+      ticks: {
+        fill: "transparent",
+        size: 1,
+        stroke: "transparent"
+      },
+    }
+  },
+  bar: {
+    ...baseProps,
+    style: {
+      data: {
+        padding: 8,
+        strokeWidth: 0
+      },
+      labels: baseLabelStyles
+    }
+  },
+  chart: baseProps,
+  errorbar: {
+    ...baseProps,
+    borderWidth: 8,
+    style: {
+      data: {
+        fill: "transparent",
+        strokeWidth: 2
+      },
+    },
+  },
+  line: {
+    ...baseProps,
+    style: {
+      data: {
+        fill: "transparent",
+        strokeWidth: 2
+      },
+    }
+  },
+  tooltip: {
+    style: {
+      padding: 5,
+      pointerEvents: "none"
+    },
+    flyoutStyle: {
+      strokeWidth: 1,
+      fill: "#f0f0f0",
+      pointerEvents: "none"
+    },
+    cornerRadius: 5,
+    pointerLength: 10
+  },
 };
 
 class SmartBarChart extends PureComponent {
@@ -27,7 +125,7 @@ class SmartBarChart extends PureComponent {
     // console.log('Rendering BarChart:', {data, selection});
     const packages = reverse(selection);
     const displayFn = fns(fields[fieldId].displayFn);
-    const barData = packages.map( packId => {
+    const barData = packages.map(packId => {
       const isFocused = packId === focus;
       const fillColor = !focus || isFocused ? packageColors[packId].value : unfocusedColor;
       const value = data[packId];
@@ -45,15 +143,30 @@ class SmartBarChart extends PureComponent {
     //   yOffset: 5,
     // }));
     return isEmpty(selection) || isEmpty(data) ? null : (
-      <svg
+      <VictoryChart
+        theme={theme}
         style={{
-          overflow: 'visible',
-          width: '350px',
-          height: '100px',
-        }}
-        viewBox="0, 0, width, height"
-      >
-        <VictoryBar
+        overflow: 'visible',
+        width: '350px',
+        height: '100px',
+      }}>
+        <VictoryAxis
+          dependentAxis
+        />
+        <VictoryAxis
+          independentAxis
+          tickFormat={() => ''} />
+        {/*theme={theme}*/}
+    {/*<svg*/}
+    {/*viewBox="0, 0, width, height"*/}
+    {/*style={{*/}
+    {/*overflow: 'visible',*/}
+    {/*width: '350px',*/}
+    {/*height: '100px',*/}
+    {/*}}*/}
+    {/*>*/}
+
+    <VictoryBar
           data={barData}
           x="x"
           y="y"
@@ -71,38 +184,13 @@ class SmartBarChart extends PureComponent {
           padding={20}
           standalone={false}
         />
-      </svg>
+      {/*</svg>*/}
+      </VictoryChart>
 
-      // {/*<XYPlot*/}
-      //   {/*width={400}*/}
-      //   {/*height={150}*/}
-      //   {/*yType="ordinal"*/}
-      //   {/*yDistance={20}*/}
-      //   {/*ref={ inst => this.chart = inst}*/}
-      // {/*>*/}
-      //   {/*<HorizontalBarSeries*/}
-      //     {/*data={barData}*/}
-      //     {/*colorType="literal"*/}
-      //   {/*/>*/}
-      //   {/*{ this.state.labelData.length > 0 &&*/}
-      //   {/*<LabelSeries*/}
-      //     {/*data={this.state.labelData} />*/}
-      //   {/*}*/}
-      //   {/*{ this.state.hints.map( value => value && value.x > 0 && value.y > 0 &&*/}
-      //     {/*<Hint*/}
-      //       {/*value={value}*/}
-      //     {/*>0000</Hint>*/}
-      //   {/*) }*/}
-      //
-      //
-      //   {/*<LabelSeries*/}
-      //     {/*animation*/}
-      //     {/*allowOffsetToBeReversed*/}
-      //     {/*data={labelData} />*/}
-      // </XYPlot>
     )
   };
 }
+
 const mapStateToProps = (state) => ({
   focus: state.focus,
   selection: state.selection,

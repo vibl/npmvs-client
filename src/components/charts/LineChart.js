@@ -13,7 +13,7 @@ import styled from "react-emotion";
 import {setFocus} from "../../logic/focus"
 import {keys, map, mapObjIndexed, pick, pipe, props, reduce, reverse, values, zipObj} from 'ramda';
 import {withContentRect} from "react-measure";
-const {collect, pipeDebug, pipeLog, putFirst, reIndex, reduceTemplate} = require('../../logic/vibl-pure');
+const {collect, pipeD, pipeLog, putFirst, reIndex, reduceTemplate} = require('../../logic/vibl-pure');
 
 const Overlay = ({month, qata}) => (
   <div>

@@ -1,14 +1,14 @@
 import size from "lodash/size";
 import mem from 'mem';
 import {add,  apply, dec, divide, filter, ifElse, juxt, last,
-  length, map, multiply, pipe, product, prop, props,
-  reduce, round, slice, split, splitAt, sum, toPairs, values, unlessEmpty} from 'ramda';
+  length, map, mean, multiply, pipe, product, prop, props,
+  reduce, round, slice, split, splitAt, splitEvery, sum, toPairs, values, unlessEmpty} from 'ramda';
 const {concatLeft, curry2, geoMean, getDotPath, ident, ifDefinedElse,
-  nthRoot, percent, pipeDebug, splitPipe} = require('../vibl-pure');
+  nthRoot, percent, pipeD, splitPipe} = require('../vibl-pure');
 
 const significantDigits = curry2(
   (digits, n) =>
-    n >= 10**digits
+    Math.round(n) >= 10**digits
       ? Math.round(n).toString()
       : Number.parseFloat(n).toPrecision(digits)
 );
@@ -29,10 +29,21 @@ const growthSeries = (series) => {
   }
   return acc;
 };
-const acceleration = pipe(
+const buildupSeries = (series) => {
+  let i,
+    growth,
+    acc = [],
+    n = series.length;
+  for(i=1;i<n;i++) {
+    growth = series[i-1] === 0 ? 1 : series[i] - series[i-1];
+    acc.push(growth);
+  }
+  return acc;
+};
+const acceleration = pipeD(
   growthSeries,
-  growthSeries,
-  geoMean,
+  buildupSeries,
+  mean,
 );
 const fns = {
   acceleration,
@@ -93,16 +104,33 @@ const fns = {
     }
     return Math.round(lessThan3daysCount / totalCount * 100);
   },
+
   downloadsAverageGrowth: pipe(
-      map(prop('downloads')),
-      juxt([
-        slice(0, 28),
-        slice(-28, Infinity)
-      ]),
+    map(prop('downloads')),
+    slice(-365, Infinity),
+    juxt([
+      slice(0, 91),
+      slice(-91, Infinity)
+    ]),
     map(sum),
     ([a,b]) => b/a,
     percentGrowth,
   ),
+  // downloadsGrowth: pipe(
+  //   map(prop('downloads')),
+  //   slice(-366, Infinity),
+  //   splitAt(183),
+  //   map(sum),
+  //   ([a,b]) => b/a,
+  //   percentGrowth,
+  // ),
+  downloadsAcceleration: pipe(
+      map(prop('downloads')),
+      slice(-366, Infinity),
+      splitEvery(122),
+      map(sum),
+      ([a,b,c]) => (c - b) / (b - a) * 100,
+    ),
   significanPercentDisplay: pipe(significantDigits(2), concatLeft('%')),
   percent1dec: percent(1),
   percent2dec: percent(2),

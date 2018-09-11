@@ -1,10 +1,10 @@
 import React, {PureComponent} from 'react';
-import state from '../../logic/store';
+import state from '../logic/store';
 import styled from 'react-emotion';
 import {prop} from 'ramda';
 import CloseIcon from '@material-ui/icons/Close';
 import Button from '@material-ui/core/Button';
-import {deselectPackage} from "../../logic/router-utils";
+import {deselectPackage} from "../logic/router-utils";
 
 const Container = styled.div`
     display: flex;

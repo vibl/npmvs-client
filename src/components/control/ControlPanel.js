@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'react-emotion';
 import Selector from "./Selector";
-import PackageList from "./PackageList";
-import ColorSliders from './ColorSliders';
-
+import ColorDialog from './ColorDialog';
 
 const Container = styled.div`
   display: flex;
@@ -14,13 +12,14 @@ const PackSelection = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 const ControlPanel = () => (
   <Container>
     <PackSelection>
       <Selector/>
-      <PackageList/>
     </PackSelection>
-    <ColorSliders/>
+    <ColorDialog/>
+
   </Container>
 );
 

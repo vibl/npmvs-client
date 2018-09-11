@@ -81,9 +81,9 @@ export default {
   },
   downloadsAcceleration: {
     label: 'Downloads acceleration in the last 12 months',
-    description: 'Average weekly downloads acceleration. Acceleration = (growth for week N) / (growth for week N-1)',
+    description: '',
     dataPoint: 'downloads',
-    computeFn: 'acceleration|percentGrowth',
+    computeFn: 'downloadsAcceleration',
     displayFn: 'significanPercentDisplay|explicitPlus',
     component: 'BarChart',
   },

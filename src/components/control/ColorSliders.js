@@ -3,12 +3,27 @@ import {connect} from 'react-redux';
 import Slider from '@material-ui/lab/Slider';
 import styled from 'react-emotion';
 import state from '../../logic/store';
+import {apply, join, map, pipe} from 'ramda';
+const {hsl, pipeD, rangeStep} = require('../../logic/vibl-pure');
 
 const SlidersContainer = styled.div`
     flex:initial;
     display:flex;
     height: 100px;
     width: 100px;
+`;
+const makeGradient = fn => pipe(
+  map(fn),
+  map(apply(hsl)),
+  join(', '),
+);
+const gradientFn = {
+  hueOffset: p => makeGradient(h => [h, p.saturation, p.lightness])(rangeStep(60, 0, 360)),
+  saturation: p => makeGradient(s => [p.hueOffset, s, p.lightness])([0, 100]),
+  lightness: p => makeGradient(l => [p.hueOffset, p.saturation, l])([0, 50, 100]),
+};
+const Slider$ = styled(Slider)`
+    background: linear-gradient(to bottom, ${p => {/*debugger;*/ return gradientFn[p.id](p)}});
 `;
 class ColorSlider extends Component {
   constructor(props) {
@@ -18,15 +33,17 @@ class ColorSlider extends Component {
     state.set({color:{[this.props.id]: value} });
   };
   render() {
-    const {value, label, max} = this.props;
+    const {id, color, label, max} = this.props;
+    const value = color[id];
     return (
-      <Slider
+      <Slider$
         value={value}
         aria-labelledby={label}
         onChange={this.handleChange.bind(this)}
         vertical
         min={0}
         max={max}
+        {...{...color, id}}
       />
     );
   }
@@ -34,24 +51,28 @@ class ColorSlider extends Component {
 const sliders = [
   {
     id: 'hueOffset',
-    label: 'Hue slider',
+    label: 'Hue',
     max: 360,
+    step: 5,
   },
   {
     id: 'saturation',
-    label: 'Saturation slider',
+    label: 'Saturation',
     max: 100,
+    step: 5,
+
   },
   {
     id: 'lightness',
-    label: 'Lightness slider',
+    label: 'Lightness',
     max: 100,
+    step: 5,
   },
 ];
-const ColorSliders = ({color}) => {
+const ColorSliders = (props) => {
   return (
     <SlidersContainer>
-      { sliders.map( props => <ColorSlider key={props.id} {...props} value={color[props.id]}/>)}
+      { sliders.map( slider => <ColorSlider key={slider.id} {...slider} {...props}/>)}
     </SlidersContainer>
   );
 };

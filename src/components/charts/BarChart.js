@@ -42,8 +42,8 @@ class BarChart extends PureComponent {
     const width = 300;
     const moveTickLabel = anyValue(isNegative, chartData)
       ? {
-        tickLabelComponent: <VictoryLabel x={30}/>,
-        padding: {left:80, right:0, top:20, bottom:20}
+        tickLabelComponent: <VictoryLabel x={60}/>,
+        padding: {left:100, right:30, top:20, bottom:20}
       }
       : {};
     const events = [
@@ -70,7 +70,7 @@ class BarChart extends PureComponent {
         width={width}
         style={{
           parent: {  }}}
-        padding={{left:40, right:0, top:10, bottom:20}}
+        padding={{left:70, right:30, top:10, bottom:20}}
         containerComponent={<VictoryContainer$ responsive={false}/>}
         {...moveTickLabel}
       >

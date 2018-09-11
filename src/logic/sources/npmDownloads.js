@@ -40,7 +40,7 @@ const stateTransformer = {
   adding: (packId, data) => {
     const monthlyDownloads = getMonthlyDownloads(data.downloads.slice(-365));
     const downloadsAverageGrowth = fns(fields.downloadsAverageGrowth.computeFn)(data.downloads);
-    const downloadsAcceleration = fns(fields.downloadsAcceleration.computeFn)(monthlyDownloads);
+    const downloadsAcceleration = fns(fields.downloadsAcceleration.computeFn)(data.downloads);
     return {
       charts: {
         monthlyDownloadsSeries: {[packId]: monthlyDownloads},

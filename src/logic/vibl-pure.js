@@ -26,27 +26,6 @@ const {
 
 // See alsos Ramda-adjunct https://char0n.github.io/ramda-adjunct
 
-/**
- * Generates a range of numbers.
- *
- * This function is curried.
- *
- * @since v1.0.0
- * @sig Number a -> a -> a -> [a]
- * @param {Number} (step) How much to step by.
- * @param {Number} (start) Where to start.
- * @param {Number} (stop) When to stop.
- * @return {Array} The array of numbers
- * @example
- * RS.rangeStep(2, 2, 10) //=> [2, 4, 6, 8, 10]
- */
-const rangeStep = curry((step, start, stop) => {
-  if (step === 0) return null;
-  if (step > 0 && stop < start) return null;
-  if (step < 0 && stop > start) return null;
-  return map(n => start + step * n, range(0, 1 + (stop - start) / step >>> 0));
-});
-
 // RamdaSauce README
 // // --- Conversions ---
 // RS.toDate(1e12)             // a Number to a date Object
@@ -56,9 +35,6 @@ const rangeStep = curry((step, start, stop) => {
 // const x = {a: 1, b: 2, c: {x: [5, 6]}}
 // RS.mapKeys(R.toUpper, x)    // transforms the keys of an object by the function
 // RS.dotPath('c.x.0', x)      // fetches a value from a nested object by a string path
-//
-// // --- Generating Things ---
-// RS.rangeStep(2, 2, 10)      // generates a range of numbers with a step
 //
 // // --- Finding Things ---
 // RS.findByProp('id', 'a', [{id: 'a', id: 'b'}])      // finds an object by propEq
@@ -80,6 +56,7 @@ const rangeStep = curry((step, start, stop) => {
 
   https://github.com/ramda/ramda/wiki/What-Function-Should-I-Use%3F
  */
+
 
 const ident = x => x;
 const isBlank = val => ! val || isEmpty(val);
@@ -142,6 +119,15 @@ const bindAllDeep = obj => {
   const firstLevelBound = bindAll(objClone);
   return mapIf(isPlainObject, bindAll, firstLevelBound);
 };
+const rangeStep = curry3((step, start, stop) => {
+  if (step === 0) return null
+  if (step > 0 && stop < start) return null
+  if (step < 0 && stop > start) return null
+  return map(
+    (n) => start + step * n,
+    range(0, (1 + (stop - start) / step) >>> 0)
+  )
+});
 /*
  Logs and returns a value.
  */
@@ -150,10 +136,10 @@ const log = (msg) => tap( val => console.log('TAP LOGGING: "', msg, '"', val));
 const pipeLog = (...args) => pipe(...intersperse(log, args), log);
 
 const debug = x => {debugger; return x};
-const pipeDebug = (...args) => pipe(...intersperse(debug, args), debug);
+const pipeD = (...args) => pipe(...intersperse(debug, args), debug);
 
 const rangeMap = (step, start, end, fn) => {
-  const range = RS.rangeStep(step, start, end);
+  const range = rangeStep(step, start, end);
   return map(fn, range);
 };
 const mapIndex = addIndex(map);
@@ -375,7 +361,7 @@ const round = curry2( (dec, x) => Math.round( x * 10**dec ) / 10**dec);
 
 const percent = curry2(
   (decimal, x) =>
-    pipeDebug(
+    pipe(
       multiply(100),
       round(decimal),
       concat('%'),
@@ -449,7 +435,7 @@ const viblPure = {
   mergeAllTables, mergeAllTablesNotBlank, mergeTables, mergeTablesNotBlank,
   notBlank, notEmpty, notMatch, nthRoot,
   overlaps,
-  percent, mapValues, pipeDebug, pipeLog, pMap, prefixLine, preIntersperse, putFirst,
+  percent, mapValues, pipeD, pipeLog, pMap, prefixLine, preIntersperse, putFirst,
   random, rangeMap, rangeStep, reduceFirst, reduceFirstP, reduceIndexed, reduceP,
   reduceSteps, reduceTemplate, reIndex, removed, removeShortest, rest, reverseDifference, round,
   splitLinesTrim, splitPipe, splitProperties, store,

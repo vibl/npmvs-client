@@ -32,16 +32,12 @@ class PackageItem extends PureComponent {
   handleClose() {
     deselectPackage(this.props.packId);
   }
-  static handleMouseOut() {
-    state.set({focus: undefined});
-  }
   render() {
     const {pack, packId, color} = this.props;
     return (
       <Container
         color={color}
         onMouseOver={this.handleMouseOver.bind(this)}
-        onMouseOut={PackageItem.handleMouseOut.bind(this)}
       >
         <Name> <a href={pack.homepage}>{pack.name}</a> </Name>
         <Description>

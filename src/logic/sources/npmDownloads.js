@@ -1,6 +1,6 @@
-import {dissoc, map} from "ramda";
+import {dissoc, map, slice} from "ramda";
 import config from '../../config'
-import fns, {agreggateDownloadsData} from '../mapper/field-fns';
+import fns from '../mapper/field-fns';
 import fields from '../data-fields';
 const {mergeTablesNotBlank, tablify, zipObjMap} = require('../vibl-pure').default;
 
@@ -11,22 +11,46 @@ const makeUrlBuilder =
 
 const urlBuilder = zipObjMap(makeUrlBuilder, ['range', 'point']);
 
+const averageDaysInMonth = 365/12;
+
+const adjustForMonthDuration = (days, n) => Math.round(n / days * averageDaysInMonth);
+
+const getMonthlyDownloads = (data) => {
+  const result = [];
+  const getMonth = slice(0, 7);
+  let currentMonth,
+    acc = 0,
+    daysCount = 0,
+    previous = getMonth(data[0].day);
+  for( const {day, downloads} of data ) {
+    currentMonth = getMonth(day);
+    if( currentMonth !== previous ) {
+      result.push({month: currentMonth, value: adjustForMonthDuration(daysCount, acc)});
+      acc = 0;
+      daysCount = 0;
+    }
+    acc += downloads;
+    daysCount++;
+    previous = currentMonth;
+  }
+  return result;
+};
+
 const stateTransformer = {
   adding: (packId, data) => {
-    const aggregated = fns('agreggateDownloadsData')(30, data.downloads.slice(-365));
-    const chartTable = tablify(packId, aggregated);
+    const monthlyDownloads = getMonthlyDownloads(data.downloads.slice(-365));
     const downloadsAverageGrowth = fns(fields.downloadsAverageGrowth.computeFn)(data.downloads);
-    const downloadsAcceleration = fns(fields.downloadsAcceleration.computeFn)(aggregated);
+    const downloadsAcceleration = fns(fields.downloadsAcceleration.computeFn)(monthlyDownloads);
     return {
       charts: {
-        downloadsLineChart: mergeTablesNotBlank(chartTable),
+        monthlyDownloadsSeries: {[packId]: monthlyDownloads},
         downloadsAverageGrowth: {[packId]: downloadsAverageGrowth},
         downloadsAcceleration: {[packId]: downloadsAcceleration},
       },
     };
   },
   removing: (packName) => ({
-    charts: {downloadsLineChart: map(dissoc(packName))},
+    charts: {monthlyDownloadsSeries: map(dissoc(packName))},
   }),
 };
 export default {

@@ -4,7 +4,6 @@ import {Provider} from 'react-redux';
 import {pure} from 'recompose';
 import {Redirect, Route, Router } from 'react-router-dom';
 import history from '../logic/history';
-import './App.css';
 import state from '../logic/store';
 import ComparisonPage from "./ComparisonPage";
 import selection from '../logic/selection';

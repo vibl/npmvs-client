@@ -1,47 +1,43 @@
 import React from 'react';
+import {pure} from 'recompose';
 import styled from 'react-emotion';
-import SmartBarChart from './SmartBarChart';
-import fields from '../../logic/data-fields';
+import BarChart from './BarChart';
 import Card from '@material-ui/core/Card';
 import LineChart from "./LineChart";
+import {pipe} from "ramda";
 
 const Card$ = styled(Card)`
-  margin: 5px;
-  padding: 10px 15px 5px 15px;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-items: center;
-  flex-direction: column;
+    padding: 10px 15px 5px 15px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-items: center;
+    flex-direction: column;
+    grid-area: ${ p => p.fieldId};
 `;
 const Title = styled.h2`
-    color: #444;
+    color: #555;
     font-size: 16px;
     text-align: center;
     margin: 5px 0 10px 0;
 `;
-const ChartContainer = styled.div`
-    width: 350px;
+const LargeCard$ = styled(Card$)`
+    grid-row: 1 / 4;
+    grid-column: 2;
 `;
-const ChartComponents = {LineChart, SmartBarChart};
+const ChartComponents = {BarChart, LineChart};
 
 const ChartCard = (props) => {
-  const {fieldId} = props;
-  const field = fields[fieldId];
-  const ChartComponent = ChartComponents[field.component];
+  console.log('RENDERING ChartCard for field with focus:', props.fieldId, props.focus);
+  const {component, fieldId, label} = props;
+  const ChartComponent = ChartComponents[component];
   return (
-    <Card$>
-      <Title>{field.label}</Title>
-      <ChartContainer>
-        { fieldId === 'downloadsLineChart'
-          ? <LineChart {...props}/>
-          : <SmartBarChart {...props}/>
-        }
-        {/*<ChartComponent {...props}/>*/}
-      </ChartContainer>
+    <Card$ {...{fieldId}}>
+      <Title>{label}</Title>
+        <ChartComponent {...props}/>
     </Card$>
   );
 };
-
-
-export default ChartCard;
+export default pipe(
+  pure,
+)(ChartCard);

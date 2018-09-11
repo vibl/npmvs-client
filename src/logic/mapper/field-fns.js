@@ -93,20 +93,6 @@ const fns = {
     }
     return Math.round(lessThan3daysCount / totalCount * 100);
   },
-  agreggateDownloadsData: (period, data) => {
-    const res = [];
-    let count = 0, acc = 0;
-    for( let obj of data ) {
-      count++;
-      acc += obj.downloads;
-      if( count === period ) {
-        res.push(acc);
-        acc = 0;
-        count = 0;
-      }
-    }
-    return res;
-  },
   downloadsAverageGrowth: pipe(
       map(prop('downloads')),
       juxt([

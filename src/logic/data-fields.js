@@ -67,15 +67,17 @@ export default {
     dataPoint: 'readme',
     displayFn: 'shorten20chars',
   },
-  downloadsLineChart: {
+  monthlyDownloadsSeries: {
     label: 'Monthly downloads in the last 12 months',
     dataPoint: 'downloads',
+    component: 'LineChart',
   },
   downloadsAverageGrowth: {
-    label: 'Average downloads growth in the last 12 months',
+    label: 'Downloads growth in the last 12 months',
     dataPoint: 'downloads',
     computeFn: 'downloadsAverageGrowth',
     displayFn: 'significanPercentDisplay|explicitPlus',
+    component: 'BarChart',
   },
   downloadsAcceleration: {
     label: 'Downloads acceleration in the last 12 months',
@@ -83,27 +85,32 @@ export default {
     dataPoint: 'downloads',
     computeFn: 'acceleration|percentGrowth',
     displayFn: 'significanPercentDisplay|explicitPlus',
+    component: 'BarChart',
   },
   closedIssuesRatio: {
     label: 'Percent of closed issues',
     dataPoint: 'issues',
     computeFn: 'closedIssuesRatio',
     displayFn: 'significanPercentDisplay',
+    component: 'BarChart',
   },
   percentIssuesClosedIn3daysOrLess: {
     label: 'Percent of issues closed in 3 days or less',
     dataPoint: 'issues',
     computeFn: 'percentIssuesClosedIn3daysOrLess',
     displayFn: 'significanPercentDisplay',
+    component: 'BarChart',
   },
   contributors: {
     label: 'Contributors with more than 2 commits',
     dataPoint: 'contributors',
     computeFn: 'contributorsWithMoreThan2commits',
+    component: 'BarChart',
   },
   commits12months: {
     label: 'Number of commits in the last 12 months',
     dataPoint: 'commits',
     computeFn: 'commits12months',
+    component: 'BarChart',
   },
 };

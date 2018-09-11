@@ -1,5 +1,3 @@
-import {multiply, product} from "ramda";
-
 function _i(required) {
   return required && "object" === typeof required && "default" in required ? required.default : required;
 }
@@ -9,13 +7,13 @@ const RS = _i(require('ramdasauce'));
 const pMapOrig = _i(require('p-map'));
 const deepEql = _i(require("deep-eql"));
 const {
-  F, T, addIndex, always, any, append, apply, assoc, assocPath, binary,
-  chain, clone, complement, concat, cond, curry, curryN,
+  F, T, addIndex, all, always, any, append, apply, assoc, assocPath, binary,
+  chain, clone, complement, concat, cond, contains, curry, curryN,
   difference, dissoc, drop, evolve, filter, flatten, flip, forEachObjIndexed,
-  identity, ifElse, infinity, intersection, intersperse,
+  identity, indexBy, ifElse, infinity, intersection, intersperse,
   juxt, keys, length, lensPath,
-  map, match, max, merge, mergeAll, mergeDeepRight, mergeDeepWith, nth,
-  objOf, or, path, pick, pipe, prepend,
+  map, match, max, merge, mergeAll, mergeDeepRight, mergeDeepWith, multiply, nth, not,
+  objOf, or, path, pick, pipe, prepend, product, prop, props,
   range, reduce, replace,
   slice, sort, split, tap, toPairs, trim, unapply, unless, values,
   when, without, zip, zipObj, zipWith
@@ -26,6 +24,7 @@ const {
   isObject, isArrayLike, isObjectLike, isPlainObject, isString, random, toNumber
 } = _;
 
+// See alsos Ramda-adjunct https://char0n.github.io/ramda-adjunct
 
 /**
  * Generates a range of numbers.
@@ -177,7 +176,7 @@ const mapKeys = fn => obj => {
   return newObj;
 };
 
-const pickValues = keys => pipe(pick(keys), values);
+const mapValues = curry2( (propName, list) => pipe(map(prop(propName)), values)(list) );
 
 const preIntersperse = curry2((element, list) => pipe(intersperse(element), prepend(element))(list));
 const splitLinesTrim = pipe(trim, split('\n'), map(trim));
@@ -317,8 +316,11 @@ const transform = curry2( (spec, obj) => {
   }
   return res;
 });
+// Check if all elements of a list are equals.
+const areEquals = (list) => all(equals(list[0]), list);
 // Check if all arguments are equals.
-const allEquals = (...args) => args.every( arg => arg === args[0]);
+const allEquals = unapply(areEquals);
+
 // Merges tables (arrays of objects).
 const mergeAllTables = reduceFirst(zipWith(merge));
 // `unapply` takes a function which takes a single array argument, and returns a function which
@@ -399,14 +401,47 @@ const anyValue = curry2( (condition, obj) => any(condition, values(obj)));
 
 const hsl = (h, s, l) => `hsl(${h},${s}%,${l}%)`;
 
+const reduceTemplate = curry2( (template, iterable) => reduce( (acc, o) => acc + template(o), '', iterable));
+
+const deIndex = curry2( (fieldName, index) => {
+  let key, result = [];
+  for(key in index) {
+    result.push({...index[key], [fieldName]:key});
+  }
+  return result;
+});
+const indexByProp = curry2 ( (property, list) => indexBy(prop(property), list) );
+
+const reIndex = curry3( (oldIndexProp, newIndexProp, index) => {
+  let key, result = {};
+  for(key in index) {
+    const obj = index[key];
+    const indexValue = obj[newIndexProp];
+    result[indexValue] = {...obj, [oldIndexProp]:key};
+  }
+  return result;
+});
+
+const lacks = complement(contains);
+
+// Does listB contains all the element of listA?
+const lacksElementsOf = curry2( (listA, listB) => {
+  for(let a of listA) {
+    if (lacks(a, listB)) return true;
+  }
+  return false;
+});
+
+const haveSameElements = curry2( (a, b) => ! lacksElementsOf(a, b) && ! lacksElementsOf(b, a));
+
 const viblPure = {
-  added, allEquals, anyValue, appendStr, assocDotPath,
+  added, allEquals, anyValue, appendStr, assocDotPath, areEquals, haveSameElements,
   bindAll, bindAllDeep, budge,
-  collect, combine, concatArray, concatLeft, curry2, curry3, curryFlip,
+  collect, combine, concatArray, concatLeft, curry2, curry3, curryFlip, deIndex,
   discard, dissocAll, doesMatch, dotPath, dotStringToPath, equals, equalsAny,
   fnOr, filterKeys, filterP, flipAll, from,
   geoMean, get, getDotPath, hsl,
-  ifDefinedElse, ident, interleave, isBlank, isFunction,
+  ifDefinedElse, ident, indexByProp, interleave, isBlank, isFunction,
   isNegative, isNumber, isObject, isObjectLike, isPlainObject, isString,
   keep, keepRandom,
   lensDotPath,  lineBreaksToSpace, listMax, listMin, log,
@@ -414,9 +449,9 @@ const viblPure = {
   mergeAllTables, mergeAllTablesNotBlank, mergeTables, mergeTablesNotBlank,
   notBlank, notEmpty, notMatch, nthRoot,
   overlaps,
-  percent, pickValues, pipeDebug, pipeLog, pMap, prefixLine, preIntersperse, putFirst,
+  percent, mapValues, pipeDebug, pipeLog, pMap, prefixLine, preIntersperse, putFirst,
   random, rangeMap, rangeStep, reduceFirst, reduceFirstP, reduceIndexed, reduceP,
-  reduceSteps, removed, removeShortest, rest, reverseDifference, round,
+  reduceSteps, reduceTemplate, reIndex, removed, removeShortest, rest, reverseDifference, round,
   splitLinesTrim, splitPipe, splitProperties, store,
   tablify, takeLastUntil, toNumber, transform, trimIfString,
   unlessEmpty, updateWhere,

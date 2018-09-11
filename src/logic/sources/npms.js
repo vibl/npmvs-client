@@ -1,9 +1,10 @@
 import {assoc, contains, dissoc, filter, keys, map,
   mergeDeepLeft, omit, pick} from 'ramda';
 import state from '../store';
-import fields from '../data-fields';
 import config from '../../config';
 import {processData} from "../process-data";
+import {chartsList} from '../charts-fields';
+
 const {tablify} = require('../vibl-pure').default;
 
 const urlBuilder = {
@@ -12,9 +13,8 @@ const urlBuilder = {
 const stateTransformer = {
   adding: (packId, rawData, extractTree) => {
     const data = processData(packId, 'npms', extractTree, rawData);
-    const barChartList = state.get().barChartList;
-    const charts = pick(barChartList, data);
-    const packages = omit(barChartList, data);
+    const charts = pick(chartsList, data);
+    const packages = omit(chartsList, data);
     const chartsTable = tablify(packId, charts);
     return {
       packages: assoc(packId, packages),

@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
 import styled from 'react-emotion'
@@ -14,7 +14,7 @@ const PackageList = ({color, focus, packages, packageColors, selection, unfocuse
     { selection.map( (packId, row) => {
       const pack = packages[packId];
       const isFocused = packId === focus;
-      const color = ! focus || isFocused ? packageColors[packId].value : unfocusedColor;
+      const color = ! focus || isFocused ? packageColors[packId].color : unfocusedColor;
       return pack && <PackageItem key={packId} {...{packId, pack, color}}/>;
     })}
   </List>

@@ -2,12 +2,15 @@ import mem from 'mem';
 import {zipObj} from 'ramda'
 const {hsl} = require('./vibl-pure');
 
-export const getPackageColors = mem( (color, selection) => {
-  const {hues, hueOffset, saturation, lightness} = color;
+const darken = (lightness) => lightness * 0.6;
+
+export const getPackageColors = mem( (colorObj, selection) => {
+  const {hues, hueOffset, saturation, lightness} = colorObj;
   return zipObj(selection, selection.map( (val, i) => {
     const hue = hues[i] + hueOffset;
-    const value = hsl(hue, saturation, lightness);
-    return {...color, hue, value};
+    const color = hsl(hue, saturation, lightness);
+    const colorDarker = hsl(hue, saturation, darken(lightness));
+    return {...colorObj, hue, color, colorDarker};
   }));
   }
 );

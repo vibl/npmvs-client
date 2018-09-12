@@ -1,13 +1,13 @@
-/* eslint-disable no-unused-vars*/
 import React from 'react';
 import styled from "react-emotion";
 import mem from "mem";
-import {map, mapObjIndexed, pipe} from 'ramda';
-const {reduceTemplate} = require('../../logic/vibl-pure');
+import {pure} from 'recompose';
+import {keys, last} from 'ramda';
+import {setFocus} from "../../logic/focus"
 
-const getToolTipData = mem((data) => {
+const getStats = mem( (selection, data) => {
   let packId, result = {};
-  for(packId in data) {
+  for(packId of selection) {
     for(const {month, value} of data[packId]) {
       if( ! result[month] ) result[month] = [];
       result[month].push({packId, value});
@@ -15,23 +15,61 @@ const getToolTipData = mem((data) => {
   }
   return result;
 });
-const getToolTips = pipe(
-  getToolTipData,
-  map(reduceTemplate(o => {
-    return  `${o.packId}: ${o.value}\n`
-  })),
-  mapObjIndexed( (val, month) => month + '\n\n' + val),
-);
-
 const AbsoluteContainer = styled.div`
     position: absolute;
     top: 0;
     left: 0;
 `;
-const LineChartOverlay = ({month}) => (
-  <AbsoluteContainer>
-    <h3>{month}</h3>
-  </AbsoluteContainer>
+const Month = styled.p`
+    font-size: 14px;
+    font-weight: bold;
+    color: #555;
+    text-align: center;
+    margin: 0;
+`;
+const Table = styled.table`
+    font-size: 14px;
+`;
+const Row = styled.tr`
+    height: 20px;
+`;
+const ColPack = styled.td`
+  
+`;
+const ColValue = styled.td`
+   text-align: right;
+`;
+const handleMouseEnter = (event) => {
+  const packId = event.currentTarget.attributes['data-packid'].value;
+  setFocus(packId);
+};
+const StatRow = ({packId, value}) => (
+  <Row
+    className={`overlay ${packId}`}
+    key={packId}
+    onMouseEnter={handleMouseEnter}
+    data-packid={packId}
+  >
+    <ColPack>{packId}</ColPack><ColValue>{value}</ColValue>
+  </Row>
 );
+const getMonthTitle = (month) => {
+  const date =  new Date(month);
+  return date.toLocaleDateString('en-US', {month: 'long', year: 'numeric'});
+};
+const LineChartOverlay = ({focusedMonth, data, selection}) => {
+  const stats = getStats(selection, data);
+  const month = focusedMonth || last(keys(stats));
+  return (
+    <AbsoluteContainer>
+      <Month>{getMonthTitle(month)}</Month>
+      <Table>
+        <tbody>
+        { stats[month].map(StatRow) }
+        </tbody>
+      </Table>
+    </AbsoluteContainer>
+  );
+};
 
-export default LineChartOverlay;
+export default pure(LineChartOverlay);

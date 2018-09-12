@@ -1,28 +1,28 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {pure} from 'recompose'
-import {VictoryAxis, VictoryLine, VictoryChart, VictoryContainer,
-  VictoryClipContainer, VictoryScatter} from 'victory';
+import {VictoryAxis, VictoryLine, VictoryChart,
+  VictoryClipContainer, VictoryScatter, VictoryVoronoiContainer} from 'victory';
 import theme from './theme';
-import styled from "react-emotion";
 import {setFocus} from "../../logic/focus"
 
-const Container = styled(VictoryContainer)`
-  svg {
-    overflow: visible;
-    z-index: -1;
-  }
-`;
-const Scatter = ({pack, width, height, setFocusedMonth}) => {
+const VoronoiContainer = ({setFocusedMonth}) => (
+  <VictoryVoronoiContainer
+    activateData={true}
+    voronoiDimension="x"
+    responsive={false}
+    onActivated={(points) => {
+      setFocusedMonth(points[0].month)
+    }}
+  />
+);
+const Scatter = ({pack, width, height, focusedMonth}) => {
   const events = [
     {
       target: "data",
       eventHandlers: {
         onMouseEnter: () => [{
           target: "data",
-          mutation: (p) => {
-            setFocus(p.data[0].packId);
-            setFocusedMonth('2018-04');
-          },
+          mutation: (p) => setFocus(p.data[0].packId),
         }],
       }
     }
@@ -33,7 +33,7 @@ const Scatter = ({pack, width, height, setFocusedMonth}) => {
       data={pack.data}
       x="month"
       y="value"
-      size={p => p.isFocused ? 3 : 2}
+      size={p => p.month === focusedMonth ? 7 : p.isFocused ? 4 : 3}
       // labels={d => d.label}
       style={{
         data: {
@@ -66,8 +66,8 @@ const Line = ({pack, width, height}) => {
       // labels={d => d.label}
       style={{
         data: {
-          stroke: pack.color,
-          strokeWidth: p => p[0].isFocused ? 2 : 1,
+          stroke: p => p[0].isFocused ? pack.colorDarker : pack.color,
+          strokeWidth: p => p[0].isFocused ? 3 : 2,
         },
       }}
       interpolation="natural"
@@ -76,13 +76,13 @@ const Line = ({pack, width, height}) => {
     />
   )
 };
-const LineChartFn = ({data, height, width, setFocusedMonth}) => {
+const LineChartFn = ({data, height, width, focusedMonth, setFocusedMonth}) => {
   if( ! height || ! width ) return null;
   return (
       <VictoryChart
         theme={theme}
         padding={{left:10, right:10, top:10, bottom:0}}
-        containerComponent={<Container responsive={false}/>}
+        containerComponent={VoronoiContainer({setFocusedMonth})}
         {...{height, width}}
       >
         <VictoryAxis tickFormat={() => ''}/>
@@ -90,7 +90,7 @@ const LineChartFn = ({data, height, width, setFocusedMonth}) => {
             pack => [
                 /*No intermediary component here because VictoryBar should be a direct child of VictoryBar*/
                 Line({pack, width, height}),
-                Scatter({pack, width, height, setFocusedMonth})
+                Scatter({pack, width, height, focusedMonth})
               ]
         )}
       </VictoryChart>

@@ -1,9 +1,10 @@
-import {append, keys, mapObjIndexed, pipe, values} from 'ramda';
+import {append, mapObjIndexed, pipe, values} from 'ramda';
 import http from './http';
 import state from './store';
 import dataPoints from './data-points';
 import sources from './sources/index';
-import dataFields from "./data-fields";
+import {setFocus, unsetFocus} from "./focus";
+
 const {discard} = require('./vibl-pure');
 
 const addEndpointData = async (packId, source, [{params, extractTree}, endpoint]) => {
@@ -25,14 +26,17 @@ const add = async (packId) => {
       )(endpoints)
     );
   }
+  setFocus(packId);
 };
-const removeEndpointData = async (packId, source) => {
-  const {stateTransformer} = sources[source];
-  const transformer = stateTransformer.removing(packId);
-  state.set(transformer);
-};
+// We don't need this. Keeping data in the store is harmless.
+// const removeEndpointData = async (packId, source) => {
+//   const {stateTransformer} = sources[source];
+//   const transformer = stateTransformer.removing(packId);
+//   state.set(transformer);
+// };
 const remove = async (packId) => {
   state.set({selection: discard(packId)});
+  unsetFocus(packId);
   // for(let source in dataPoints) {
   //   const endpoints = dataPoints[source];
   //   // Promises should be executed in parallel. No need for the return values.

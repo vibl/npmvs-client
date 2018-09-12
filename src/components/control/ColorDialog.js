@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import styled from "react-emotion";
 import ColorSliders from './ColorSliders';
@@ -32,7 +30,6 @@ class ColorDialog extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
@@ -66,10 +63,4 @@ class ColorDialog extends React.Component {
       </div>
     );
   }
-}
-
-ColorDialog.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default ColorDialog;
+}export default ColorDialog;

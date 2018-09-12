@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'react-emotion';
-import {equals, filter, keys, map, mapObjIndexed, splitAt, values} from 'ramda';
+import {keys} from 'ramda';
 import ChartCard from './ChartCard';
 import {chartsFields, chartsList} from "../../logic/charts-fields";
 

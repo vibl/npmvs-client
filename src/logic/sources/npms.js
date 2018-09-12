@@ -1,6 +1,5 @@
-import {assoc, contains, dissoc, filter, keys, map,
+import {assoc, dissoc, map,
   mergeDeepLeft, omit, pick} from 'ramda';
-import state from '../store';
 import config from '../../config';
 import {processData} from "../process-data";
 import {chartsList} from '../charts-fields';

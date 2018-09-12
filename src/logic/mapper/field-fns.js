@@ -1,22 +1,19 @@
 import size from "lodash/size";
 import mem from 'mem';
-import {add,  apply, dec, divide, filter, ifElse, juxt, last,
-  length, map, mean, multiply, pipe, product, prop, props,
-  reduce, round, slice, split, splitAt, splitEvery, sum, toPairs, values, unlessEmpty} from 'ramda';
-const {concatLeft, curry2, geoMean, getDotPath, ident, ifDefinedElse,
-  nthRoot, percent, pipeD, splitPipe} = require('../vibl-pure');
+import {dec, juxt, last,
+  length, map, mean, multiply, pipe, prop, reduce, slice, splitEvery, sum, toPairs, values} from 'ramda';
+const {concatLeft, curry2, getDotPath, ident, ifDefinedElse,
+  percent, pipeD, splitPipe} = require('../vibl-pure');
 
 const significantDigits = curry2(
   (digits, n) =>
-    Math.round(n) >= 10**digits
-      ? Math.round(n).toString()
-      : Number.parseFloat(n).toPrecision(digits)
+   Math.round(n) >= 10 ** digits
+    ? Math.round(n).toString()
+    : Number.parseFloat(n).toPrecision(digits)
 );
 const percentGrowth = pipe(dec, multiply(100));
-const percent1dec = percent(1);
-const percent2dec = percent(2);
 
-const thousands = n => significantDigits(2, n/1000).toString() + 'k';
+const thousands = n => significantDigits(2, n/1000) + 'k';
 
 const growthSeries = (series) => {
   let i,
@@ -104,7 +101,6 @@ const fns = {
     }
     return Math.round(lessThan3daysCount / totalCount * 100);
   },
-
   downloadsAverageGrowth: pipe(
     map(prop('downloads')),
     slice(-365, Infinity),

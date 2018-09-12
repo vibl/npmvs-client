@@ -1,19 +1,9 @@
 import isEmpty from "lodash/isEmpty";
-import {keys} from "ramda";
 import state from "./store";
-import dataFields from './data-fields';
 
 export default () => {
   if( ! isEmpty(state.get()) ) return;
-  // const compDataInitReducer = (field, id) => ({
-  //   meta: {
-  //     id,
-  //     ...field,
-  //   },
-  //   data: {},
-  // });
-  // const fields = mapObjIndexed(compDataInitReducer)(fieldsSpecs);
-  // fields.downloadsChart.data.downloadsData = [];
+
   state.set({
     packages: {},
     charts: {},

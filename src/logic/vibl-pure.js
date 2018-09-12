@@ -3,9 +3,9 @@ function _i(required) {
 }
 const _ = _i(require('lodash'));
 const R = _i(require('ramda'));
-const RS = _i(require('ramdasauce'));
 const pMapOrig = _i(require('p-map'));
 const deepEql = _i(require("deep-eql"));
+/* eslint-disable no-unused-vars*/ 
 const {
   F, T, addIndex, all, always, any, append, apply, assoc, assocPath, binary,
   chain, clone, complement, concat, cond, contains, curry, curryN,
@@ -18,6 +18,7 @@ const {
   slice, sort, split, tap, toPairs, trim, unapply, unless, values,
   when, without, zip, zipObj, zipWith
 } = R;
+/* eslint-enable no-unused-vars*/
 
 const {
   isArray, isEmpty, isFunction, isNumber, isUndefined,
@@ -430,7 +431,7 @@ const viblPure = {
   ifDefinedElse, ident, indexByProp, interleave, isBlank, isFunction,
   isNegative, isNumber, isObject, isObjectLike, isPlainObject, isString,
   keep, keepRandom,
-  lensDotPath,  lineBreaksToSpace, listMax, listMin, log,
+  lacksElementsOf, lensDotPath,  lineBreaksToSpace, listMax, listMin, log,
   mapDeep, mapIf, mapIndex, mapKeys, mergeDeepWithArray, mergeLeft,
   mergeAllTables, mergeAllTablesNotBlank, mergeTables, mergeTablesNotBlank,
   notBlank, notEmpty, notMatch, nthRoot,

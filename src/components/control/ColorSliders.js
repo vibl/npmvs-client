@@ -4,7 +4,7 @@ import Slider from '@material-ui/lab/Slider';
 import styled from 'react-emotion';
 import state from '../../logic/store';
 import {apply, join, map, pipe} from 'ramda';
-const {hsl, pipeD, rangeStep} = require('../../logic/vibl-pure');
+const {hsl, rangeStep} = require('../../logic/vibl-pure');
 
 const SlidersContainer = styled.div`
     flex:initial;
@@ -22,13 +22,10 @@ const gradientFn = {
   saturation: p => makeGradient(s => [p.hueOffset, s, p.lightness])([0, 100]),
   lightness: p => makeGradient(l => [p.hueOffset, p.saturation, l])([0, 50, 100]),
 };
-const Slider$ = styled(Slider)`
+const GradientSlider = styled(Slider)`
     background: linear-gradient(to bottom, ${p => {/*debugger;*/ return gradientFn[p.id](p)}});
 `;
 class ColorSlider extends Component {
-  constructor(props) {
-    super(props);
-  }
   handleChange = (event, value) => {
     state.set({color:{[this.props.id]: value} });
   };
@@ -36,7 +33,7 @@ class ColorSlider extends Component {
     const {id, color, label, max} = this.props;
     const value = color[id];
     return (
-      <Slider$
+      <GradientSlider
         value={value}
         aria-labelledby={label}
         onChange={this.handleChange.bind(this)}

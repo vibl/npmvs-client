@@ -2,7 +2,7 @@ import {dissoc, map, slice} from "ramda";
 import config from '../../config'
 import fns from '../mapper/field-fns';
 import fields from '../data-fields';
-const {mergeTablesNotBlank, tablify, zipObjMap} = require('../vibl-pure').default;
+const {zipObjMap} = require('../vibl-pure').default;
 
 const makeUrlBuilder =
   endpoint =>

@@ -1,13 +1,13 @@
 import state from "./store";
-
-let mouseOutTimeout;
+import {last} from 'ramda';
+const {discard} = require('./vibl-pure');
 
 export const setFocus = (packId) => {
   state.set({focus: packId});
 };
-// export const unsetFocus = () => {
-//   state.set({focus: undefined});
-// };
-// export const unsetFocusTimeout = () => {
-//   mouseOutTimeout = setTimeout(unsetFocus, 200);
-// };
+export const unsetFocus = (packId) => {
+  const selection = state.get().selection;
+  const newFocus = last(discard(packId, selection));
+  state.set({focus: newFocus});
+};
+

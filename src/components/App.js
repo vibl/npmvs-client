@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import {Provider} from 'react-redux';
 import {pure} from 'recompose';
-import {Redirect, Route, Router } from 'react-router-dom';
+import {Route, Router } from 'react-router-dom';
 import history from '../logic/history';
 import state from '../logic/store';
 import ComparisonPage from "./ComparisonPage";

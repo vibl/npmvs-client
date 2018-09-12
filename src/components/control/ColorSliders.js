@@ -18,9 +18,9 @@ const makeGradient = fn => pipe(
   join(', '),
 );
 const gradientFn = {
-  hueOffset: p => makeGradient(h => [h, p.saturation, p.lightness])(rangeStep(60, 0, 360)),
-  saturation: p => makeGradient(s => [p.hueOffset, s, p.lightness])([0, 100]),
-  lightness: p => makeGradient(l => [p.hueOffset, p.saturation, l])([0, 50, 100]),
+  hue: p => makeGradient(h => [h, p.saturation, p.lightness])(rangeStep(60, 0, 360)),
+  saturation: p => makeGradient(s => [p.hue, s, p.lightness])([0, 100]),
+  lightness: p => makeGradient(l => [p.hue, p.saturation, l])([0, 50, 100]),
 };
 const GradientSlider = styled(Slider)`
     background: linear-gradient(to bottom, ${p => {/*debugger;*/ return gradientFn[p.id](p)}});
@@ -47,7 +47,7 @@ class ColorSlider extends Component {
 }
 const sliders = [
   {
-    id: 'hueOffset',
+    id: 'hue',
     label: 'Hue',
     max: 360,
     step: 5,

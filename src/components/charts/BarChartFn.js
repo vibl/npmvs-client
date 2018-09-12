@@ -45,11 +45,10 @@ const ChartAxis = ({data, hasNegativeValues}) => (
     dependentAxis
     style={{
       tickLabels: {
-        // fill: n => {
-        //   if( data[n] === undefined) debugger;
-        //   const {color, stroke } = data[n];
-        //   return stroke === 'none' ? color : stroke;
-        // },
+        fill: n => {
+          const {color, stroke } = data[n-1];
+          return stroke === 'none' ? color : stroke;
+        },
         padding: 8,
       }
     }}

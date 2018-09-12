@@ -4,13 +4,14 @@ import {getPackageColors} from "../../logic/derived-state";
 import BarChartFn from './BarChartFn';
 import fields from "../../logic/data-fields";
 import fns from "../../logic/mapper/field-fns";
-import {pipe, reverse} from "ramda";
+import {keys, pipe, reverse} from "ramda";
 import isEmpty from "lodash/isEmpty";
-const {anyValue, isNegative} = require('../../logic/vibl-pure');
+const {anyValue, isNegative, lacksElementsOf} = require('../../logic/vibl-pure');
 
 class BarChartContainer extends PureComponent {
   render() {
     const {chartData, fieldId, focus, packageColors, selection} = this.props;
+    if( isEmpty(selection) || isEmpty(chartData) || lacksElementsOf(selection, keys(chartData)) ) return null;
     // console.log('Rendering BarChart:', {data, selection});
     const packages = reverse(selection);
     const displayFn = fns(fields[fieldId].displayFn);

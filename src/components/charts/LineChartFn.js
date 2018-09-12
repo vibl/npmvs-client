@@ -87,11 +87,12 @@ const LineChartFn = ({data, height, width, setFocusedMonth}) => {
       >
         <VictoryAxis tickFormat={() => ''}/>
         { data.map(
-          pack =>
-            <Fragment key={pack}>
-              <Line {...{pack, width, height}}/>
-              <Scatter {...{pack, width, height, setFocusedMonth}}/>
-            </Fragment> )}
+            pack => [
+                /*No intermediary component here because VictoryBar should be a direct child of VictoryBar*/
+                Line({pack, width, height}),
+                Scatter({pack, width, height, setFocusedMonth})
+              ]
+        )}
       </VictoryChart>
     )
 };

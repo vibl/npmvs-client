@@ -15,7 +15,7 @@ const VoronoiContainer = ({setFocusedMonth}) => (
     }}
   />
 );
-const Scatter = ({pack, width, height, focusedMonth}) => {
+const Scatter = ({pack, width, height}) => {
   const events = [
     {
       target: "data",
@@ -33,14 +33,6 @@ const Scatter = ({pack, width, height, focusedMonth}) => {
       data={pack.data}
       x="month"
       y="value"
-      size={p => p.month === focusedMonth ? 7 : p.isFocused ? 4 : 3}
-      // labels={d => d.label}
-      style={{
-        data: {
-          fill: pack.color,
-        },
-        labels: { fill: "black", fontSize: 18},
-      }}
       {...{events, height, width}}
     />
   )
@@ -63,21 +55,23 @@ const Line = ({pack, width, height}) => {
       data={pack.data}
       x="month"
       y="value"
-      // labels={d => d.label}
-      style={{
-        data: {
-          stroke: p => p[0].isFocused ? pack.colorDarker : pack.color,
-          strokeWidth: p => p[0].isFocused ? 3 : 2,
-        },
-      }}
       interpolation="natural"
       groupComponent={<VictoryClipContainer clipPadding={{top: 30, bottom: 30, left: 0, right: 0}}/>}// Needed in order to avoid curves to be clipped at the top.
       {...{events, height, width}}
     />
   )
 };
-const LineChartFn = ({data, height, width, focusedMonth, setFocusedMonth}) => {
+const LineChartFn = ({chartData, selection, height, width, setFocusedMonth}) => {
+  console.log('Rendering LineChart:', selection, chartData);
   if( ! height || ! width ) return null;
+  const shapePackData = packId => {
+    const data = chartData[packId].map(o => ({...o, packId}));
+    return {
+      packId,
+      data,
+    }
+  };
+  const data = selection.map(shapePackData);
   return (
       <VictoryChart
         theme={theme}
@@ -90,7 +84,7 @@ const LineChartFn = ({data, height, width, focusedMonth, setFocusedMonth}) => {
             pack => [
                 /*No intermediary component here because VictoryBar should be a direct child of VictoryBar*/
                 Line({pack, width, height}),
-                Scatter({pack, width, height, focusedMonth})
+                Scatter({pack, width, height})
               ]
         )}
       </VictoryChart>

@@ -1,15 +1,13 @@
 import React from 'react';
 import {pure} from 'recompose';
 import {VictoryAxis, VictoryBar, VictoryChart, VictoryContainer, VictoryLabel} from 'victory';
-import styled from 'react-emotion';
 import {setFocus} from '../../logic/focus';
 import theme from './theme';
+import fields from "../../logic/data-fields";
+import fns from "../../logic/mapper/field-fns";
+import {reverse} from "ramda";
+const {anyValue, isNegative} = require('../../logic/vibl-pure');
 
-const Container = styled(VictoryContainer)`
-  svg {
-    overflow: visible;
-  }
-`;
 const ChartBar = ({data, width, height}) => (
   <VictoryBar
     data={data}
@@ -19,12 +17,7 @@ const ChartBar = ({data, width, height}) => (
     horizontal={true}
     style={{
       data: {
-        fill: d=>d.color,
-        stroke: d=>d.stroke,
         strokeWidth: 2
-      },
-      labels: {
-        fill: d => d.stroke === 'none' ? d.color : d.stroke,
       },
     }}
     barWidth={15}
@@ -45,21 +38,28 @@ const ChartAxis = ({data, hasNegativeValues}) => (
     dependentAxis
     style={{
       tickLabels: {
-        fill: n => {
-          const {color, stroke } = data[n-1];
-          return stroke === 'none' ? color : stroke;
-        },
         padding: 8,
       }
     }}
     {...(hasNegativeValues ? {tickLabelComponent: <VictoryLabel x={60}/>} : {})}
   />
 );
-const BarChartFn = ({data, width, height, hasNegativeValues}) => {
+const BarChartFn = ({chartData, fieldId, selection}) => {
+  console.log('Rendering BarChart:', fieldId, selection, chartData);
+  const packages = reverse(selection);
+  const hasNegativeValues = anyValue(isNegative, chartData);
+  const height = packages.length * 30;
+  const width = 300;
+  const displayFn = fns(fields[fieldId].displayFn);
+  const data = packages.map(packId => {
+    const value = chartData[packId];
+    const label = displayFn(value);
+    return {label, packId, value};
+  });
   const padding = hasNegativeValues
     ? {left:100, right:30, top:20, bottom:20}
     : {left:70, right:30, top:10, bottom:20};
-  const containerComponent = <Container responsive={false}/>;
+  const containerComponent = <VictoryContainer responsive={false}/>;
   return (
     <VictoryChart {...{padding, containerComponent, theme, width, height}}>
       {/*No intermediary component here because VictoryBar should be a direct child of VictoryBar*/}

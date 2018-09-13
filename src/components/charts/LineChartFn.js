@@ -1,9 +1,8 @@
 import React from 'react';
 import {pure} from 'recompose'
-import {VictoryAxis, VictoryLine, VictoryChart,
+import {Curve, Point, VictoryAxis, VictoryLine, VictoryChart,
   VictoryClipContainer, VictoryScatter, VictoryVoronoiContainer} from 'victory';
 import theme from './theme';
-import {setFocus} from "../../logic/focus"
 
 const VoronoiContainer = ({setFocusedMonth}) => (
   <VictoryVoronoiContainer
@@ -13,42 +12,20 @@ const VoronoiContainer = ({setFocusedMonth}) => (
     onActivated={(points) => {
       setFocusedMonth(points[0].month)
     }}
+    className="VictoryContainer line-chart"
   />
 );
-const Scatter = ({pack, width, height}) => {
-  const events = [
-    {
-      target: "data",
-      eventHandlers: {
-        onMouseEnter: () => [{
-          target: "data",
-          mutation: (p) => setFocus(p.data[0].packId),
-        }],
-      }
-    }
-  ];
-  return (
-    <VictoryScatter
-      key={pack.packId}
-      data={pack.data}
-      x="month"
-      y="value"
-      {...{events, height, width}}
-    />
-  )
-};
-const Line = ({pack, width, height}) => {
-  const events = [
-    {
-      target: "data",
-      eventHandlers: {
-        onMouseEnter: () => [{
-          target: "data",
-          mutation: (p) => setFocus(p.data[0].packId),
-        }],
-      }
-    }
-  ];
+const Scatter = ({pack, width, height, handleMouseEnter}) => (
+  <VictoryScatter
+    key={pack.packId}
+    data={pack.data}
+    x="month"
+    y="value"
+    dataComponent={<Point className={"scatter " + pack.packId} events={{onMouseEnter:handleMouseEnter}}/>}
+    {...{height, width}}
+  />
+);
+const Line = ({pack, width, height, handleMouseEnter}) => {
   return (
     <VictoryLine
       key={pack.packId}
@@ -56,12 +33,13 @@ const Line = ({pack, width, height}) => {
       x="month"
       y="value"
       interpolation="natural"
+      dataComponent={<Curve className={"line " + pack.packId} events={{onMouseEnter:handleMouseEnter}}/>}
       groupComponent={<VictoryClipContainer clipPadding={{top: 30, bottom: 30, left: 0, right: 0}}/>}// Needed in order to avoid curves to be clipped at the top.
-      {...{events, height, width}}
+      {...{height, width}}
     />
   )
 };
-const LineChartFn = ({chartData, selection, height, width, setFocusedMonth}) => {
+const LineChartFn = ({chartData, selection, height, width, setFocusedMonth, handleMouseEnter}) => {
   console.log('Rendering LineChart:', selection, chartData);
   if( ! height || ! width ) return null;
   const shapePackData = packId => {
@@ -83,8 +61,8 @@ const LineChartFn = ({chartData, selection, height, width, setFocusedMonth}) => 
         { data.map(
             pack => [
                 /*No intermediary component here because VictoryBar should be a direct child of VictoryBar*/
-                Line({pack, width, height}),
-                Scatter({pack, width, height})
+                Line({pack, width, height, handleMouseEnter}),
+                Scatter({pack, width, height, handleMouseEnter})
               ]
         )}
       </VictoryChart>

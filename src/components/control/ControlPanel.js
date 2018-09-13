@@ -12,7 +12,6 @@ const PackSelection = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
 const ControlPanel = () => (
   <Container>
     <PackSelection>

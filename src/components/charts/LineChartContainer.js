@@ -7,34 +7,10 @@ import isEmpty from "lodash/isEmpty";
 import {getPackageColors} from "../../logic/derived-state";
 import LineChartFn from './LineChartFn';
 import LineChartOverlay from './LineChartOverlay';
-import {keys, last, mapObjIndexed, pipe, prop, values} from 'ramda';
+import {keys, last, pipe, values} from 'ramda';
+import {setFocus} from "../../logic/focus";
 const {lacksElementsOf} = require('../../logic/vibl-pure');
 
-const makeOverlayPackageColorsStyles = ({packageColors, focus}) => pipe(
-  mapObjIndexed(
-    ({color, colorDarker}, packId) =>
-      `.overlay.${packId} { 
-      color: ${focus === packId ? colorDarker : color}; 
-      font-weight: ${focus === packId ? 'bold' : 'normal'}; 
-      } `),
-  values,
-)(packageColors);
-const chartStyles = ({packageColors, packages, focus}) => {
-  const styleMapper = (packId, i) => {
-    const {color, colorDarker} = packageColors[packId];
-    return `
-      .VictoryContainer > svg > g:nth-child(${(i+1)*2}) > path {
-        stroke: ${focus === packId ? colorDarker : color} !important;
-        strokeWidth: ${focus === packId ? 3 : 2} !important;
-      }
-      .VictoryContainer > svg > g:nth-child(${(i+1)*2+1}) > path {
-        stroke: ${focus === packId ? colorDarker : color} !important; 
-        fill: ${focus === packId ? colorDarker : color} !important;
-      }
-    `;
-  };
-  return packages.map(styleMapper);
-};
 const monthFocusStyles = ({focusedMonth, monthIndex}) => {
   const i = monthIndex[focusedMonth];
   return `
@@ -45,8 +21,6 @@ const monthFocusStyles = ({focusedMonth, monthIndex}) => {
   `;
 };
 const StyleWrapper = styled.div`
-  ${makeOverlayPackageColorsStyles}
-  ${chartStyles}
   ${monthFocusStyles}
 `;
 // Indexing month order by month id. Ex: { '2017-09':0, '2017-10':1,...}
@@ -60,6 +34,11 @@ class LineChartContainer extends Component {
       focusedMonth: null,
     }
   }
+  handleMouseEnter = (event) => {
+    let node = event.currentTarget;
+    const packId = node.className.baseVal.split(' ')[1];
+    setFocus(packId);
+  };
   setFocusedMonth = (month) => {
     this.setState({focusedMonth: month});
   };
@@ -87,7 +66,8 @@ class LineChartContainer extends Component {
       // The measureRef has to be the first element and a ReactDom element (so it cannot be styled with Emotion).
       <div ref={this.props.measureRef} style={{flex: 1, width: '100%', position: 'relative'}}>
         <StyleWrapper {...{packageColors, focus, focusedMonth, monthIndex, packages: selection}}>
-          <LineChartFn {...{chartData, selection, height, width, setFocusedMonth: this.setFocusedMonth}}/>
+          <LineChartFn {...{chartData, selection, height, width, handleMouseEnter: this.handleMouseEnter,
+            setFocusedMonth: this.setFocusedMonth}}/>
           <LineChartOverlay {...{focusedMonth, selection, data: chartData}}/>
         </StyleWrapper>
       </div>

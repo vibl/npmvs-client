@@ -1,15 +1,14 @@
 import React from 'react';
 import {pure} from 'recompose';
-import {VictoryAxis, VictoryBar, VictoryChart, VictoryContainer, VictoryLabel} from 'victory';
-import {setFocus} from '../../logic/focus';
+import {Bar, VictoryAxis, VictoryBar, VictoryChart, VictoryContainer, VictoryLabel} from 'victory';
 import theme from './theme';
 import fields from "../../logic/data-fields";
 import fns from "../../logic/mapper/field-fns";
-import {reverse} from "ramda";
 const {anyValue, isNegative} = require('../../logic/vibl-pure');
 
-const ChartBar = ({data, width, height}) => (
+const ChartBar = ({data, width, height, handleMouseEnter}) => (
   <VictoryBar
+    aria-label="vibl"
     data={data}
     x="packId"
     y="value"
@@ -21,18 +20,14 @@ const ChartBar = ({data, width, height}) => (
       },
     }}
     barWidth={15}
-    events={[{
-        target: "data",
-        eventHandlers: {
-          onMouseEnter: () => [{
-            target: "labels",
-            mutation: ({datum}) => {
-              setFocus(datum.packId)
-            }}]}}]}
     {...{height, width}}
+    dataComponent={<Bar events={{onMouseEnter: handleMouseEnter(0, 0)}}/>}
+    labelComponent={<VictoryLabel events={{onMouseEnter: handleMouseEnter(0, 3)}}/>}
+    {...{height, width}}
+
   />
 );
-const ChartAxis = ({data, hasNegativeValues}) => (
+const ChartAxis = ({data, hasNegativeValues, handleMouseEnter}) => (
   <VictoryAxis
     data={data}
     dependentAxis
@@ -41,12 +36,15 @@ const ChartAxis = ({data, hasNegativeValues}) => (
         padding: 8,
       }
     }}
-    {...(hasNegativeValues ? {tickLabelComponent: <VictoryLabel x={60}/>} : {})}
+    tickLabelComponent={
+      <VictoryLabel
+        events={{onMouseEnter: handleMouseEnter(1, 1)}}
+        x={hasNegativeValues ? 60 : undefined}
+      />}
+
   />
 );
-const BarChartFn = ({chartData, fieldId, selection}) => {
-  console.log('Rendering BarChart:', fieldId, selection, chartData);
-  const packages = reverse(selection);
+const BarChartFn = ({chartData, fieldId, packages, handleMouseEnter}) => {
   const hasNegativeValues = anyValue(isNegative, chartData);
   const height = packages.length * 30;
   const width = 300;
@@ -59,12 +57,12 @@ const BarChartFn = ({chartData, fieldId, selection}) => {
   const padding = hasNegativeValues
     ? {left:100, right:30, top:20, bottom:20}
     : {left:70, right:30, top:10, bottom:20};
-  const containerComponent = <VictoryContainer responsive={false}/>;
+  const containerComponent = <VictoryContainer className="VictoryContainer bar-chart" responsive={false}/>;
   return (
     <VictoryChart {...{padding, containerComponent, theme, width, height}}>
       {/*No intermediary component here because VictoryBar should be a direct child of VictoryBar*/}
-      {ChartAxis({data, hasNegativeValues})}
-      {ChartBar({data, width, height})}
+      {ChartAxis({data, hasNegativeValues, handleMouseEnter})}
+      {ChartBar({data, width, height, handleMouseEnter})}
     </VictoryChart>
   )
 };

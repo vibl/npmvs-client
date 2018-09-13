@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'react-emotion';
 import {map, pipe, values} from 'ramda';
 import Display from './Display';
-import {fn} from '../../logic/mapper/field-fns';
+import {pipeFn} from '../../logic/mapper/field-fns';
 const {log, listMax} = require('../../logic/vibl-pure');
 
 const cellHeight = 50;

@@ -5,8 +5,8 @@ import {VictoryAxis, VictoryBar, VictoryLabel} from 'victory';
 import isEmpty from 'lodash/isEmpty';
 import {keys, map, max, pick, pipe, props, reduce, reverse, values, zipObj} from 'ramda';
 import {getPackageColors, getUnfocusedColor} from "../../logic/derived-state";
-import fields from '../../logic/data-fields';
-import fns from '../../logic/mapper/field-fns';
+import fields from '../../config/data-fields';
+import {pipeFn} from '../../logic/mapper/field-fns';
 import state from "../../logic/store";
 
 const {ident, ifDefinedElse, listMax} = require('../../logic/vibl-pure');
@@ -122,7 +122,7 @@ class SmartBarChart extends PureComponent {
     const {fieldId, focus, packageColors, selection, unfocusedColor} = this.props;
     // console.log('Rendering BarChart:', {data, selection});
     const packages = reverse(selection);
-    const displayFn = fns(fields[fieldId].displayFn);
+    const displayFn = pipeFn(fields[fieldId].displayFn);
     const barData = packages.map(packId => {
       const isFocused = packId === focus;
       const fillColor = !focus || isFocused ? packageColors[packId].value : unfocusedColor;

@@ -2,8 +2,8 @@ import React from 'react';
 import {pure} from 'recompose';
 import {Bar, VictoryAxis, VictoryBar, VictoryChart, VictoryContainer, VictoryLabel} from 'victory';
 import theme from './theme';
-import fields from "../../logic/data-fields";
-import fns from "../../logic/mapper/field-fns";
+import fields from "../../config/data-fields";
+import {pipeFn} from "../../logic/mapper/field-fns";
 const {anyValue, isNegative} = require('../../logic/vibl-pure');
 
 const ChartBar = ({data, width, height, handleMouseEnter}) => (
@@ -48,7 +48,7 @@ const BarChartFn = ({chartData, fieldId, packages, handleMouseEnter}) => {
   const hasNegativeValues = anyValue(isNegative, chartData);
   const height = packages.length * 30;
   const width = 300;
-  const displayFn = fns(fields[fieldId].displayFn);
+  const displayFn = pipeFn(fields[fieldId].displayFn);
   const data = packages.map(packId => {
     const value = chartData[packId];
     const label = displayFn(value);
@@ -56,7 +56,7 @@ const BarChartFn = ({chartData, fieldId, packages, handleMouseEnter}) => {
   });
   const padding = hasNegativeValues
     ? {left:100, right:30, top:20, bottom:20}
-    : {left:70, right:30, top:10, bottom:20};
+    : {left:100, right:30, top:10, bottom:20};
   const containerComponent = <VictoryContainer className="VictoryContainer bar-chart" responsive={false}/>;
   return (
     <VictoryChart {...{padding, containerComponent, theme, width, height}}>

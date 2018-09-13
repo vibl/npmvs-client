@@ -138,5 +138,9 @@ export const fn = pipe(
   map(orNull),
   map(mem),
 )(fns);
+// Creates a parser of function names separated py the pipe charater : 'fn1|fn2|fn3'
+// These are sometimes called "filters" in template languages.
+// fns is an object with functions as properties.
+export const pipeFn = ifDefinedElse(splitPipe(fns), ident) ;
 
-export default ifDefinedElse(splitPipe(fns), ident) ;
+export default fns;

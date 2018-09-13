@@ -1,8 +1,8 @@
 import {dissoc, map, slice} from "ramda";
-import config from '../../config'
-import fns from '../mapper/field-fns';
+import config from '../config'
+import {pipeFn} from '../../logic/mapper/field-fns';
 import fields from '../data-fields';
-const {zipObjMap} = require('../vibl-pure').default;
+const {zipObjMap} = require('../../logic/vibl-pure').default;
 
 const makeUrlBuilder =
   endpoint =>
@@ -39,8 +39,8 @@ const getMonthlyDownloads = (data) => {
 const stateTransformer = {
   adding: (packId, data) => {
     const monthlyDownloads = getMonthlyDownloads(data.downloads.slice(-365));
-    const downloadsAverageGrowth = fns(fields.downloadsAverageGrowth.computeFn)(data.downloads);
-    const downloadsAcceleration = fns(fields.downloadsAcceleration.computeFn)(data.downloads);
+    const downloadsAverageGrowth = pipeFn(fields.downloadsAverageGrowth.computeFn)(data.downloads);
+    const downloadsAcceleration = pipeFn(fields.downloadsAcceleration.computeFn)(data.downloads);
     return {
       charts: {
         monthlyDownloadsSeries: {[packId]: monthlyDownloads},

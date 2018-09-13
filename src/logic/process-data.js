@@ -1,6 +1,6 @@
 import {filter, map} from 'ramda';
-import fields from './data-fields';
-import {fn} from './mapper/field-fns';
+import fields from '../config/data-fields';
+import {pipeFn} from './mapper/field-fns';
 
 const idFromPath = (level, path) => {
   const nameSegments = path.slice(path.length - level, path.length);
@@ -33,7 +33,7 @@ export const processData = (packName, source, extractTree, data) => {
         console.log('NO DATAPOINT WITH THIS ID:', field.dataPoint);
         return
       }
-      const fnName = field.computeFn;
-      return fnName ? fn[fnName](rawValue) : rawValue;
+      const {computeFn} = field;
+      return computeFn ? pipeFn(computeFn)(rawValue) : rawValue;
     })(npmsFields);
 };

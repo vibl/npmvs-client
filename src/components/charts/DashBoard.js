@@ -57,9 +57,9 @@ const Grid = styled.div`
     grid-template-rows: repeat(3, 1fr);
     grid-auto-flow: column;
     grid-template-areas:
-    "closedIssuesRatio             monthlyDownloadsSeries          percentIssuesClosedIn3daysOrLess"
-    "downloadsAverageGrowth        monthlyDownloadsSeries          contributors"
-    "downloadsAcceleration         monthlyDownloadsSeries          commits12months";
+    "downloadsAverageGrowth       monthlyDownloadsSeries          percentIssuesClosedIn3daysOrLess"
+    "downloadsAcceleration        monthlyDownloadsSeries          closedIssuesRatio"
+    "commits12months              monthlyDownloadsSeries          contributors";
     padding: 10px;
     .VictoryContainer > svg {
       overflow: visible;

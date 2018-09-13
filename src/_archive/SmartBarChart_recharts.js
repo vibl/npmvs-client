@@ -5,8 +5,8 @@ import {Bar, BarChart, LabelList, XAxis, YAxis} from 'recharts';
 import isEmpty from 'lodash/isEmpty';
 import {keys, map, max, pipe, reduce, values} from 'ramda';
 import {getPackageColors, getUnfocusedColor} from "../logic/derived-state";
-import fields from '../logic/data-fields';
-import fns from '../logic/mapper/field-fns';
+import fields from '../config/data-fields';
+import {pipeFn} from '../logic/mapper/field-fns';
 import state from "../logic/store";
 const {listMax} = require('../logic/vibl-pure');
 

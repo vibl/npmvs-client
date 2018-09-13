@@ -1,8 +1,8 @@
 import {append, mapObjIndexed, pipe, values} from 'ramda';
 import http from './http';
 import state from './store';
-import dataPoints from './data-points';
-import sources from './sources/index';
+import dataPoints from '../config/data-points';
+import sources from '../config/sources/index';
 import {setFocus, unsetFocus} from "./focus";
 
 const {discard} = require('./vibl-pure');

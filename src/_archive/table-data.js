@@ -3,7 +3,7 @@ import {set, store} from '../logic/store';
 import isEmpty from "lodash/isEmpty";
 import {fetchChartData, getPackageRawData} from '../logic/package-data';
 import {getSelectionFromLocation} from '../logic/router-utils';
-import fieldsSpecs from '../logic/sources/npms';
+import fieldsSpecs from '../config/sources/npms';
 import {add, assoc, difference, dissoc, dissocPath, filter, flip, insert, juxt, keys, last,
   map, mapObjIndexed, mergeDeepLeft, pipe, reduce, toPairs, values} from 'ramda';
 const {added, removed, collect, mergeTablesNotBlank, notEmpty, tablify} = require('../logic/vibl-pure').default;

@@ -4,6 +4,7 @@ import mem from "mem";
 import {pure} from 'recompose';
 import {keys, last} from 'ramda';
 import {setFocus} from "../../logic/focus"
+import {fn} from '../../logic/mapper/field-fns';
 
 const getStats = mem( (selection, data) => {
   let packId, result = {};
@@ -50,7 +51,7 @@ const StatRow = ({packId, value}) => (
     onMouseEnter={handleMouseEnter}
     data-packid={packId}
   >
-    <ColPack>{packId}</ColPack><ColValue>{value}</ColValue>
+    <ColPack>{packId}</ColPack><ColValue>{fn.thousands(value)}</ColValue>
   </Row>
 );
 const getMonthTitle = (month) => {

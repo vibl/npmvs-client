@@ -39,8 +39,8 @@ const Line = ({pack, width, height, handleMouseEnter}) => {
     />
   )
 };
-const LineChartFn = ({chartData, selection, height, width, setFocusedMonth, handleMouseEnter}) => {
-  console.log('Rendering LineChart:', selection, chartData);
+const LineChart = ({chartData, selection, height, width, setFocusedMonth, handleMouseEnter}) => {
+  // console.log('Rendering LineChart:', selection, chartData);
   if( ! height || ! width ) return null;
   const shapePackData = packId => {
     const data = chartData[packId].map(o => ({...o, packId}));
@@ -68,4 +68,4 @@ const LineChartFn = ({chartData, selection, height, width, setFocusedMonth, hand
       </VictoryChart>
     )
 };
-export default pure(LineChartFn);
+export default pure(LineChart);

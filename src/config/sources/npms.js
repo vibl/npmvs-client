@@ -1,10 +1,10 @@
 import {assoc, dissoc, map,
   mergeDeepLeft, omit, pick} from 'ramda';
-import config from '../../config';
-import {processData} from "../process-data";
-import {chartsList} from '../charts-fields';
+import config from '../config';
+import {processData} from "../../logic/process-data";
+import {chartsList} from '../../logic/charts-fields';
 
-const {tablify} = require('../vibl-pure').default;
+const {tablify} = require('../../logic/vibl-pure').default;
 
 const urlBuilder = {
   package: (packId) => config.sources.npms + encodeURIComponent(packId),

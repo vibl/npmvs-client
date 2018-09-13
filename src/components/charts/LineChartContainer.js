@@ -5,7 +5,7 @@ import mem from 'mem';
 import {withContentRect} from "react-measure";
 import isEmpty from "lodash/isEmpty";
 import {getPackageColors} from "../../logic/derived-state";
-import LineChartFn from './LineChartFn';
+import LineChartFn from './LineChart';
 import LineChartOverlay from './LineChartOverlay';
 import {keys, last, pipe, values} from 'ramda';
 import {setFocus} from "../../logic/focus";

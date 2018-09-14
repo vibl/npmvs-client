@@ -2,7 +2,7 @@ import React from 'react';
 import {pure} from 'recompose';
 import {slice} from "ramda";
 import ChartCard from '../card/ChartCard';
-import Title from '../card/Title';
+import Title from '../card/ChartTitle';
 import InfoTip from '../card/InfoTip';
 import LineChart from "./LineChart/LineChartContainer";
 

@@ -1,15 +1,14 @@
 import React from 'react';
 import ChartCard from './ChartCard';
 import BarChart from '../charts/BarChart/BarChartContainer';
-import Title from './Title';
-import InfoTip from './InfoTip';
+import ChartTitle from './ChartTitle';
 import {pure} from 'recompose';
 
 const BasicCard = ({config, data}) => {
   const {label, description} = config;
   return (
     <ChartCard>
-      <Title>{label}<InfoTip {...{description}}/></Title>
+      <ChartTitle {...{description}}>{label}</ChartTitle>
       <BarChart  {...{config, data}}/>
     </ChartCard>
   );

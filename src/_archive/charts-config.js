@@ -20,7 +20,7 @@ export default [
     gridArea: 'd'
   },
   {
-    fieldId: 'downloadsAverageGrowth',
+    fieldId: 'downloadsGrowth',
     component: 'BarChart',
     gridArea: 'e'
   },

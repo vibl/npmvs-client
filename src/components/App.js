@@ -3,12 +3,11 @@ import { hot } from 'react-hot-loader';
 import {Provider} from 'react-redux';
 import {pure} from 'recompose';
 import {Route, Router } from 'react-router-dom';
+import styled from "react-emotion";
 import history from '../logic/history';
 import state from '../logic/store';
-import ComparisonPage from "./ComparisonPage";
 import selection from '../logic/selection';
-import HomePage from './HomePage';
-import styled from "react-emotion";
+import ComparisonPage from "./ComparisonPage";
 
 // A component must return at least null!
 const SelectionChange = pure( ({location}) => {

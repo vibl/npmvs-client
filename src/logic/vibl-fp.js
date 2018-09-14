@@ -101,16 +101,17 @@ const mapIf = curryN(3, (testFn, mapFn, obj) => {
   return newObj;
 });
 const bindAll = mapIf(isFunction, (fn, obj) => fn.bind(obj));
+
 const filterKeys = curry2((condition, obj) => {
-  const newObj = clone(obj);
-  for (let key in obj) {
-    if (newObj.hasOwnProperty(key)) {
-      if (condition(key).length === 0) {
-        delete newObj[key];
+  let key, acc = {};
+  for (key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      if (condition(key)) {
+        acc[key] = obj[key];
       }
     }
   }
-  return newObj;
+  return acc;
 });
 
 const flipAll = mapIf(isFunction, flip);
@@ -421,6 +422,16 @@ const lacksElementsOf = curry2( (listA, listB) => {
 
 const haveSameElements = curry2( (a, b) => ! lacksElementsOf(a, b) && ! lacksElementsOf(b, a));
 
+const objToArray = curry2( (fn, obj) => {
+  let acc = [], key;
+  for(key in obj) {
+    if( obj.hasOwnProperty(key) ) {
+      acc.push(fn(obj, key));
+    }
+  }
+  return acc;
+});
+
 const viblPure = {
   added, allEquals, anyValue, appendStr, assocDotPath, areEquals, haveSameElements,
   bindAll, bindAllDeep, budge,
@@ -432,11 +443,11 @@ const viblPure = {
   isNegative, isNumber, isObject, isObjectLike, isPlainObject, isString,
   keep, keepRandom,
   lacksElementsOf, lensDotPath,  lineBreaksToSpace, listMax, listMin, log,
-  mapDeep, mapIf, mapIndex, mapKeys, mergeDeepWithArray, mergeLeft,
+  mapDeep, mapIf, mapIndex, mapKeys, mapValues, mergeDeepWithArray, mergeLeft,
   mergeAllTables, mergeAllTablesNotBlank, mergeTables, mergeTablesNotBlank,
   notBlank, notEmpty, notMatch, nthRoot,
-  overlaps,
-  percent, mapValues, pipeD, pipeLog, pMap, prefixLine, preIntersperse, putFirst,
+  objToArray, overlaps,
+  percent, pipeD, pipeLog, pMap, prefixLine, preIntersperse, putFirst,
   random, rangeMap, rangeStep, reduceFirst, reduceFirstP, reduceIndexed, reduceP,
   reduceSteps, reduceTemplate, reIndex, removed, removeShortest, rest, reverseDifference, round,
   splitLinesTrim, splitPipe, splitProperties, store,

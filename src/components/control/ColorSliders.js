@@ -4,7 +4,7 @@ import Slider from '@material-ui/lab/Slider';
 import styled from 'react-emotion';
 import state from '../../logic/store';
 import {apply, join, map, pipe} from 'ramda';
-const {hsl, rangeStep} = require('../../logic/vibl-pure');
+const {hsl, rangeStep} = require('../../logic/vibl-fp');
 
 const SlidersContainer = styled.div`
     flex:initial;

@@ -5,7 +5,7 @@ import isEmpty from "lodash/isEmpty";
 import {pure} from "recompose";
 import {connect} from "react-redux";
 import {getPackageColors, getUnfocusedColor} from "../logic/derived-state";
-const {putFirst} = require('../logic/vibl-pure');
+const {putFirst} = require('../logic/vibl-fp');
 
 function shortenNumber(num) {
   return num > 1000 ? Math.round(num / 1000) : (num / 1000).toPrecision(1)

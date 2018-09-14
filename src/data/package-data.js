@@ -1,11 +1,11 @@
 import {append, mapObjIndexed, pipe, values} from 'ramda';
-import http from './http';
-import state from './store';
-import dataPoints from '../config/data-points';
-import sources from '../config/sources/index';
-import {setFocus, unsetFocus} from "./focus";
+import http from '../logic/http';
+import state from '../logic/store';
+import dataPoints from './data-points';
+import sources from '../sources/index';
+import {setFocus, unsetFocus} from "../logic/focus";
 
-const {discard} = require('./vibl-pure');
+const {discard} = require('../logic/vibl-fp');
 
 const addEndpointData = async (packId, source, [{params, extractTree}, endpoint]) => {
   const {stateTransformer, urlBuilder} = sources[source];

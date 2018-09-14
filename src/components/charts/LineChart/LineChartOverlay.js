@@ -3,8 +3,8 @@ import styled from "react-emotion";
 import mem from "mem";
 import {pure} from 'recompose';
 import {keys, last} from 'ramda';
-import {setFocus} from "../../logic/focus"
-import {fn} from '../../logic/mapper/field-fns';
+import {setFocus} from "../../../logic/focus"
+import fn from '../../../logic/field-fns';
 
 const getStats = mem( (selection, data) => {
   let packId, result = {};

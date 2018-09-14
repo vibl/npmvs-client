@@ -1,6 +1,6 @@
-import {pipeFn}  from "../../logic/mapper/field-fns";
+import {pipeFn}  from "../../logic/field-fns";
 
 export default ({field, pack}) => {
-  const {computeFn, displayFn} = field.meta;
-  return pipeFn(computeFn, displayFn)(field.data[pack]);
+  const {extractFn, displayFn} = field.meta;
+  return pipeFn(extractFn, displayFn)(field.data[pack]);
 };

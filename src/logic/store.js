@@ -1,7 +1,7 @@
 import { createStore } from 'redux';
 import stringifier from 'stringifier';
 
-const {transform} = require('./vibl-pure').default;
+const {transform} = require('./vibl-fp').default;
 
 const reducer = (state, {payload}) => payload ? transform(payload, state) : state;
 

@@ -4,22 +4,19 @@ import styled from 'react-emotion';
 import Card from '@material-ui/core/Card';
 import InfoIcon from '@material-ui/icons/Info';
 import {pipe} from "ramda";
-import BarChart from './BarChartContainer';
-import LineChart from "./LineChartContainer";
+import BarChart from '../charts/BarChart/index';
+import LineChart from "../charts/LineChart/index";
 import RichTip from '../generic/RichTip';
 
-const FlexCard = styled(Card)`
+const StyledCard = styled(Card)`
     padding: 10px 15px 5px 15px;
-    display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    justify-items: center;
-    flex-direction: column;
-    grid-area: ${ p => p.fieldid};
+    margin: 12px 4px;
+    height: ${ props => props.fieldid === 'monthlyDownloadsSeries' ? 'calc(100% - 24px)' : 'auto' };
 `;
 const Title = styled.h2`
     color: #555;
-    font-size: 16px;
+    font-size: 0.8em;
     font-weight: 500;
     text-align: center;
     margin: 5px 0 10px 0;
@@ -33,7 +30,7 @@ const ChartComponents = {BarChart, LineChart};
 
 const StyledRichTip = styled(RichTip)`
     background: white;
-    font-family: "Roboto";
+    font-family: "Roboto", sans-serif;
     font-size: 0.6em;
     color: #333;
     margin: 0;
@@ -56,13 +53,13 @@ const InfoTip = ({description}) => (
   />
 );
 const ChartCard = (props) => {
-  const {component, description, fieldId, label} = props;
+  const {fieldId, label, description, component, column} = props;
   const ChartComponent = ChartComponents[component];
   return (
-    <FlexCard fieldid={fieldId}>
+    <StyledCard fieldid={fieldId}>
       <Title>{label}<InfoTip {...{description}}/></Title>
-        <ChartComponent {...props}/>
-    </FlexCard>
+      <ChartComponent {...props}/>
+    </StyledCard>
   );
 };
 export default pipe(

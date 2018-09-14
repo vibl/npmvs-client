@@ -1,6 +1,6 @@
 import state from "./store";
 import {last} from 'ramda';
-const {discard} = require('./vibl-pure');
+const {discard} = require('./vibl-fp');
 
 export const setFocus = (packId) => {
   state.set({focus: packId});

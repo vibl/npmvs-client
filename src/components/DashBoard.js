@@ -2,13 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'react-emotion';
 import {keys, mapObjIndexed, pipe, reverse, values} from 'ramda';
-import ChartCard from './ChartCard';
-import {chartsFields, chartsList} from "../../logic/charts-fields";
-import {getPackageColors} from "../../logic/derived-state";
+import Grid from '@material-ui/core/Grid';
+import {getPackageColors} from "../logic/derived-state";
+import cardsComponents, {chartsList} from "./charts";
+import DownloadsGrowth from "./charts/DownloadsGrowth";
 
-const {haveSameElements} = require('../../logic/vibl-pure');
+const {lacksElementsOf} = require('../logic/vibl-fp');
 
-const overlayStyles = ({packageColors, focus}) => pipe(
+const overlayStyles = ({colors, focus}) => pipe(
   mapObjIndexed(
     ({color, colorDarker}, packId) =>
       `.VictoryContainer.line-chart + div table tr.overlay.${packId} { 
@@ -16,11 +17,12 @@ const overlayStyles = ({packageColors, focus}) => pipe(
       font-weight: ${focus === packId ? 'bold' : 'normal'}; 
       } `),
   values,
-)(packageColors);
+)(colors);
 
-const chartStyles = ({packageColors, packages, focus}) => {
+const chartStyles = ({colors, selection, focus}) => {
+  const packages = reverse(selection);
   const styleMapper = (packId, i) => {
-    const {color, colorDarker} = packageColors[packId];
+    const {color, colorDarker} = colors[packId];
     return `
       // Bars
       .bar-chart.VictoryContainer > svg > g:nth-child(2) > path:nth-child(${i+1}) {
@@ -49,17 +51,8 @@ const chartStyles = ({packageColors, packages, focus}) => {
   };
   return packages.map(styleMapper);
 };
-const Grid = styled.div`
+const StyledGrid = styled(Grid)`
     position: absolute;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 10px;
-    grid-template-rows: repeat(3, 1fr);
-    grid-auto-flow: column;
-    grid-template-areas:
-    "downloadsAverageGrowth       monthlyDownloadsSeries          percentIssuesClosedIn3daysOrLess"
-    "downloadsAcceleration        monthlyDownloadsSeries          closedIssuesRatio"
-    "commits12months              monthlyDownloadsSeries          contributors";
     padding: 10px;
     .VictoryContainer > svg {
       overflow: visible;
@@ -67,28 +60,45 @@ const Grid = styled.div`
     ${chartStyles}
     ${overlayStyles}
 `;
-
-const DashBoard = ({chartsData, selection, focus, packageColors}) => {
-  const isDataLoaded = haveSameElements(keys(chartsData), chartsList);
-  const packages = reverse(selection);
-  return ! isDataLoaded ? null : (
-    <Grid {...{packageColors, packages, focus}}>
-      { chartsList.map( fieldId => (
-          <ChartCard
-            key={fieldId}
-            chartData={chartsData[fieldId]}
-            {...{fieldId}}
-            {...chartsFields[fieldId]}
-          />
-      ))}
-    </Grid>
+const renderCards =
+  chartsData => 
+    chartIds =>
+      chartIds.map( chartId => {
+        const Component = cardsComponents[chartId];
+        const data = chartsData[chartId];
+        return ! data ? null : <Component key={chartId} {...{chartId, data}}/>
+      });
+const DashBoard = ({chartsData, selection, focus, colors}) => {
+  const waitForData = lacksElementsOf(chartsList, keys(chartsData));
+  const cards = renderCards(chartsData);
+  return waitForData ? null : (
+    <StyledGrid container spacing={8} {...{colors, selection, focus}}>
+      <Grid item md={4} xs={12}>
+        { cards([
+          'DownloadsGrowth',
+          'DownloadsAcceleration',
+          'Commits12months',
+        ])}
+      </Grid>
+      <Grid item md={4} xs={12}>
+        { cards([
+          'DownloadsSeries',
+        ])}
+      </Grid>
+      <Grid item md={4} xs={12}>
+        { cards([
+          'ClosedIssuesRatio',
+          'PercentIssuesClosedIn3daysOrLess',
+          'Contributors',
+        ])}
+      </Grid>
+    </StyledGrid>
     )
 };
-
 const mapStateToProps = (state) => ({
   chartsData: state.charts,
   focus: state.focus,
   selection: state.selection,
-  packageColors: getPackageColors(state.color, state.selection),
+  colors: getPackageColors(state.color, state.selection),
 });
 export default connect(mapStateToProps)(DashBoard);

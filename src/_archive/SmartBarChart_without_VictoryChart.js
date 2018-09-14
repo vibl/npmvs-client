@@ -4,12 +4,12 @@ import {pure} from 'recompose';
 import {VictoryAxis, VictoryBar, VictoryLabel} from 'victory';
 import isEmpty from 'lodash/isEmpty';
 import {keys, map, max, pick, pipe, props, reduce, reverse, values, zipObj} from 'ramda';
-import {getPackageColors, getUnfocusedColor} from "../../logic/derived-state";
-import fields from '../../config/data-fields';
-import {pipeFn} from '../../logic/mapper/field-fns';
-import state from "../../logic/store";
+import {getPackageColors, getUnfocusedColor} from "../logic/derived-state";
+import fields from '../data/data-fields';
+import {pipeFn} from '../logic/field-fns';
+import state from "../logic/store";
 
-const {ident, ifDefinedElse, listMax} = require('../../logic/vibl-pure');
+const {ident, ifDefinedElse, listMax} = require('../logic/vibl-fp');
 
 let mouseOutTimeout;
 const handleMouseOver = (packId) => {

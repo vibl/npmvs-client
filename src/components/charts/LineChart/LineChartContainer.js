@@ -4,12 +4,12 @@ import styled from 'react-emotion';
 import mem from 'mem';
 import {withContentRect} from "react-measure";
 import isEmpty from "lodash/isEmpty";
-import {getPackageColors} from "../../logic/derived-state";
-import LineChartFn from './LineChart';
+import {getPackageColors} from "../../../logic/derived-state";
+import LineChartFn from './LineChartView';
 import LineChartOverlay from './LineChartOverlay';
 import {keys, last, pipe, values} from 'ramda';
-import {setFocus} from "../../logic/focus";
-const {lacksElementsOf} = require('../../logic/vibl-pure');
+import {setFocus} from "../../../logic/focus";
+const {lacksElementsOf} = require('../../../logic/vibl-fp');
 
 const monthFocusStyles = ({focusedMonth, monthIndex}) => {
   const i = monthIndex[focusedMonth];
@@ -53,22 +53,26 @@ class LineChartContainer extends Component {
     ]
   }
   render () {
-    const {chartData, focus, packageColors, selection} = this.props;
-    if( isEmpty(selection) || isEmpty(chartData) || lacksElementsOf(selection, keys(chartData)) ) return null;
+    const {data, focus, selection} = this.props;
+    if( isEmpty(selection) || isEmpty(data) || lacksElementsOf(selection, keys(data)) ) return null;
     const [height, width] = this.getDimensions();
-    const monthIndex = getMonthIndex(chartData);
+    const monthIndex = getMonthIndex(data);
     let focusedMonth =  this.state.focusedMonth ;
     if( ! focusedMonth ) {
       const focusedMonth = last(keys(monthIndex));
       this.setState({focusedMonth});
     }
+    const chartData = selection.map(packId => ({
+      packId,
+      data: data[packId].map(o => ({...o, packId})),
+    }));
     return (
       // The measureRef has to be the first element and a ReactDom element (so it cannot be styled with Emotion).
-      <div ref={this.props.measureRef} style={{flex: 1, width: '100%', position: 'relative'}}>
-        <StyleWrapper {...{packageColors, focus, focusedMonth, monthIndex, packages: selection}}>
-          <LineChartFn {...{chartData, selection, height, width, handleMouseEnter: this.handleMouseEnter,
+      <div ref={this.props.measureRef} style={{width: '100%', height: 'calc(100% - 20px)', position: 'relative'}}>
+        <StyleWrapper {...{focus, focusedMonth, monthIndex, packages: selection}}>
+          <LineChartFn {...{data: chartData, selection, height, width, handleMouseEnter: this.handleMouseEnter,
             setFocusedMonth: this.setFocusedMonth}}/>
-          <LineChartOverlay {...{focusedMonth, selection, data: chartData}}/>
+          <LineChartOverlay {...{focusedMonth, selection, data: data}}/>
         </StyleWrapper>
       </div>
     );
@@ -77,7 +81,6 @@ class LineChartContainer extends Component {
 const mapStateToProps = (state) => ({
   focus: state.focus,
   selection: state.selection,
-  packageColors: getPackageColors(state.color, state.selection),
 });
 export default pipe(
   connect(mapStateToProps),

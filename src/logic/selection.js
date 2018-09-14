@@ -1,8 +1,8 @@
 import {map, pipe} from 'ramda';
 import state from "./store";
 import {selectionFromUrlPath} from './router-utils';
-import packageData from "./package-data";
-const {added, removed, collect} = require('../logic/vibl-pure').default;
+import packageData from "../data/package-data";
+const {added, removed, collect} = require('./vibl-fp').default;
 
 const set = (newSelection) => {
   const currentSelection = state.get().selection;

@@ -1,5 +1,5 @@
 const {dissoc, flip, reduce, reduceRight} = require('ramda');
-const {curry3} = require('../src/logic/vibl-pure');
+const {curry3} = require('../src/logic/vibl-fp');
 
 // const reduceSteps = (fn, ary, obj) => ary.reduce( (acc, val) => fn(val, acc), obj );
 

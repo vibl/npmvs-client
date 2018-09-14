@@ -1,9 +1,9 @@
 import size from "lodash/size";
 import mem from 'mem';
-import {dec, juxt, last,
+import {dec, last,
   length, map, mean, multiply, pipe, prop, reduce, slice, splitEvery, sum, toPairs, values} from 'ramda';
 const {concatLeft, curry2, getDotPath, ident, ifDefinedElse,
-  percent, pipeD, splitPipe} = require('../vibl-pure');
+  percent, pipeD, splitPipe} = require('./vibl-fp');
 
 const significantDigits = curry2(
   (digits, n) =>
@@ -55,8 +55,6 @@ const fns = {
   releases: getDotPath('3.count'), //(a) => a && a[3] && a[3].count,
   downloads: getDotPath('5.count'), // (a) => a[5] && a[5].count,
   commits6months: getDotPath('3.count'), // (a) => a[4] && a[4].count,
-  commits12months: getDotPath('4.count'), // (a) => a[4] && a[4].count,
-  closedIssuesRatio: ({count, openCount}) => (count - openCount) / count * 100,
   linters: getDotPath('js.0'), // (o) => o && o.js && o.js[0],
   shorten20chars: str => str.slice(0, 20),
   percent: n => Math.round(n * 100).toString() + "%",
@@ -72,9 +70,6 @@ const fns = {
     // Count contributors until 80% of commits are reached.
     return sums.reduce( (acc, val) => val/total <= 0.8 ? acc + 1 : acc, 0);
   },
-  contributorsWithMoreThan2commits: list => {
-    return list.filter( o => o.commitsCount > 2 ).length
-  },
   contributorsCount: length,
   averageOpenIssueDuration: dist => {
     const issuesCount = sum(values(dist));
@@ -88,59 +83,13 @@ const fns = {
     return averageDays;
   },
   percentGrowth,
-  percentIssuesClosedIn3daysOrLess: (issues) => {
-    const {distribution: dist} = issues;
-    let lessThan3daysCount = 0, totalCount = 0, seconds;
-    for(seconds in dist) {
-      const issues = parseInt(dist[seconds]);
-      totalCount += issues;
-      const days = parseInt(seconds) / 3600 / 24;
-      if( days < 3.5 ) {
-        lessThan3daysCount += issues;
-      }
-    }
-    return Math.round(lessThan3daysCount / totalCount * 100);
-  },
-  downloadsAverageGrowth: pipe(
-    map(prop('downloads')),
-    slice(-365, Infinity),
-    juxt([
-      slice(0, 91),
-      slice(-91, Infinity)
-    ]),
-    map(sum),
-    ([a,b]) => b/a,
-    percentGrowth,
-  ),
-  // downloadsGrowth: pipe(
-  //   map(prop('downloads')),
-  //   slice(-366, Infinity),
-  //   splitAt(183),
-  //   map(sum),
-  //   ([a,b]) => b/a,
-  //   percentGrowth,
-  // ),
-  downloadsAcceleration: pipe(
-      map(prop('downloads')),
-      slice(-366, Infinity),
-      splitEvery(122),
-      map(sum),
-      ([a,b,c]) => (c - b) / (b - a) * 100,
-    ),
   significanPercentDisplay: pipe(significantDigits(2), concatLeft('%')),
   percent1dec: percent(1),
   percent2dec: percent(2),
 };
-
 const orNull = f => arg => f(arg) || null;
 
-export const fn = pipe(
+export default pipe(
   map(orNull),
   map(mem),
 )(fns);
-// Creates a parser of function names separated py the pipe charater : 'fn1|fn2|fn3'
-// These are sometimes called "filters" in template languages.
-// fns is an object with functions as properties.
-export const pipeFn = ifDefinedElse(splitPipe(fns), ident) ;
-
-export default fns;

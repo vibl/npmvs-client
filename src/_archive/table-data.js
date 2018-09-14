@@ -1,12 +1,12 @@
-import importData from '../logic/process-data';
+import importData from './process-data';
 import {set, store} from '../logic/store';
 import isEmpty from "lodash/isEmpty";
-import {fetchChartData, getPackageRawData} from '../logic/package-data';
+import {fetchChartData, getPackageRawData} from '../data/package-data';
 import {getSelectionFromLocation} from '../logic/router-utils';
-import fieldsSpecs from '../config/sources/npms';
+import fieldsSpecs from '../sources/npms';
 import {add, assoc, difference, dissoc, dissocPath, filter, flip, insert, juxt, keys, last,
   map, mapObjIndexed, mergeDeepLeft, pipe, reduce, toPairs, values} from 'ramda';
-const {added, removed, collect, mergeTablesNotBlank, notEmpty, tablify} = require('../logic/vibl-pure').default;
+const {added, removed, collect, mergeTablesNotBlank, notEmpty, tablify} = require('../logic/vibl-fp').default;
 
 function initState() {
   if( ! isEmpty(store.getState()) ) return;

@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'react-emotion';
 import {map, pipe, values} from 'ramda';
 import Display from './Display';
-import {pipeFn} from '../../logic/mapper/field-fns';
-const {log, listMax} = require('../../logic/vibl-pure');
+import {pipeFn} from '../../logic/field-fns';
+const {log, listMax} = require('../../logic/vibl-fp');
 
 const cellHeight = 50;
 
@@ -32,8 +32,8 @@ const Bar = styled.div`
 `;
 const SimpleBar = (props) => {
   const {pack, field} = props;
-  const {computeFn, displayFn} = field.meta;
-  const compute = fn[computeFn];
+  const {extractFn, displayFn} = field.meta;
+  const compute = fn[extractFn];
   const computed = compute(field.data[pack]);
   const content = fn[displayFn](computed);
   const max = pipe(values, map(compute), listMax)(field.data);

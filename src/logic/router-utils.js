@@ -1,6 +1,6 @@
 import history from './history';
 import {append, match} from 'ramda';
-const {discard} = require('./vibl-pure').default;
+const {discard} = require('./vibl-fp').default;
 
 const stringSeparator = '-vs-';
 const firstPathSegment = '/compare/';

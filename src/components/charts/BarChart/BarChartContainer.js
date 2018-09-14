@@ -2,11 +2,11 @@ import React, {PureComponent} from 'react';
 import {connect} from "react-redux";
 import {keys, pipe, reverse} from "ramda";
 import isEmpty from "lodash/isEmpty";
-import BarChartFn from './BarChartFn';
-import {setFocus} from '../../logic/focus';
-const {lacksElementsOf} = require('../../logic/vibl-pure');
+import View from './BarChartView';
+import {setFocus} from '../../../logic/focus';
+const {anyValue, isNegative, lacksElementsOf} = require('../../../logic/vibl-fp');
 
-class BarChartContainer extends PureComponent {
+class Container extends PureComponent {
   handleMouseEnter = (ancestryLevel, offset) => (event) => {
     let node = event.currentTarget;
     for(let i=0;i<ancestryLevel;i++) node = node.parentNode;
@@ -19,11 +19,17 @@ class BarChartContainer extends PureComponent {
     setFocus(packId);
   };
   render() {
-    const {chartData, fieldId, selection} = this.props;
-    if( isEmpty(selection) || isEmpty(chartData) || lacksElementsOf(selection, keys(chartData)) ) return null;
+    const {config: {displayFn}, data, selection} = this.props;
+    if( isEmpty(selection) || isEmpty(data) || lacksElementsOf(selection, keys(data)) ) return null;
     const packages = this.packages = reverse(selection);
+    const hasNegativeValues = anyValue(isNegative, data);
+    const chartData = packages.map(packId => {
+      const value = data[packId];
+      const label = displayFn ? displayFn(value) : value;
+      return {label, packId, value};
+    });
     return (
-       <BarChartFn {...{chartData, packages, fieldId, handleMouseEnter: this.handleMouseEnter}}/>
+       <View {...{data: chartData, packages, hasNegativeValues, handleMouseEnter: this.handleMouseEnter}}/>
     );
   }
 }
@@ -32,5 +38,5 @@ const mapStateToProps = (state) => ({
 });
 export default pipe(
   connect(mapStateToProps),
-)(BarChartContainer);
+)(Container);
 

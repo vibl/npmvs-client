@@ -1,6 +1,6 @@
 import mem from 'mem';
 import {zipObj} from 'ramda'
-const {hsl} = require('./vibl-pure');
+const {hsl} = require('./vibl-fp');
 
 const darken = (lightness) => lightness * 0.6;
 

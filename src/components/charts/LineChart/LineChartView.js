@@ -2,7 +2,7 @@ import React from 'react';
 import {pure} from 'recompose'
 import {Curve, Point, VictoryAxis, VictoryLine, VictoryChart,
   VictoryClipContainer, VictoryScatter, VictoryVoronoiContainer} from 'victory';
-import theme from './theme';
+import theme from '../../theme';
 
 const VoronoiContainer = ({setFocusedMonth}) => (
   <VictoryVoronoiContainer
@@ -39,18 +39,9 @@ const Line = ({pack, width, height, handleMouseEnter}) => {
     />
   )
 };
-const LineChart = ({chartData, selection, height, width, setFocusedMonth, handleMouseEnter}) => {
-  // console.log('Rendering LineChart:', selection, chartData);
-  if( ! height || ! width ) return null;
-  const shapePackData = packId => {
-    const data = chartData[packId].map(o => ({...o, packId}));
-    return {
-      packId,
-      data,
-    }
-  };
-  const data = selection.map(shapePackData);
-  return (
+const LineChartView = ({data, selection, height, width, setFocusedMonth, handleMouseEnter}) => {
+  // console.log('Rendering LineChartView:', selection, chartData);
+  return ! height || ! width ? null : (
       <VictoryChart
         theme={theme}
         padding={{left:10, right:10, top:10, bottom:0}}
@@ -68,4 +59,4 @@ const LineChart = ({chartData, selection, height, width, setFocusedMonth, handle
       </VictoryChart>
     )
 };
-export default pure(LineChart);
+export default pure(LineChartView);

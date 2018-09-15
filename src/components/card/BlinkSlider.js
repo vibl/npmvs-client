@@ -8,7 +8,7 @@ export default ({value, displayValue, sliderConfig, onChange}) => (
       <Fade
         enterOpacity={1}
         exitOpacity={0.4}
-        style={{display: 'inline', color: '#000'}}
+        style={{display: 'inline'}}
         timingFn="ease-out"
       >
         {displayValue}

@@ -5,9 +5,7 @@ import {keys, mapObjIndexed, pipe, reverse, values} from 'ramda';
 import Grid from '@material-ui/core/Grid';
 import {getPackageColors} from "../logic/derived-state";
 import cardsComponents, {chartsList} from "./charts";
-import DownloadsGrowth from "./charts/DownloadsGrowth";
-
-const {lacksElementsOf} = require('../logic/vibl-fp');
+import DownloadsGrowth from "./charts/DownloadsGrowth"
 
 const overlayStyles = ({colors, focus}) => pipe(
   mapObjIndexed(
@@ -52,14 +50,14 @@ const chartStyles = ({colors, selection, focus}) => {
   return packages.map(styleMapper);
 };
 const StyledGrid = styled(Grid)`
-    position: absolute;
-    padding: 10px;
+    position: relative;
     .VictoryContainer > svg {
       overflow: visible;
     }
     ${chartStyles}
     ${overlayStyles}
 `;
+
 const renderCards =
   chartsData => 
     chartIds =>
@@ -72,23 +70,23 @@ const DashBoard = ({chartsData, selection, focus, colors}) => {
   // const waitForData = lacksElementsOf(chartsList, keys(chartsData));
   const cards = renderCards(chartsData);
   return /*waitForData ? null : */(
-    <StyledGrid container spacing={8} {...{colors, selection, focus}}>
-      <Grid item md={4} xs={12}>
+    <StyledGrid container spacing={4} {...{colors, selection, focus}}>
+      <Grid item md={4} sm={6} xs={12}>
         { cards([
           'DownloadsGrowth',
           'DownloadsAcceleration',
           'Commits12months',
         ])}
       </Grid>
-      <Grid item md={4} xs={12}>
+      <Grid item md={4} sm={6} xs={12}>
         { cards([
           'DownloadsSeries',
         ])}
       </Grid>
-      <Grid item md={4} xs={12}>
+      <Grid item md={4} sm={6} xs={12}>
         { cards([
           'ClosedIssuesRatio',
-          'PercentIssuesClosedIn3daysOrLess',
+          'IssuesClosedInLessThanXdays',
           'Contributors',
         ])}
       </Grid>

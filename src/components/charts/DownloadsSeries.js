@@ -5,10 +5,11 @@ import ChartCard from '../card/ChartCard';
 import Title from '../card/ChartTitle';
 import InfoTip from '../card/InfoTip';
 import LineChart from "./LineChart/LineChartContainer";
-import {add, divide, keys, map, mean, pipe, scan, slice, splitEvery,
+import styled from 'react-emotion';
+import {divide, keys, map, mean, pipe, scan, slice, splitEvery,
   sum, tail, toPairs, transpose, values, zip, zipWith} from "ramda";
 import regression from 'regression';
-const {mapValues, multiply, reduceFirst} = require('../../logic/vibl-fp');
+const {multiply} = require('../../logic/vibl-fp');
 
 const description = `
 Values are adjusted for average month duration.
@@ -114,13 +115,17 @@ export const config = {
   https://github.com/d3/d3-shape#curveBasis to filter noise)
   Use a zooming interface to allow users to see a 6 month or 2 years spans.
  */
+
+const LineChartCard = styled(ChartCard)`
+    min-height: 12.5rem;
+`;
 const ThisCard = ({data}) => {
   const {label, description} = config;
   return (
-    <ChartCard style={{height: 'calc(100% - 24px)'}}>
+    <LineChartCard>
       <Title>{label}<InfoTip {...{description}}/></Title>
-      <LineChart  {...{config, data}}/>
-    </ChartCard>
+      <LineChart {...{config, data}}/>
+    </LineChartCard>
   );
 };
 export default pure(ThisCard);

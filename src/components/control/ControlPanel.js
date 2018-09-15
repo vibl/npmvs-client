@@ -5,20 +5,20 @@ import ColorDialog from './ColorDialog';
 import logo from '../../assets/img/logo.png';
 
 const Container = styled.div`
-    display: flex;
     width: 100%;
-    align-content: center;
+    display: flex;
     height: 2rem;
+    align-content: center;
 `;
 const SelectorWrapper = styled.div`
-    flex: auto;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+    flex-grow: 1;
+    margin: .2em 0 0 0;
 `;
 const LogoWrapper = styled.div`
-    flex: auto;
-    margin: -0.1rem 0 0 0;
+    margin: 0.1rem 0 0 0;
+`;
+const ColorDialogWrapper = styled.div`
+    margin: 0.15rem 0 0 0;
 `;
 const Logo = styled.img`
     height: 2.5rem;
@@ -32,7 +32,9 @@ const ControlPanel = () => (
     <SelectorWrapper>
       <Selector/>
     </SelectorWrapper>
-    <ColorDialog/>
+    <ColorDialogWrapper>
+      <ColorDialog/>
+    </ColorDialogWrapper>
 
   </Container>
 );

@@ -35,7 +35,6 @@ class ColorDialog extends React.Component {
 
     return (
       <div>
-
         <ColorDialogButton
           aria-owns={open ? 'simple-popper' : null}
           aria-haspopup="true"

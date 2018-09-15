@@ -42,10 +42,19 @@ class PopSlider extends React.Component {
             open={open} 
             anchorEl={anchorEl}
             style={{height: '1em', width: '8rem'}}
+            modifiers={{
+              offset: {
+                enabled: true,
+                offset: '-30px 0'
+              },
+              flip: {
+                enabled: false,
+              }
+            }}
           >
             <Slider
               onMouseEnter={this.handleMouseEnterSlider}
-              onMouseLeave={this.handleMouseLeave}
+              // onMouseLeave={this.handleMouseLeave}
               {...{value, min, max, step, onChange}}
             />
           </Popper>

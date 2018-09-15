@@ -9,8 +9,8 @@ const StyledTitle = styled.h2`
     text-align: center;
     margin: 5px 0 10px 0;
     span.popslider.value {
-      background: #f3e3e3;
-      padding: 0 .2rem;
+      padding: 0.12rem;
+      box-shadow: 0 0 9px 0px #a2002a;
     }
 `;
 const ChartTitle = ({description, children, className}) => (

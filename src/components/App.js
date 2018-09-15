@@ -15,7 +15,7 @@ const SelectionChange = pure( ({location}) => {
   return null;
 });
 const AppStyles = styled.div`
-  background-color: hsl(40, 20%, 95%);
+  background-color: #f7f1f1;
   font-family: Roboto;
 `;
 

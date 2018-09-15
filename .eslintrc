@@ -1,6 +1,7 @@
 {
   "rules": {
     "no-restricted-globals": "off",
-    "radix": "off"
+    "radix": "off",
+    "no-unused-vars": "off"
   }
 }

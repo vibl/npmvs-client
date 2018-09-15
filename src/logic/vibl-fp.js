@@ -158,11 +158,11 @@ const mapDeep = curry2((fn, obj) => {
   return map(deep, obj);
 });
 
-const mapKeys = fn => obj => {
-  const newObj = {};
-  forEachObjIndexed((val, key) => newObj[fn(key)] = val)(obj);
-  return newObj;
-};
+const mapKeys = curry2( (fn, obj) => {
+  const acc = {};
+  forEachObjIndexed((val, key) => acc[fn(key)] = val)(obj);
+  return acc;
+});
 
 const mapValues = curry2( (propName, list) => pipe(map(prop(propName)), values)(list) );
 

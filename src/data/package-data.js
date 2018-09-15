@@ -2,7 +2,7 @@ import {append, mapObjIndexed, pipe, values} from 'ramda';
 import http from '../logic/http';
 import state from '../logic/store';
 import dataPoints from './data-points';
-import sources from '../sources/index';
+import sources from './sources/index';
 import {setFocus, unsetFocus} from "../logic/focus";
 
 const {discard} = require('../logic/vibl-fp');

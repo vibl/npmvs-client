@@ -1,7 +1,7 @@
-import {applySpec, dissoc, map, objOf, pipe, prop} from "ramda";
-import config from '../config/config'
-import {chartsConfig} from '../components/charts';
-const {pipeD, filterKeys, zipObjMap} = require('../logic/vibl-fp').default;
+import {applySpec, dissoc, map, pipe} from "ramda";
+import config from '../../config/config'
+import {chartsConfig} from '../../components/charts/index';
+const {filterKeys, zipObjMap} = require('../../logic/vibl-fp').default;
 
 const makeUrlBuilder =
   endpoint =>

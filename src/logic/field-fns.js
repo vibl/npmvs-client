@@ -1,9 +1,9 @@
 import size from "lodash/size";
 import mem from 'mem';
 import {dec, last,
-  length, map, mean, multiply, pipe, prop, reduce, slice, splitEvery, sum, toPairs, values} from 'ramda';
-const {concatLeft, curry2, getDotPath, ident, ifDefinedElse,
-  percent, pipeD, splitPipe} = require('./vibl-fp');
+  length, map, mean, multiply, pipe, reduce, sum, toPairs, values} from 'ramda';
+const {concatLeft, curry2, getDotPath, ident,
+  percent, pipeD} = require('./vibl-fp');
 
 const significantDigits = curry2(
   (digits, n) =>

@@ -69,9 +69,9 @@ const renderCards =
         return ! data ? null : <Component key={chartId} {...{chartId, data}}/>
       });
 const DashBoard = ({chartsData, selection, focus, colors}) => {
-  const waitForData = lacksElementsOf(chartsList, keys(chartsData));
+  // const waitForData = lacksElementsOf(chartsList, keys(chartsData));
   const cards = renderCards(chartsData);
-  return waitForData ? null : (
+  return /*waitForData ? null : */(
     <StyledGrid container spacing={8} {...{colors, selection, focus}}>
       <Grid item md={4} xs={12}>
         { cards([

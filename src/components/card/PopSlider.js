@@ -24,7 +24,7 @@ class PopSlider extends React.Component {
     clearTimeout(this.timeout);
   };
   render() {
-    const {className, content, value, min, max, step, onChange} = this.props;
+    const {value, min, max, step, onChange} = this.props;
     const { anchorEl, open } = this.state;
     const id = open ? 'my-popup' : null;
 
@@ -33,7 +33,7 @@ class PopSlider extends React.Component {
           <span
             aria-describedby={id}
             onMouseEnter={this.handleMouseEnter}
-            //
+            className="popslider value"
           >
             {this.props.children}
           </span>

@@ -37,6 +37,22 @@ const Line = ({pack, width, height, handleMouseEnter}) => {
       groupComponent={<VictoryClipContainer clipPadding={{top: 30, bottom: 30, left: 0, right: 0}}/>}// Needed in order to avoid curves to be clipped at the top.
       {...{height, width}}
     />
+
+  )
+};
+const LineBasis = ({pack, width, height, handleMouseEnter}) => {
+  return (
+    <VictoryLine
+      key={pack.packId}
+      data={pack.data}
+      x="month"
+      y="value"
+      interpolation="basis"
+      dataComponent={<Curve className={"line " + pack.packId} events={{onMouseEnter:handleMouseEnter}}/>}
+      groupComponent={<VictoryClipContainer clipPadding={{top: 30, bottom: 30, left: 0, right: 0}}/>}// Needed in order to avoid curves to be clipped at the top.
+      {...{height, width}}
+    />
+
   )
 };
 const LineChartView = ({data, selection, height, width, setFocusedMonth, handleMouseEnter}) => {
@@ -52,6 +68,7 @@ const LineChartView = ({data, selection, height, width, setFocusedMonth, handleM
         { data.map(
             pack => [
                 /*No intermediary component here because VictoryBar should be a direct child of VictoryBar*/
+                // Line({pack, width, height, handleMouseEnter}),
                 Line({pack, width, height, handleMouseEnter}),
                 Scatter({pack, width, height, handleMouseEnter})
               ]

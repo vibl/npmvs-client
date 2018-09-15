@@ -1,17 +1,10 @@
 import React, {Component} from 'react';
-import { Fade, Loop } from 'react-animation-components';
-import {filter, length, map, pipe} from 'ramda';
+import mem from 'mem';
+import {filter, length, map, pipe} from 'ramda'
 import ChartCard from '../card/ChartCard';
 import BarChart from './BarChart/BarChartContainer';
 import ChartTitle from '../card/ChartTitle';
-import PopSlider from "../card/PopSlider";
-
- /*
-<Loop in iterations={5.5}>
-  <Fade>
-    <h1>I will Fade in and out repeatedly on 500ms intervals 5.5 times</h1>
-  </Fade>
-</Loop>*/
+import BlinkSlider from '../card/BlinkSlider';
 
 const description = `
 Contributors with one or two commits are not usually much involved in maintaining the project. 
@@ -27,24 +20,21 @@ export const config = {
   extractFn: x => x,
   description,
 };
-const ValueSlider = ({value, onChange}) => (
-  <PopSlider min={0} max={200} step={1} {...{value, onChange}}>
-    <Loop in interval={700}>
-      <Fade
-        enterOpacity={1}
-        exitOpacity={0.4}
-        style={{display: 'inline', color: '#000'}}
-        timingFn="ease-out"
-      >
-        {value}
-      </Fade>
-    </Loop>
-  </PopSlider>
-);
-const SliderTitle = ({description, value, onChange}) => {
+const extractData =
+  mem(
+    (minCommits, list) =>
+      map(
+        pipe(
+          filter( o => o.commitsCount > minCommits ),
+          length,
+        ),
+        list,
+    )
+  );
+const SliderTitle = ({description, displayValue, value, onChange, sliderConfig}) => {
   return (
     <ChartTitle {...{description}}>
-      Contributors with more than&nbsp;<ValueSlider {...{value, onChange}}/> commits
+      Contributors with more than&nbsp;<BlinkSlider {...{value, displayValue, onChange, sliderConfig}}/> commits
     </ChartTitle>
   )
 };
@@ -61,18 +51,11 @@ class Contributors extends Component {
   render() {
     const {description} = config;
     const {onChange, props:{data: list}, state:{minCommits}} = this;
-    const data =
-      map(
-        pipe(
-          filter( o => o.commitsCount > minCommits ),
-          length,
-        ),
-        list,
-      );
-
+    const data = extractData(minCommits, list);
+    const sliderConfig = {min: 0, max: 200, step: 1};
     return (
       <ChartCard>
-        <SliderTitle {...{description, value: minCommits, onChange}}/>
+        <SliderTitle {...{description, value: minCommits, displayValue: minCommits, onChange, sliderConfig}}/>
         <BarChart  {...{config, data}}/>
       </ChartCard>
     );

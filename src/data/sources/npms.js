@@ -1,7 +1,7 @@
 import {assoc, dissoc, filter, map, mergeDeepLeft, omit, pick} from 'ramda';
-import config from '../config/config';
-import {chartsConfig, chartsList} from '../components/charts/index';
-const {tablify} = require('../logic/vibl-fp').default;
+import config from '../../config/config';
+import {chartsConfig, chartsList} from '../../components/charts/index';
+const {tablify} = require('../../logic/vibl-fp').default;
 
 const idFromPath = (level, path) => {
   const nameSegments = path.slice(path.length - level, path.length);

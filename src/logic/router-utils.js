@@ -3,8 +3,7 @@ import {append, match} from 'ramda';
 const {discard} = require('./vibl-fp').default;
 
 const stringSeparator = '-vs-';
-const firstPathSegment = '/compare/';
-const lastUrlSegmentRegex = /\/compare\/(.+)\/?$/;
+const lastUrlSegmentRegex = /\/(.+)\/?$/;
 
 export const selectionFromUrlPath = (urlPath) => {
   const lastPathSegment = match(lastUrlSegmentRegex, urlPath)[1] || '';
@@ -12,22 +11,19 @@ export const selectionFromUrlPath = (urlPath) => {
   return  ary.length === 1 && ary[0] === '' ? [] : ary;
 };
 
-export function pathFromSelection(selection) {
-  const lastPathSegment = selection.join(stringSeparator);
-  return firstPathSegment + lastPathSegment;
-}
-export function getSelectionFromLocation() {
-   return selectionFromUrlPath(history.location.pathname);
-}
-export function pushHistoryFromSelection(selection) {
+export const pathFromSelection =  selection => selection.join(stringSeparator);
+
+export const getSelectionFromLocation = () => selectionFromUrlPath(history.location.pathname);
+
+export const pushHistoryFromSelection = (selection) => {
   const locationPath = pathFromSelection(selection);
   return history.push(locationPath);
-}
-export function pushHistoryWithSelectionFn(fn) {
+};
+export const pushHistoryWithSelectionFn = (fn) => {
   const selectedAry = getSelectionFromLocation();
   const newSelectedAry = fn(selectedAry);
   return pushHistoryFromSelection(newSelectedAry);
-}
+};
 export const selectPackage = (packageName) => pushHistoryWithSelectionFn(append(packageName));
 
 export const deselectPackage = (packageName) => pushHistoryWithSelectionFn(discard(packageName));

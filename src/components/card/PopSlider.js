@@ -24,24 +24,18 @@ class PopSlider extends React.Component {
     clearTimeout(this.timeout);
   };
   render() {
-    const {value, min, max, step, onChange} = this.props;
+    const {popupStyle: style, value, min, max, step, onChange} = this.props;
     const { anchorEl, open } = this.state;
-    const id = open ? 'my-popup' : null;
-
     return (
         <Fragment>
           <span
-            aria-describedby={id}
             onMouseEnter={this.handleMouseEnter}
             className="popslider value"
           >
             {this.props.children}
           </span>
           <Popper
-            id={id}
-            open={open} 
-            anchorEl={anchorEl}
-            style={{height: '1em', width: '8rem'}}
+            {...{open, anchorEl, style}}
             modifiers={{
               offset: {
                 enabled: true,

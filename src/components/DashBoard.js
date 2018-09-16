@@ -51,6 +51,7 @@ const chartStyles = ({colors, selection, focus}) => {
 };
 const StyledGrid = styled(Grid)`
     position: relative;
+    align-items: stretch;
     .VictoryContainer > svg {
       overflow: visible;
     }
@@ -70,7 +71,7 @@ const DashBoard = ({chartsData, selection, focus, colors}) => {
   // const waitForData = lacksElementsOf(chartsList, keys(chartsData));
   const cards = renderCards(chartsData);
   return /*waitForData ? null : */(
-    <StyledGrid container spacing={4} {...{colors, selection, focus}}>
+    <StyledGrid container spacing={0} {...{colors, selection, focus}}>
       <Grid item md={4} sm={6} xs={12}>
         { cards([
           'DownloadsGrowth',

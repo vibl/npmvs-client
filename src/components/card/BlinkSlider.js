@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import styled from 'react-emotion';
 import PopSlider from "../card/PopSlider";
 import HelpTooltip from '../generic/HelpTooltip';
-import store from "../../logic/store";
 
 const StyledSpan = styled.span`
     span.popslider.value {
@@ -28,11 +27,11 @@ class BlinkSlider extends Component {
   //
   // }
  render() {
-   const {value, displayValue, sliderConfig, onChange} = this.props;
+   const {value, displayValue, sliderConfig, onChange, popupStyle} = this.props;
     return (
       <StyledSpan>
-        <PopSlider {...sliderConfig} {...{value, onChange}}>
-          <HelpTooltip title={'Hover there!'} group={'PopSlider'}>
+        <PopSlider {...sliderConfig} {...{value, onChange, popupStyle}}>
+          <HelpTooltip title={'Hover here'} group={'PopSlider'}>
             <span>
             {displayValue}
             </span>

@@ -117,6 +117,10 @@ export const config = {
  */
 
 const LineChartCard = styled(ChartCard)`
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: calc(100% - 8px);
     min-height: 12.5rem;
 `;
 const ThisCard = ({data}) => {

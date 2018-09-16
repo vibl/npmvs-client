@@ -67,11 +67,13 @@ const extractData = mem( (exponent, dist) => {
   return Math.round(relevantCount / totalCount * 100);
 });
 const SliderTitle = ({description, value, displayValue, sliderConfig, onChange}) => {
+  const valueSlider = <BlinkSlider
+    {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '4rem'}}}/>
   return (
     <ChartTitle {...{description}}>
-      Percent of issues closed in less than&nbsp;<BlinkSlider {...{value, displayValue, sliderConfig, onChange}}/>
+      Issues closed in less than {valueSlider}
     </ChartTitle>
-  )
+  );
 };
 class Contributors extends Component {
   constructor(props) {

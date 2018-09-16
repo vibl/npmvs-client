@@ -20,7 +20,6 @@ injectGlobal`
 //   const {whyDidYouUpdate} = require('why-did-you-update');
 //   whyDidYouUpdate(React);
 // }
-init();
 
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

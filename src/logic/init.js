@@ -3,7 +3,6 @@ import store from "./store";
 
 export default () => {
   if( ! isEmpty(store.get()) ) return;
-
   store.set({
     packages: {},
     charts: {},
@@ -14,6 +13,9 @@ export default () => {
       hue: 70,
       saturation: 40,
       lightness: 70,
+    },
+    user: {
+      helpTooltips: {},
     }
   });
 }

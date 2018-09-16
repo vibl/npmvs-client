@@ -426,7 +426,8 @@ const mapToArray = curry2( (fn, obj) => {
   let acc = [], key;
   for(key in obj) {
     if( obj.hasOwnProperty(key) ) {
-      acc.push(fn(obj, key));
+      const value = obj[key];
+      acc.push(fn(value, key));
     }
   }
   return acc;

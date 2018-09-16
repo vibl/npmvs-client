@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import Popper from '@material-ui/core/Popper';
 import Slider from '@material-ui/lab/Slider';
 
-class   PopSlider extends React.Component {
+class PopSlider extends React.Component {
   state = {
     anchorEl: null,
     open: false,

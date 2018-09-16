@@ -1,22 +1,18 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import styled from 'react-emotion';
 import mem from 'mem';
-import {forEachObjIndexed, not, pipe, prop} from 'ramda';
-import store from '../../logic/store';
-const {transform} = require('../../logic/vibl-fp');
+import {dissoc, not} from 'ramda';
+const {mapToArray, transform} = require('../../logic/vibl-fp');
 
-const getTriggeredStyles = ({targets}) => {
-  let acc = [];
-  for(const selector in targets) {
-    const {rule, on} = targets[selector];
-    const style = ! on ? null : `${selector} { ${rule}; }`;
-    acc.push(style);
-  }
-  return acc;
-};
+let singleton = {};
+
+const getStyle = mem(
+  ({rule, selector, on}) => on && `${selector} { ${rule}; }`,
+  {cacheKey: (target, id) => `${id}_${target.on}`}
+);
+
 const BlinkerWrapper = styled.div`
-  ${getTriggeredStyles}
+  ${({targets}) => mapToArray(getStyle, targets)}
 `;
 export class Blinker extends Component {
   constructor(props){
@@ -24,7 +20,7 @@ export class Blinker extends Component {
     this.state = {
       targets: {},
     };
-    store.set({blinker: []});
+    singleton = this;
   }
   set(spec) {
     this.setState(transform(spec));
@@ -32,24 +28,21 @@ export class Blinker extends Component {
   blink = (selector) => {
     this.set({targets:{[selector]:{on: not}}});
   };
-  setTrigger(selector, target) {
-    const timer = setInterval(
-      () => this.blink(selector),
-      target.interval,
+  register(target) {
+    const {selector, rule, interval} = target;
+    const id = setInterval(
+      () => this.blink(id),
+      interval,
     );
-    this.set({targets:{[selector]: {timer, ...target}}})
+    this.blink(id);
+    this.set({targets:{[id]: {selector, rule, interval}}});
+    return id;
   }
-  registerTargets(targets) {
-    forEachObjIndexed(
-      (target, selector) => {
-        if( ! this.state.targets[selector] ) {
-          this.setTrigger(selector, target);
-        }
-      },
-      targets);
+  unregister(id) {
+    clearInterval(id);
+    this.set({targets:dissoc(id)});
   }
   render(){
-    this.registerTargets(store.get().blinker);
     return (
       <BlinkerWrapper {...this.props} {...this.state}>
         {this.props.children}
@@ -57,7 +50,7 @@ export class Blinker extends Component {
     )
   }
 }
-const mapStateToProps = (state) => ({
-  targets: state.blinker,
-});
-export default connect(mapStateToProps)(Blinker);
+export const registerBlinkerTarget = (target) => setTimeout( () => singleton.register(target), 1000);
+export const unRegisterBlinkerTarget = singleton.unregister;
+
+export default Blinker;

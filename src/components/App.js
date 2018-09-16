@@ -5,7 +5,7 @@ import {pure} from 'recompose';
 import {Route, Router } from 'react-router-dom';
 import styled from "react-emotion";
 import history from '../logic/history';
-import {redux} from '../logic/store';
+import {initRedux} from '../logic/store';
 import selection from '../logic/selection';
 import ComparisonPage from "./ComparisonPage";
 import Blinker from './generic/Blinker';
@@ -18,6 +18,21 @@ const theme = createMuiTheme({
     }
   }
 });
+const initialData = {
+  packages: {},
+  charts: {},
+  selection: [],
+  focus: undefined,
+  color: {
+    hues: [0, 120, 240, 60, 330, 180, 90, 270, 30, 150, 300, 210],
+    hue: 70,
+    saturation: 40,
+    lightness: 70,
+  },
+  session: {
+    needsHelp: true,
+  },
+};
 
 // A component must return at least null!
 const SelectionChange = pure( ({location}) => {
@@ -28,12 +43,11 @@ const AppStyles = styled.div`
   background-color: #f7f1f1;
   font-family: Roboto;
 `;
-
 class App extends Component {
   render() {
     return (
       <Router history={history}>
-        <Provider store={redux}>
+        <Provider store={initRedux(initialData)}>
           <MuiThemeProvider theme={theme}>
           <Blinker>
             <AppStyles>

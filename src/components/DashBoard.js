@@ -20,30 +20,68 @@ const overlayStyles = ({colors, focus}) => pipe(
 const chartStyles = ({colors, selection, focus}) => {
   const packages = reverse(selection);
   const styleMapper = (packId, i) => {
-    const {color, colorDarker} = colors[packId];
+    const {color: baseColor, colorDarker} = colors[packId];
+    const color = focus === packId ? colorDarker : baseColor;
     return `
       // Bars
       .bar-chart.VictoryContainer > svg > g:nth-child(2) > path:nth-child(${i+1}) {
-        fill: ${color} !important;
-        stroke:  ${focus === packId ? colorDarker : color} !important;
+        fill: ${baseColor} !important;
+        stroke:  ${color} !important;
       }
       // Bar labels
       .bar-chart.VictoryContainer > svg > g:nth-child(2) > text:nth-child(${i+4}) > tspan {
-        fill: ${focus === packId ? colorDarker : color} !important;
+        fill: ${color} !important;
       }
       // Tick labels
       .bar-chart.VictoryContainer > svg > g:nth-child(1) > g:nth-child(${i+2}) > text > tspan {
-        fill: ${focus === packId ? colorDarker : color} !important;
+        fill: ${color} !important;
       }
       // Lines
       .VictoryContainer.line-chart > svg > g > path.line.${packId} {
-        stroke: ${focus === packId ? colorDarker : color} !important;
+        stroke: ${color} !important;
         stroke-width: ${focus === packId ? 3 : 2} !important;
       }
       // Scatter
       .VictoryContainer.line-chart > svg > g > path.scatter.${packId} {
-        stroke: ${focus === packId ? colorDarker : color} !important; 
-        fill: ${focus === packId ? colorDarker : color} !important;
+        stroke: ${color} !important; 
+        fill: ${color} !important;
+      }
+      ///////////////////////////////////////////////////////////////////////////
+      // Divcharts
+      .divchart {   
+        
+        .label-row  {
+           margin-right: 0.3rem;
+        }
+        .label-row, .value {
+           font-size: 0.7rem;
+        }
+        .data-row, .label-row {
+           height: 0.8rem;
+           margin-top: 0.25rem;
+           margin-bottom: 0.25rem
+        }
+        .bar {
+          border: 2px solid; 
+          vertical-align: middle;
+        }
+        .value {
+          margin-left: 0.3rem;
+          vertical-align: middle;
+        }  
+        .label-row.${packId} {
+            color: ${color};
+         }  
+        .data-row.${packId} {
+          .bar {
+            background: ${baseColor};
+            border-color:  ${color};
+            box-shadow: 0 0 2px 0 #d0b6bd;
+          }
+          .value {
+            color: ${color};
+          }
+        }
       }
     `;
   };

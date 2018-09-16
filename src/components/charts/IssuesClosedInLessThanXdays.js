@@ -3,7 +3,7 @@ import mem from 'mem';
 import styled from 'react-emotion';
 import fn from '../../logic/field-fns';
 import ChartCard from '../card/ChartCard';
-import BarChart from './BarChart/BarChartContainer';
+import DivBarChart from './BarChart/DivchartContainer';
 import ChartTitle from '../card/ChartTitle';
 import BlinkSlider from '../card/BlinkSlider';
 import {map, pipe, prop} from 'ramda';
@@ -94,7 +94,7 @@ class Contributors extends Component {
     return (
       <ChartCard>
         <SliderTitle {...{description, value: exponent, displayValue:labels[3**exponent], sliderConfig, onChange}}/>
-        <BarChart {...{config, data}}/>
+        <DivBarChart {...{config, data}}/>
       </ChartCard>
     );
   };

@@ -1,10 +1,10 @@
 import isEmpty from "lodash/isEmpty";
-import state from "./store";
+import store from "./store";
 
 export default () => {
-  if( ! isEmpty(state.get()) ) return;
+  if( ! isEmpty(store.get()) ) return;
 
-  state.set({
+  store.set({
     packages: {},
     charts: {},
     selection: [],

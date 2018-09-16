@@ -1,13 +1,13 @@
-import state from "./store";
+import store from "./store";
 import {last} from 'ramda';
 const {discard} = require('./vibl-fp');
 
 export const setFocus = (packId) => {
-  state.set({focus: packId});
+  store.set({focus: packId});
 };
 export const unsetFocus = (packId) => {
-  const selection = state.get().selection;
+  const selection = store.get().selection;
   const newFocus = last(discard(packId, selection));
-  state.set({focus: newFocus});
+  store.set({focus: newFocus});
 };
 

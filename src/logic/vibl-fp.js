@@ -422,7 +422,7 @@ const lacksElementsOf = curry2( (listA, listB) => {
 
 const haveSameElements = curry2( (a, b) => ! lacksElementsOf(a, b) && ! lacksElementsOf(b, a));
 
-const objToArray = curry2( (fn, obj) => {
+const mapToArray = curry2( (fn, obj) => {
   let acc = [], key;
   for(key in obj) {
     if( obj.hasOwnProperty(key) ) {
@@ -446,7 +446,7 @@ const viblPure = {
   mapDeep, mapIf, mapIndex, mapKeys, mapValues, mergeDeepWithArray, mergeLeft,
   mergeAllTables, mergeAllTablesNotBlank, mergeTables, mergeTablesNotBlank,
   notBlank, notEmpty, notMatch, nthRoot,
-  objToArray, overlaps,
+  mapToArray, overlaps,
   percent, pipeD, pipeLog, pMap, prefixLine, preIntersperse, putFirst,
   random, rangeMap, rangeStep, reduceFirst, reduceFirstP, reduceIndexed, reduceP,
   reduceSteps, reduceTemplate, reIndex, removed, removeShortest, rest, reverseDifference, round,

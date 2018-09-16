@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import Popper from '@material-ui/core/Popper';
 import Slider from '@material-ui/lab/Slider';
 
-class PopSlider extends React.Component {
+class   PopSlider extends React.Component {
   state = {
     anchorEl: null,
     open: false,
@@ -45,7 +45,7 @@ class PopSlider extends React.Component {
             modifiers={{
               offset: {
                 enabled: true,
-                offset: '-30px 0'
+                offset: '0px, -15px '
               },
               flip: {
                 enabled: false,
@@ -54,7 +54,7 @@ class PopSlider extends React.Component {
           >
             <Slider
               onMouseEnter={this.handleMouseEnterSlider}
-              // onMouseLeave={this.handleMouseLeave}
+              onMouseLeave={this.handleMouseLeave}
               {...{value, min, max, step, onChange}}
             />
           </Popper>

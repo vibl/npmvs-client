@@ -123,7 +123,7 @@ const ThisCard = ({data}) => {
   const {label, description} = config;
   return (
     <LineChartCard>
-      <Title>{label}<InfoTip {...{description}}/></Title>
+      <Title {...{description}}>{label}</Title>
       <LineChart {...{config, data}}/>
     </LineChartCard>
   );

@@ -5,15 +5,14 @@ const {transform} = require('./vibl-fp').default;
 
 const reducer = (state, {payload}) => payload ? transform(payload, state) : state;
 
-const store = createStore(reducer, {},
+export const redux = createStore(reducer, {},
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),);
 
 function set(payload) {
-  store.dispatch({type: 'SET', payload, debug: stringifier.stringify(payload)});
+  redux.dispatch({type: 'SET', payload, debug: stringifier.stringify(payload)});
 };
 
 export default {
-  get: store.getState,
+  get: redux.getState,
   set,
-  store,
 }

@@ -10,7 +10,11 @@ import {getPackageColors} from "../../logic/derived-state";
 import {setFocus} from '../../logic/focus';
 
 const styles = {
-  // control: styles => ({ ...styles, backgroundColor: 'white' }),
+  control: styles => ({
+    ...styles,
+    border: '1px solid #880022',
+    background: '#f7f1f1',
+   }),
   // option: (styles, { data, isDisabled, isFocused, isSelected }) => {
   //   const color = chroma(data.color);
   //   return {

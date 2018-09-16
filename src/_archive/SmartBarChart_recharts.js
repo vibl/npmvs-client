@@ -7,7 +7,7 @@ import {keys, map, max, pipe, reduce, values} from 'ramda';
 import {getPackageColors, getUnfocusedColor} from "../logic/derived-state";
 import fields from '../data/data-fields';
 import {pipeFn} from '../logic/field-fns';
-import state from "../logic/store";
+import store from "../logic/store";
 const {listMax} = require('../logic/vibl-fp');
 
 function shortenNumber(num) {
@@ -56,10 +56,10 @@ const complement = (data) => {
 let mouseOutTimeout;
 const handleMouseOver = (packId) => {
   clearTimeout(mouseOutTimeout);
-  state.set({focus: packId});
+  store.set({focus: packId});
 };
 const handleMouseOut = () => {
-  mouseOutTimeout = setTimeout( () => state.set({focus: undefined}), 200);
+  mouseOutTimeout = setTimeout( () => store.set({focus: undefined}), 200);
 };
 
 class SmartBarChart extends PureComponent {

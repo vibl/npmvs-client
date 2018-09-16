@@ -1,6 +1,6 @@
 import {append, mapObjIndexed, pipe, values} from 'ramda';
 import http from '../logic/http';
-import state from '../logic/store';
+import store from '../logic/store';
 import dataPoints from './data-points';
 import sources from './sources/index';
 import {setFocus, unsetFocus} from "../logic/focus";
@@ -12,10 +12,10 @@ const addEndpointData = async (packId, source, [{params, extractTree}, endpoint]
   const url = urlBuilder[endpoint](packId, params);
   const resp = await http.memGet(url);
   const transformer = stateTransformer.adding(packId, resp.data, extractTree);
-  state.set(transformer);
+  store.set(transformer);
 };
 const add = async (packId) => {
-  state.set({selection: append(packId)});
+  store.set({selection: append(packId)});
   for(let source in dataPoints) {
     const endpoints = dataPoints[source];
     // Promises should be executed in parallel. No need for the return values.
@@ -32,10 +32,10 @@ const add = async (packId) => {
 // const removeEndpointData = async (packId, source) => {
 //   const {stateTransformer} = sources[source];
 //   const transformer = stateTransformer.removing(packId);
-//   state.set(transformer);
+//   store.set(transformer);
 // };
 const remove = async (packId) => {
-  state.set({selection: discard(packId)});
+  store.set({selection: discard(packId)});
   unsetFocus(packId);
   // for(let source in dataPoints) {
   //   const endpoints = dataPoints[source];

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import Slider from '@material-ui/lab/Slider';
 import styled from 'react-emotion';
-import state from '../../logic/store';
+import store from '../../logic/store';
 import {apply, join, map, pipe} from 'ramda';
 const {hsl, rangeStep} = require('../../logic/vibl-fp');
 
@@ -27,7 +27,7 @@ const GradientSlider = styled(Slider)`
 `;
 class ColorSlider extends Component {
   handleChange = (event, value) => {
-    state.set({color:{[this.props.id]: value} });
+    store.set({color:{[this.props.id]: value} });
   };
   render() {
     const {id, color, label, max} = this.props;

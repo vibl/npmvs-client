@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import state from '../logic/store';
+import store from '../logic/store';
 import styled from 'react-emotion';
 import {prop} from 'ramda';
 import CloseIcon from '@material-ui/icons/Close';
@@ -27,7 +27,7 @@ const CloseButton = styled(Button)`
 `;
 class PackageItem extends PureComponent {
   handleMouseOver() {
-    state.set({focus: this.props.packId});
+    store.set({focus: this.props.packId});
   }
   handleClose() {
     deselectPackage(this.props.packId);

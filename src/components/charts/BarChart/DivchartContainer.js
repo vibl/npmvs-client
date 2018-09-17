@@ -19,7 +19,7 @@ class Container extends PureComponent {
     setFocus(packId);
   };
   render() {
-    const {config: {displayFn}, data, selection} = this.props;
+    const {data, selection, displayFn} = this.props;
     if( isEmpty(selection) || isEmpty(data) || lacksElementsOf(selection, keys(data)) ) return null;
     const packages = this.packages = reverse(selection);
     const hasNegativeValues = anyValue(isNegative, data);

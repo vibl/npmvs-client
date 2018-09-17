@@ -1,7 +1,7 @@
 import importData from './process-data';
 import {set, store} from '../logic/store';
 import isEmpty from "lodash/isEmpty";
-import {fetchChartData, getPackageRawData} from '../data/package-data';
+import {fetchChartData, getPackageRawData} from './get-data';
 import {getSelectionFromLocation} from '../logic/router-utils';
 import fieldsSpecs from '../data/sources/npms';
 import {add, assoc, difference, dissoc, dissocPath, filter, flip, insert, juxt, keys, last,

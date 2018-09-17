@@ -6,7 +6,7 @@ import {equals} from 'ramda';
 // import chroma from 'chroma-js'; // TODO: remplacer par le module 'color'?
 import {getSuggestions} from '../../logic/selector';
 import {selectPackage, deselectPackage} from '../../logic/router-utils';
-import {getPackageColors} from "../../logic/derived-state";
+import {getPackageColors} from "../../logic/utils";
 import {setFocus} from '../../logic/focus';
 
 const styles = {

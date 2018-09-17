@@ -16,8 +16,13 @@
     "debounce-promise": "^3.1.0",
     "deep-eql": "^3.0.1",
     "emotion": "^9.2.6",
+    "jsonpath": "^1.0.0",
     "lodash": "^4.17.10",
+    "lrumap": "^1.0.0",
     "mem": "^4.0.0",
+    "memoize-immutable": "^3.0.0",
+    "mixedtuplemap": "^1.0.0",
+    "namedtuplemap": "^1.0.0",
     "p-map": "^1.2.0",
     "prop-types": "^15.6.2",
     "ramda": "^0.25.0",
@@ -57,6 +62,7 @@
     "stringifier": "^1.4.0",
     "unified": "^7.0.0",
     "victory": "^30.3.1",
+    "weaktuplemap": "^1.0.0",
     "why-did-you-update": "^0.1.1"
   },
   "scripts": {

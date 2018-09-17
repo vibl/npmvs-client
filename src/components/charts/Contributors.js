@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import mem from 'mem';
-import styled from 'react-emotion';
 import ChartCard from '../card/ChartCard';
-import BarChart from './BarChart/BarChartContainer';
+import Divchart from './BarChart/DivchartContainer';
 import ChartTitle from '../card/ChartTitle';
 import BlinkSlider from '../card/BlinkSlider';
 import {filter, length, map, pipe} from 'ramda';
+import {connect} from "react-redux";
+import {getData} from "../../logic/utils";
 
 const description = `
 Contributors with one or two commits are not usually much involved in maintaining the project. 
@@ -55,14 +56,18 @@ class Contributors extends Component {
     const {description} = config;
     const {onChange, props:{data: list}, state:{exponent}} = this;
     const minCommits = 2**exponent;
+    if( !list ) return null;
     const data = extractData(minCommits, list);
     const sliderConfig = {min: 0, max: 10, step: 1};
     return (
       <ChartCard>
         <SliderTitle {...{description, value: exponent, displayValue: minCommits, onChange, sliderConfig}}/>
-        <BarChart  {...{config, data}}/>
+        <Divchart  {...{config, data}}/>
       </ChartCard>
     );
   };
 }
-export default Contributors;
+const mapStateToProps = (state) => ({
+  data: getData(state, 'contributors'),
+});
+export default connect(mapStateToProps)(Contributors);

@@ -1,15 +1,15 @@
 import React from 'react';
 import ChartCard from './ChartCard';
-import BarChart from '../charts/BarChart/BarChartContainer';
+import Divchart from '../charts/BarChart/DivchartContainer';
 import ChartTitle from './ChartTitle';
 import {pure} from 'recompose';
 
 const BasicCard = ({config, data}) => {
-  const {label, description} = config;
+  const {label, description, displayFn} = config;
   return (
     <ChartCard>
       <ChartTitle {...{description}}>{label}</ChartTitle>
-      <BarChart  {...{config, data}}/>
+      <Divchart  {...{data, displayFn}}/>
     </ChartCard>
   );
 };

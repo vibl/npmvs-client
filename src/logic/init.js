@@ -4,8 +4,7 @@ import store from "./store";
 export default () => {
   if( ! isEmpty(store.get()) ) return;
   store.set({
-    packages: {},
-    charts: {},
+    data: {},
     selection: [],
     focus: undefined,
     color: {

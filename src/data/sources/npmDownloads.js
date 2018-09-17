@@ -1,30 +1,14 @@
-import {applySpec, dissoc, map, pipe} from "ramda";
-import config from '../../config/config'
-import {chartsConfig} from '../../components/charts/index';
-const {filterKeys, zipObjMap} = require('../../logic/vibl-fp').default;
+import http from "../../logic/http";
+import store from "../../logic/store";
 
-const makeUrlBuilder =
-  endpoint =>
-    (packName, {timeFrame}) =>
-      config.sources.npmDownloads + endpoint + '/' + timeFrame + '/' + encodeURIComponent(packName);
+const endpointUrl = 'https://api.npmjs.org/downloads/range/';
 
-const urlBuilder = zipObjMap(makeUrlBuilder, ['range', 'point']);
-
-const downloadsChartsConfig = filterKeys( s => s.startsWith('Downloads'),chartsConfig );
-
-const extractData = (packId) => pipe(
-  map( o => ({[packId]: o.extractFn})),
-  applySpec,
-);
-const stateTransformer = {
-  adding: (packId, {downloads}) => {
-    const chartsData = extractData(packId)(downloadsChartsConfig)(downloads);
-    return ({ charts: chartsData})},
-  removing: (packName) => ({
-    charts: {MonthlyDownloadsSeries: map(dissoc(packName))},
-  }),
+const params = '2016-09-01:2018-08-31/';
+const getData = async (packId) => {
+  const url = endpointUrl + params + encodeURIComponent(packId);
+  const resp = await http.memGet(url);
+  store.set({data:{[packId]:{downloads: resp.data.downloads}}});
 };
 export default {
-  stateTransformer,
-  urlBuilder,
-};
+  getData,
+}

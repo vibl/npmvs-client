@@ -4,7 +4,7 @@ import {keys, pipe, prepend, without} from 'ramda';
 import isEmpty from "lodash/isEmpty";
 import {pure} from "recompose";
 import {connect} from "react-redux";
-import {getPackageColors, getUnfocusedColor} from "../logic/derived-state";
+import {getPackageColors, getUnfocusedColor} from "../logic/utils";
 const {putFirst} = require('../logic/vibl-fp');
 
 function shortenNumber(num) {

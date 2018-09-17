@@ -4,7 +4,7 @@ import {pure} from 'recompose';
 import {Hint, HorizontalBarSeries, LabelSeries, XYPlot} from 'react-vis';
 import isEmpty from 'lodash/isEmpty';
 import {keys, map, max, pick, pipe, props, reduce, reverse, values, zipObj} from 'ramda';
-import {getPackageColors, getUnfocusedColor} from "../logic/derived-state";
+import {getPackageColors, getUnfocusedColor} from "../logic/utils";
 import fields from '../data/data-fields';
 import {pipeFn} from '../logic/field-fns';
 import store from "../logic/store";

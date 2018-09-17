@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import styled from 'react-emotion';
 import {keys, mapObjIndexed, pipe, reverse, values} from 'ramda';
 import Grid from '@material-ui/core/Grid';
-import {getPackageColors} from "../logic/derived-state";
+import {getPackageColors} from "../logic/utils";
 import cardsComponents, {chartsList} from "./charts";
 import DownloadsGrowth from "./charts/DownloadsGrowth"
 
@@ -96,33 +96,28 @@ const StyledGrid = styled(Grid)`
     ${chartStyles}
     ${overlayStyles}
 `;
-
-const renderCards =
-  chartsData => 
+const cards =
     chartIds =>
       chartIds.map( chartId => {
         const Component = cardsComponents[chartId];
-        const data = chartsData[chartId];
-        return ! data ? null : <Component key={chartId} {...{chartId, data}}/>
+        return <Component key={chartId} {...{chartId}}/>
       });
-const DashBoard = ({chartsData, selection, focus, colors}) => {
-  // const waitForData = lacksElementsOf(chartsList, keys(chartsData));
-  const cards = renderCards(chartsData);
-  return /*waitForData ? null : */(
+const DashBoard = ({selection, focus, colors}) => {
+  return (
     <StyledGrid container spacing={0} {...{colors, selection, focus}}>
-      <Grid item md={4} sm={6} xs={12}>
+     <Grid item md={4} sm={6} xs={12}>
         { cards([
           'DownloadsGrowth',
           'DownloadsAcceleration',
-          'Commits12months',
+          'CommitsForPeriod',
         ])}
       </Grid>
-      <Grid item md={4} sm={6} xs={12}>
+       <Grid item md={4} sm={6} xs={12}>
         { cards([
           'DownloadsSeries',
         ])}
       </Grid>
-      <Grid item md={4} sm={6} xs={12}>
+       <Grid item md={4} sm={6} xs={12}>
         { cards([
           'ClosedIssuesRatio',
           'IssuesClosedInLessThanXdays',
@@ -133,7 +128,6 @@ const DashBoard = ({chartsData, selection, focus, colors}) => {
     )
 };
 const mapStateToProps = (state) => ({
-  chartsData: state.charts,
   focus: state.focus,
   selection: state.selection,
   colors: getPackageColors(state.color, state.selection),

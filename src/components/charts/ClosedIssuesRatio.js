@@ -1,6 +1,8 @@
 import React from 'react';
 import BasicCard from "../card/BasicCard";
 import fn from '../../logic/field-fns';
+import {connect} from "react-redux";
+import {getData} from "../../logic/utils";
 
 const description = `
 -> *(Number of closed issues)* <-
@@ -16,9 +18,15 @@ Also, some types of projects just generate more issues
 `;
 export const config = {
   label: 'Percent of closed issues',
-  dataPoint: 'issues',
-  extractFn: ({count, openCount}) => (count - openCount) / count * 100,
   displayFn: fn.significanPercentDisplay,
   description,
 };
-export default ({data}) => <BasicCard {...{config, data}} />;
+
+const ClosedIssuesRatio =  ({data}) => ! data ? null : <BasicCard {...{config, data}} />;
+
+const extractFn = ({count, openCount}) => (count - openCount) / count * 100;
+
+const mapStateToProps = (state) => ({
+  data: getData(state, 'issues', extractFn),
+});
+export default connect(mapStateToProps)(ClosedIssuesRatio);

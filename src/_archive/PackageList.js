@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {pure} from 'recompose';
 import styled from 'react-emotion'
 import {pipe, prop} from 'ramda';
-import {getPackageColors, getUnfocusedColor} from '../logic/derived-state';
+import {getPackageColors, getUnfocusedColor} from '../logic/utils';
 import PackageItem from './PackageItem';
 
 const List = styled.div`

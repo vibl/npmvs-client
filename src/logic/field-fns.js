@@ -1,9 +1,7 @@
 import size from "lodash/size";
-import mem from 'mem';
-import {dec, last,
-  length, map, mean, multiply, pipe, reduce, sum, toPairs, values} from 'ramda';
-const {concatLeft, curry2, getDotPath, ident,
-  percent, pipeD} = require('./vibl-fp');
+import {mem} from './utils';
+import {dec, last, length, map, mean, multiply, pipe, reduce, slice, sum, toPairs, values} from 'ramda';
+const {concatLeft, curry2, getDotPath, ident, percent, pipeD} = require('./vibl-fp');
 
 const significantDigits = curry2(
   (digits, n) =>
@@ -86,6 +84,26 @@ const fns = {
   significanPercentDisplay: pipe(significantDigits(2), concatLeft('%')),
   percent1dec: percent(1),
   percent2dec: percent(2),
+  monthlyAggregate: mem( (data, packId) => {
+    const result = [];
+    const getMonth = slice(0, 7);
+    let currentMonth,
+      acc = 0,
+      daysCount = 0,
+      previous = getMonth(data[0].day);
+    for( const {day, downloads} of data ) {
+      currentMonth = getMonth(day);
+      if( currentMonth !== previous ) {
+        result.push({month: currentMonth, value: Math.round(acc / daysCount * 365/12)});
+        acc = 0;
+        daysCount = 0;
+      }
+      acc += downloads;
+      daysCount++;
+      previous = currentMonth;
+    }
+    return result;
+  }),
 };
 const orNull = f => arg => f(arg) || null;
 

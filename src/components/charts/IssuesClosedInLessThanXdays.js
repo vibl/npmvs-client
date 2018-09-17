@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import mem from 'mem';
-import styled from 'react-emotion';
+import {connect} from "react-redux";
+import {getData} from "../../logic/utils";
 import fn from '../../logic/field-fns';
 import ChartCard from '../card/ChartCard';
 import DivBarChart from './BarChart/DivchartContainer';
@@ -50,7 +51,6 @@ const labels = {
 // };
 export const config = {
   dataPoint: 'issues',
-  extractFn: pipe(prop('distribution'), mapKeys( key => key/3600 )),
   displayFn: fn.significanPercentDisplay,
   description,
 };
@@ -75,7 +75,7 @@ const SliderTitle = ({description, value, displayValue, sliderConfig, onChange})
     </ChartTitle>
   );
 };
-class Contributors extends Component {
+class IssuesClosedInLessThanXdays extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -89,6 +89,7 @@ class Contributors extends Component {
     const {description} = config;
     const {onChange, props:{data: distribution}, state:{exponent}} = this;
     // const data = map( reg => reg.predict(exponent), packRegressions);
+    if( !distribution ) return null;
     const data = map(d => extractData(exponent, d), distribution);
     const sliderConfig = {min: 0, max: 9, step: 1};
     return (
@@ -99,4 +100,10 @@ class Contributors extends Component {
     );
   };
 }
-export default Contributors;
+
+const extractFn = mapKeys( key => key/3600 );
+
+const mapStateToProps = (state) => ({
+  data: getData(state, 'issues.distribution', extractFn),
+});
+export default connect(mapStateToProps)(IssuesClosedInLessThanXdays);

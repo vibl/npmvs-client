@@ -1,6 +1,6 @@
 import React from 'react';
 import PackageTable from "./PackageTable";
-import {getPackageRawData} from "../data/package-data";
+import {getPackageRawData} from "./get-data";
 import store from "../logic/store";
 import importData from "./process-data";
 import data from '../sample/react.json';

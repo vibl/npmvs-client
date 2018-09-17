@@ -38,9 +38,12 @@ const DataColumn = styled.div`
   flex-direction: column-reverse;
   align-items: stretch;
 `;
+
 const BarChart = ({data, packages, handleMouseEnter, hasNegativeValues}) => {
-  // const maxi = pipe( mapValues('value'), apply(Math.max))(rawData);
-  // const data = rawData.map( (line) => ({...line, value: line.value/maxi * 100}));
+  if( data.some( ({value}) => value > 100 ) ) {
+    const maxi = Math.max(...data.map( o => o.value ));
+    data = data.map( (line) => ({...line, value: line.value/maxi * 100}));
+  }
   return (
       <ChartContainer className='divchart'>
         <LabelColumn className='label-column'>

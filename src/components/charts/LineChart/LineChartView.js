@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {pure} from 'recompose'
 import {Curve, Point, VictoryAxis, VictoryLine, VictoryChart,
-  VictoryClipContainer, VictoryScatter, VictoryVoronoiContainer} from 'victory';
+  VictoryClipContainer, VictoryScatter, VictoryTooltip, VictoryVoronoiContainer} from 'victory';
 import theme from '../../theme';
 
 const VoronoiContainer = ({setFocusedMonth}) => (
@@ -55,9 +55,25 @@ const LineBasis = ({pack, width, height, handleMouseEnter}) => {
 
   )
 };
-const LineChartView = ({data, selection, height, width, setFocusedMonth, handleMouseEnter}) => {
-  // console.log('Rendering LineChartView:', selection, chartData);
-  return ! height || ! width ? null : (
+
+class LineChartView extends Component {
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   for(const key in nextProps) {
+  //     if( nextProps[key] !== this.props[key]) {
+  //       console.log('LineChartView props changed: ', key, this.props[key], nextProps[key]);
+  //     }
+  //   }
+  //   for(const key in nextState) {
+  //     if( nextState[key] !== this.state[key]) {
+  //       console.log('LineChartView props changed: ', key, this.state[key], nextState[key]);
+  //     }
+  //   }
+  //   return false;
+  // }
+  render() {
+    console.log('Rendering LineChartView');
+    const {data, height, width, setFocusedMonth, handleMouseEnter} = this.props;
+    return ! height || ! width ? null : (
       <VictoryChart
         theme={theme}
         padding={{left:10, right:10, top:10, bottom:0}}
@@ -75,5 +91,6 @@ const LineChartView = ({data, selection, height, width, setFocusedMonth, handleM
         )}
       </VictoryChart>
     )
+  }
 };
 export default pure(LineChartView);

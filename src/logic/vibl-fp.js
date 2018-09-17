@@ -388,6 +388,7 @@ const unlessEmpty = unless(isEmpty);
 const anyValue = curry2( (condition, obj) => any(condition, values(obj)));
 
 const hsl = (h, s, l) => `hsl(${h},${s}%,${l}%)`;
+const gradient = (from, to) => `linear-gradient(${from}, ${to})`;
 
 const reduceTemplate = curry2( (template, iterable) => reduce( (acc, o) => acc + template(o), '', iterable));
 
@@ -439,11 +440,11 @@ const viblPure = {
   collect, combine, concatArray, concatLeft, curry2, curry3, curryFlip, deIndex,
   discard, dissocAll, doesMatch, dotPath, dotStringToPath, equals, equalsAny,
   fnOr, filterKeys, filterP, flipAll, from,
-  geoMean, get, getDotPath, hsl,
+  geoMean, get, getDotPath, gradient, hsl,
   ifDefinedElse, ident, indexByProp, interleave, isBlank, isFunction,
   isNegative, isNumber, isObject, isObjectLike, isPlainObject, isString,
   keep, keepRandom,
-  lacksElementsOf, lensDotPath,  lineBreaksToSpace, listMax, listMin, log,
+  lacksElementsOf, lensDotPath, lineBreaksToSpace, listMax, listMin, log,
   mapDeep, mapIf, mapIndex, mapKeys, mapValues, mergeDeepWithArray, mergeLeft,
   mergeAllTables, mergeAllTablesNotBlank, mergeTables, mergeTablesNotBlank,
   notBlank, notEmpty, notMatch, nthRoot,

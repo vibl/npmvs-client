@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import {getPackageColors} from "../logic/utils";
 import cardsComponents, {chartsList} from "./charts";
 import DownloadsGrowth from "./charts/DownloadsGrowth"
+const {gradient, hsl} = require('../logic/vibl-fp');
 
 const overlayStyles = ({colors, focus}) => pipe(
   mapObjIndexed(
@@ -20,31 +21,33 @@ const overlayStyles = ({colors, focus}) => pipe(
 const chartStyles = ({colors, selection, focus}) => {
   const packages = reverse(selection);
   const styleMapper = (packId, i) => {
-    const {color: baseColor, colorDarker} = colors[packId];
-    const color = focus === packId ? colorDarker : baseColor;
+    const {color: baseColor, colorDarker, hue, saturation, lightness} = colors[packId];
+    const barGradient = gradient(baseColor, hsl(hue, saturation, lightness - 10));
+    const hasFocus = focus === packId;
+    const switchColor = hasFocus ? colorDarker : baseColor;
     return `
       // Bars
       .bar-chart.VictoryContainer > svg > g:nth-child(2) > path:nth-child(${i+1}) {
         fill: ${baseColor} !important;
-        stroke:  ${color} !important;
+        stroke:  ${switchColor} !important;
       }
       // Bar labels
       .bar-chart.VictoryContainer > svg > g:nth-child(2) > text:nth-child(${i+4}) > tspan {
-        fill: ${color} !important;
+        fill: ${switchColor} !important;
       }
       // Tick labels
       .bar-chart.VictoryContainer > svg > g:nth-child(1) > g:nth-child(${i+2}) > text > tspan {
-        fill: ${color} !important;
+        fill: ${switchColor} !important;
       }
       // Lines
       .VictoryContainer.line-chart > svg > g > path.line.${packId} {
-        stroke: ${color} !important;
-        stroke-width: ${focus === packId ? 3 : 2} !important;
+        stroke: ${switchColor} !important;
+        stroke-width: ${hasFocus ? 3 : 2} !important;
       }
       // Scatter
       .VictoryContainer.line-chart > svg > g > path.scatter.${packId} {
-        stroke: ${color} !important; 
-        fill: ${color} !important;
+        stroke: ${switchColor} !important; 
+        fill: ${switchColor} !important;
       }
       ///////////////////////////////////////////////////////////////////////////
       // Divcharts
@@ -62,7 +65,7 @@ const chartStyles = ({colors, selection, focus}) => {
            margin-bottom: 0.25rem
         }
         .bar {
-          border: 2px solid; 
+          border: 0; 
           vertical-align: middle;
         }
         .value {
@@ -70,16 +73,19 @@ const chartStyles = ({colors, selection, focus}) => {
           vertical-align: middle;
         }  
         .label-row.${packId} {
-            color: ${color};
+            color: ${switchColor};
          }  
         .data-row.${packId} {
           .bar {
-            background: ${baseColor};
-            border-color:  ${color};
-            box-shadow: 0 0 2px 0 #d0b6bd;
+            background: ${barGradient};
+            box-shadow: 
+            ${ hasFocus ?
+            `0 0 3px 3px ${colorDarker} 
+            ,inset -1px -1px 1px 0px ${colorDarker};`
+            : `0 0 2px 0 ${baseColor}; border: 1px solid ${baseColor};`}
           }
           .value {
-            color: ${color};
+            color: ${switchColor};
           }
         }
       }

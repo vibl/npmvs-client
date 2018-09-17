@@ -38,8 +38,7 @@ const DataColumn = styled.div`
   flex-direction: column-reverse;
   align-items: stretch;
 `;
-
-const BarChart = ({data, packages, handleMouseEnter, hasNegativeValues}) => {
+const Dichart = ({data, packages, handleMouseEnter, hasNegativeValues}) => {
   if( data.some( ({value}) => value > 100 ) ) {
     const maxi = Math.max(...data.map( o => o.value ));
     data = data.map( (line) => ({...line, value: line.value/maxi * 100}));
@@ -49,6 +48,7 @@ const BarChart = ({data, packages, handleMouseEnter, hasNegativeValues}) => {
         <LabelColumn className='label-column'>
           { data.map( ({packId}) =>
             <FieldLabel
+              key={packId}
               className={classNames('label-row', packId)}
               onMouseEnter={() => handleMouseEnter(packId)}
             >{packId}</FieldLabel>
@@ -57,6 +57,7 @@ const BarChart = ({data, packages, handleMouseEnter, hasNegativeValues}) => {
         <DataColumn>
           { data.map( ({label, value, packId}) =>
             <BarContainer
+              key={packId}
               className={classNames('data-row', packId)}
               onMouseEnter={() => handleMouseEnter(packId)}
             >
@@ -68,5 +69,5 @@ const BarChart = ({data, packages, handleMouseEnter, hasNegativeValues}) => {
       </ChartContainer>
   )
 };
-export default pure(BarChart);
+export default pure(Dichart);
 

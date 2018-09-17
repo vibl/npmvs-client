@@ -17,9 +17,11 @@ const getStats = mem( (selection, data) => {
   return result;
 });
 const AbsoluteContainer = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
+    visibility: ${p => p.show ? 'visible' : 'hidden' };
+    position: fixed;
+    left: ${p => p.mousePosition[0] - 100}px;
+    top: ${p => p.mousePosition[1] - 120}px;
+    z-index: 3000;
 `;
 const Month = styled.p`
     font-size: 14px;
@@ -33,6 +35,18 @@ const Table = styled.table`
 `;
 const Row = styled.tr`
     height: 20px;
+    * {
+      text-shadow: 
+              0 0 1px white, 
+              0 0 1px white, 
+              0 0 1px white,
+              0 0 2px white,
+              0 0 2px white,
+              0 0 2px white, 
+              0 0 3px white, 
+              0 0 3px white, 
+              0 0 3px white;
+    }
 `;
 const ColPack = styled.td`
   
@@ -58,11 +72,11 @@ const getMonthTitle = (month) => {
   const date =  new Date(month);
   return date.toLocaleDateString('en-US', {month: 'long', year: 'numeric'});
 };
-const LineChartOverlay = ({focusedMonth, data, selection}) => {
+const LineChartOverlay = ({focusedMonth, data, selection, mousePosition, show}) => {
   const stats = getStats(selection, data);
   const month = focusedMonth || last(keys(stats));
   return (
-    <AbsoluteContainer>
+    <AbsoluteContainer id="line-chart-overlay" {...{mousePosition, show}}>
       <Month>{getMonthTitle(month)}</Month>
       <Table>
         <tbody>

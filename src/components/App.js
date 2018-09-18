@@ -30,7 +30,7 @@ const initialData = {
     lightness: 70,
   },
   session: {
-    needsHelp: true,
+    isNewbie: true,
   },
 };
 

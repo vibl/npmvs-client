@@ -1,5 +1,5 @@
 import isEmpty from "lodash/isEmpty";
-import store from "./store";
+import store from "../logic/store";
 
 export default () => {
   if( ! isEmpty(store.get()) ) return;
@@ -15,6 +15,7 @@ export default () => {
     },
     user: {
       helpTooltips: {},
+      needsHelp: true,
     }
   });
 }

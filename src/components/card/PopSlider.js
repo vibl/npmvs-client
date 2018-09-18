@@ -13,6 +13,7 @@ class PopSlider extends React.Component {
       anchorEl: currentTarget,
       open: true,
     });
+    this.props.handleMouseEnterSlider(event);
   };
   handleMouseLeave = () => {
     this.timeout = setTimeout(this.close, 300);

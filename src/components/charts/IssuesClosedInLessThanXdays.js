@@ -49,11 +49,9 @@ const labels = {
 //   debugger;
 //   return acc;
 // };
-export const config = {
-  dataPoint: 'issues',
-  displayFn: fn.significanPercentDisplay,
-  description,
-};
+
+const displayFn = fn.significanPercentDisplay;
+
 const extractData = mem( (exponent, dist) => {
   const maxHours = 3**exponent;
   let relevantCount = 0, totalCount = 0, hours;
@@ -86,7 +84,6 @@ class IssuesClosedInLessThanXdays extends Component {
     this.setState({exponent});
   };
   render() {
-    const {description} = config;
     const {onChange, props:{data: distribution}, state:{exponent}} = this;
     // const data = map( reg => reg.predict(exponent), packRegressions);
     if( !distribution ) return null;
@@ -95,7 +92,7 @@ class IssuesClosedInLessThanXdays extends Component {
     return (
       <ChartCard>
         <SliderTitle {...{description, value: exponent, displayValue:labels[3**exponent], sliderConfig, onChange}}/>
-        <DivBarChart {...{config, data}}/>
+        <DivBarChart {...{displayFn, data}}/>
       </ChartCard>
     );
   };

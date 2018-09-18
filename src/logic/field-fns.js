@@ -109,7 +109,4 @@ const fns = {
 };
 const orNull = f => arg => f(arg) || null;
 
-export default pipe(
-  map(orNull),
-  map(mem),
-)(fns);
+export default fns;

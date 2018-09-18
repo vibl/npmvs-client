@@ -1,7 +1,7 @@
 import React from 'react';
 import {pure} from 'recompose';
 import {Bar, VictoryAxis, VictoryBar, VictoryChart, VictoryContainer, VictoryLabel} from 'victory';
-import theme from '../components/theme';
+import theme from '../components/charts/LineChart/line-chart-theme';
 
 const ChartBar = ({data, width, height, handleMouseEnter}) => (
   <VictoryBar

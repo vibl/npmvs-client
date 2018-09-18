@@ -10,16 +10,6 @@ import {toHtmlClass} from '../logic/utils';
 import {keys, mapObjIndexed, pipe, reverse, values} from 'ramda';
 const {hsl} = require('../logic/vibl-fp');
 
-const overlayStyles = ({colors, focus}) => pipe(
-  mapObjIndexed(
-    ({color, colorDarker}, packId) =>
-      `.VictoryContainer.line-chart + div table tr.overlay.${packId} { 
-      color: ${focus === packId ? colorDarker : color}; 
-      font-weight: ${focus === packId ? 'bold' : 'normal'}; 
-      } `),
-  values,
-)(colors);
-
 const chartStyles = ({colors, selection, focus}) => {
   const packages = reverse(selection);
   const styleMapper = (packId, i) => {
@@ -51,6 +41,11 @@ const chartStyles = ({colors, selection, focus}) => {
         stroke: ${switchColor} !important; 
         fill: ${switchColor} !important;
       }
+      // Overlay
+      .VictoryContainer.line-chart + div table tr.overlay.${packIdClass} { 
+        color: ${switchColor}; 
+        font-weight: ${hasFocus ? '500' : 'normal'}; 
+      }
       ///////////////////////////////////////////////////////////////////////////
       // Divcharts
       .divchart {   
@@ -60,6 +55,7 @@ const chartStyles = ({colors, selection, focus}) => {
         }
         .label-row, .value {
            font-size: 0.7rem;
+           font-weight: ${hasFocus ? '500' : 'normal'}; 
         }
         .data-row, .label-row {
            height: 0.8rem;
@@ -106,7 +102,6 @@ const StyledGrid = styled(Grid)`
       overflow: visible;
     }
     ${chartStyles}
-    ${overlayStyles}
 `;
 const cards =
     chartIds =>

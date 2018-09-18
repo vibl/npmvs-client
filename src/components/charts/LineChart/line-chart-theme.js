@@ -21,8 +21,8 @@ export default {
     ...baseProps,
     style: {
       axis: {
-        stroke: "none",
-      },
+        stroke: "#BBB",
+       },
       axisLabel: {
         ...baseLabelStyles,
       },
@@ -38,8 +38,11 @@ export default {
       },
       ticks: {
         fill: "transparent",
-        size: 1,
-        stroke: "transparent"
+        size: 5,
+        stroke: '#BBB',
+        strokeWidth: 2,
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
       },
     }
   },

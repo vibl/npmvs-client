@@ -23,6 +23,18 @@ const AbsoluteContainer = styled.div`
     left: ${p => p.mousePosition[0] - 100}px;
     top: ${p => p.mousePosition[1] - 120}px;
     z-index: 3000;
+       * {
+      text-shadow:
+              0 0 1px white,
+              0 0 1px white,
+              0 0 1px white,
+              0 0 2px white,
+              0 0 2px white,
+              0 0 2px white,
+              0 0 3px white,
+              0 0 3px white,
+              0 0 3px white;
+    }
 `;
 const Month = styled.p`
     font-size: 14px;
@@ -36,18 +48,6 @@ const Table = styled.table`
 `;
 const Row = styled.tr`
     height: 20px;
-    * {
-      text-shadow: 
-              0 0 1px white, 
-              0 0 1px white, 
-              0 0 1px white,
-              0 0 2px white,
-              0 0 2px white,
-              0 0 2px white, 
-              0 0 3px white, 
-              0 0 3px white, 
-              0 0 3px white;
-    }
 `;
 const ColPack = styled.td`
   

@@ -2,7 +2,6 @@ import React from 'react';
 import {pure} from 'recompose';
 import styled from 'react-emotion';
 import classNames from 'classnames';
-const {switchValue} = require('../../../logic/vibl-fp');
 const widthFromValue = ({value}) => value + '%';
 
 const Bar = styled.div`
@@ -39,35 +38,9 @@ const DataColumn = styled.div`
   flex-direction: column-reverse;
   align-items: stretch;
 `;
-const getMax = data => Math.max(...data.map( o => o.value ));
-
-const Divchart = ({data, packages, handleMouseEnter}) => {
-  data = data.map( d => ({
-    ...d,
-    label: switchValue([
-      [Infinity, '(Not enough data: too recent)'],
-      [undefined, null, isNaN, '(No data collected)'],
-      d.label], d.value),
-    value: switchValue([
-      [Infinity, undefined, null, isNaN, 0],
-    ], d.value),
-  }));
-  if( data.some( ({value}) => value > 100 ) ) {
-    let max = getMax(data) ;
-    data = data.map( (line) => ({...line, value: line.value/max * 100}));
-  }
-  if( data.some( ({value}) => value < 0 ) ) {
-    const values = data.map( o => o.value );
-    const maxi = Math.max(...values);
-    const mini = Math.min(...values);
-    const negMaxi = - mini;
-    const span = maxi - mini;
-    data = data.map( (line) => ({...line, value: line.value/span * 100}));
-    const positiveStyle = {left: negMaxi};
-    const negativeStyle = {right: maxi};
-  }
+const Divchart = ({data, packages, handleMouseEnter, className, positiveStyle, negativeStyle}) => {
   return (
-      <ChartContainer className='divchart'>
+      <ChartContainer className={classNames(className, 'divchart')}>
         <LabelColumn className='label-column'>
           { data.map( ({packId}) =>
             <FieldLabel
@@ -85,8 +58,9 @@ const Divchart = ({data, packages, handleMouseEnter}) => {
               onMouseEnter={() => handleMouseEnter(packId)}
             >
               <Bar
-                className='bar' {...{value}}
-                style={{left: value >= 0 ? 'block' : 'none'}}/>
+                className='bar'
+                {...{value}}
+                style={value >= 0 ? positiveStyle : negativeStyle}/>
               <Label className='value'>{label}</Label>
             </BarContainer>
             )

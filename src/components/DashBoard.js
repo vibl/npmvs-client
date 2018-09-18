@@ -83,6 +83,10 @@ const chartStyles = ({colors, selection, focus}) => {
             ,inset -1px -1px 1px 0px ${colorDarker};`
             : `0 0 2px 0 ${baseColor}; border: 1px solid ${baseColor};`}
           }
+          .bar[value='0'] {
+            box-shadow: none;
+            border: none;
+           }
           .value {
             color: ${switchColor};
           }

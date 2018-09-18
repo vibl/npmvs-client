@@ -85,6 +85,7 @@ const fns = {
   percent1dec: percent(1),
   percent2dec: percent(2),
   monthlyAggregate: mem( (data, packId) => {
+    if( ! data ) return null;
     const result = [];
     const getMonth = slice(0, 7);
     const lastDay = last(data).day;

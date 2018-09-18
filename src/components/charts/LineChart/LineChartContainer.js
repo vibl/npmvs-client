@@ -62,32 +62,34 @@ class LineChartContainer extends Component {
     const monthIndex = getMonthIndex(data)[focusedMonth];
     return (
       <MeasureWrapper>
-        { ({width, height}) =>
-          <StyleWrapper
-            {...{monthIndex}}
-            onMouseLeave={this.handleMouseLeaveChart}
-          >
-            <LineChartFn
-              {...{
-                data: getChartData(selection, data),
-                selection,
-                height: height - 40,
-                width,
-                handleMouseEnter: this.handleMouseEnter,
-                setFocusedMonth: this.setFocusedMonth
-              }}
-            />
-            <LineChartOverlay
-              {...{
-                show: this.state.showOverlay,
-                focusedMonth,
-                selection,
-                data: data,
-                mousePosition: this.state.mousePosition
-              }}
-            />
-          </StyleWrapper>
-        }
+        { ({width, height}) => {
+          return ! ( width > 0 && height > 0) ? null : (
+            <StyleWrapper
+              {...{monthIndex}}
+              onMouseLeave={this.handleMouseLeaveChart}
+            >
+              <LineChartFn
+                {...{
+                  data: getChartData(selection, data),
+                  selection,
+                  height: height - 40,
+                  width,
+                  handleMouseEnter: this.handleMouseEnter,
+                  setFocusedMonth: this.setFocusedMonth
+                }}
+              />
+              <LineChartOverlay
+                {...{
+                  show: this.state.showOverlay,
+                  focusedMonth,
+                  selection,
+                  data: data,
+                  mousePosition: this.state.mousePosition
+                }}
+              />
+            </StyleWrapper>
+            )
+        }}
       </MeasureWrapper>
     );
   }

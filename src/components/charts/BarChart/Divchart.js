@@ -2,6 +2,7 @@ import React from 'react';
 import {pure} from 'recompose';
 import styled from 'react-emotion';
 import classNames from 'classnames';
+import {omit} from 'ramda';
 const widthFromValue = ({value}) => value + '%';
 
 const Bar = styled.div`
@@ -38,7 +39,21 @@ const DataColumn = styled.div`
   flex-direction: column-reverse;
   align-items: stretch;
 `;
-const Divchart = ({data, packages, handleMouseEnter, className, positiveStyle, negativeStyle}) => {
+const DataRow = pure( ({label, value, packId, handleMouseEnter, positiveStyle, negativeStyle}) => (
+    <BarContainer
+      className={classNames('data-row', packId)}
+      onMouseEnter={() => handleMouseEnter(packId)}
+    >
+      <Bar
+        className='bar'
+        {...{value}}
+        style={value >= 0 ? positiveStyle : negativeStyle}/>
+      <Label className='value'>{label}</Label>
+    </BarContainer>
+  )
+);
+const Divchart = (props) => {
+  const {data, handleMouseEnter, className, positiveStyle, negativeStyle} = props;
   return (
       <ChartContainer className={classNames(className, 'divchart')}>
         <LabelColumn className='label-column'>
@@ -51,20 +66,7 @@ const Divchart = ({data, packages, handleMouseEnter, className, positiveStyle, n
           )}
         </LabelColumn>
         <DataColumn>
-          { data.map( ({label, value, packId}) => (
-            <BarContainer
-              key={packId}
-              className={classNames('data-row', packId)}
-              onMouseEnter={() => handleMouseEnter(packId)}
-            >
-              <Bar
-                className='bar'
-                {...{value}}
-                style={value >= 0 ? positiveStyle : negativeStyle}/>
-              <Label className='value'>{label}</Label>
-            </BarContainer>
-            )
-          )}
+          { data.map( p => <DataRow key={p.packId} {...omit('data', props)} {...p}/> )}
         </DataColumn>
 {/*        <NegativeDataColumn>
           { data.map( ({label, value, packId}) =>

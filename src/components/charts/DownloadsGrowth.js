@@ -44,6 +44,7 @@ const periods = [6, 12, 18];
 //   return acc;
 // };
 const growth = (period, x) => {
+  if( ! x ) return null;
   x = x.slice(-period);
   x = x.map( o => o.value);
   x = splitEvery(period/2, x);
@@ -65,7 +66,7 @@ const SliderTitle = ({description, displayValue, value, onChange, sliderConfig})
     </ChartTitle>
   )
 };
-class ThisCard extends Component {
+class DownloadsGrowth extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -93,4 +94,4 @@ class ThisCard extends Component {
 const mapStateToProps = (state) => ({
   data: getData(state, 'downloads'),
 });
-export default connect(mapStateToProps)(ThisCard);
+export default connect(mapStateToProps)(DownloadsGrowth);

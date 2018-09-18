@@ -8,7 +8,7 @@ if ( typeof WeakMap === 'undefined' || typeof Map === 'undefined' ) {
 }
 
 function memoize(fn, options) {
-  const cache = options && options.cache || new TupleMap( options );
+  const cache = ( options && options.cache ) || new TupleMap( options );
 
   let memoized;
 

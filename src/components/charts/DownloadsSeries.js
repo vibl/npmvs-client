@@ -65,7 +65,7 @@ This is to avoid displaying variations merely due to month durations (30, 31 or 
 //   return regression.polynomial(x, { order: 9 });
 // };
 export const config = {
-  label: 'Monthly downloads in the last year',
+  label: 'Monthly downloads in the last 18 months',
   description,
 };
 /*

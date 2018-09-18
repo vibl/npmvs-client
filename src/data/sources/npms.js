@@ -43,15 +43,18 @@ const idFromPath = (level, path) => {
 };
 const mapRecurse = (parent, parentPath, data) => {
   let result = {};
-  let key, node, nodePath;
+  let key, node, nodePath, value;
   for (key in parent) {
     node = parent[key];
     nodePath =  [...parentPath, key];
+    value = data[key];
     if( typeof node === 'number' ) {
       const id = idFromPath(node, nodePath);
-      result[id] = data[key];
+      result[id] = value;
     } else {
-      result = {...result, ...mapRecurse(node, nodePath, data[key])};
+      if( value ) {
+        result = {...result, ...mapRecurse(node, nodePath, value)};
+      }
     }
   }
   return result;

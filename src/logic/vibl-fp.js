@@ -433,6 +433,30 @@ const mapToArray = curry2( (fn, obj) => {
   }
   return acc;
 });
+// `cases` is an array of arrays. Each case has at least two items, the last of witch is the return value.
+// The first items of the case are either functions (which will be evaluated as truthy or not) or values.
+// If a case is not an array, the evaluation is stopped and this value is returned.
+const switchValue = curry2( (cases, val) => {
+  let _case;
+  for(_case of cases) {
+    if( Array.isArray(_case) ) {
+      const length = _case.length;
+      for(let i=0; i < length - 1; i++) {
+        const cond = _case[i];
+        const result = _case[length - 1];
+        if( typeof cond === 'function' ) {
+          if( cond(val) ) return result;
+        } else {
+          if( val === cond ) return result;
+        }
+      }
+    } else {
+      return _case;
+    }
+
+  }
+  return val;
+});
 
 const viblPure = {
   added, allEquals, anyValue, appendStr, assocDotPath, areEquals, haveSameElements,
@@ -441,7 +465,7 @@ const viblPure = {
   discard, dissocAll, doesMatch, dotPath, dotStringToPath, equals, equalsAny,
   fnOr, filterKeys, filterP, flipAll, from,
   geoMean, get, getDotPath, gradient, hsl,
-  ifDefinedElse, ident, indexByProp, interleave, isBlank, isFunction,
+  ifDefinedElse, ident, indexByProp, interleave, isBlank, isEmpty, isFunction,
   isNegative, isNumber, isObject, isObjectLike, isPlainObject, isString,
   keep, keepRandom,
   lacksElementsOf, lensDotPath, lineBreaksToSpace, listMax, listMin, log,
@@ -452,7 +476,7 @@ const viblPure = {
   percent, pipeD, pipeLog, pMap, prefixLine, preIntersperse, putFirst,
   random, rangeMap, rangeStep, reduceFirst, reduceFirstP, reduceIndexed, reduceP,
   reduceSteps, reduceTemplate, reIndex, removed, removeShortest, rest, reverseDifference, round,
-  splitLinesTrim, splitPipe, splitProperties, store,
+  splitLinesTrim, splitPipe, splitProperties, store, switchValue,
   tablify, takeLastUntil, toNumber, transform, trimIfString,
   unlessEmpty, updateWhere,
   whenDefined,

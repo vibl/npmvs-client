@@ -87,14 +87,15 @@ const fns = {
   monthlyAggregate: mem( (data, packId) => {
     const result = [];
     const getMonth = slice(0, 7);
+    const lastDay = last(data).day;
     let currentMonth,
       acc = 0,
       daysCount = 0,
       previous = getMonth(data[0].day);
     for( const {day, downloads} of data ) {
       currentMonth = getMonth(day);
-      if( currentMonth !== previous ) {
-        result.push({month: currentMonth, value: Math.round(acc / daysCount * 365/12)});
+      if( currentMonth !== previous || day === lastDay ) {
+        result.push({month: previous, value: Math.round(acc / daysCount * 365/12)});
         acc = 0;
         daysCount = 0;
       }

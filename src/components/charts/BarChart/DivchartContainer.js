@@ -22,14 +22,13 @@ class Container extends PureComponent {
     const {data, selection, displayFn} = this.props;
     if( isEmpty(selection) || isEmpty(data) || lacksElementsOf(selection, keys(data)) ) return null;
     const packages = this.packages = reverse(selection);
-    const hasNegativeValues = anyValue(isNegative, data);
     const chartData = packages.map(packId => {
       const value = data[packId];
       const label = displayFn ? displayFn(value) : value;
       return {label, packId, value};
     });
     return (
-       <StyledDivchart {...{data: chartData, packages, hasNegativeValues, handleMouseEnter: this.handleMouseEnter}}/>
+       <StyledDivchart {...{data: chartData, packages, handleMouseEnter: this.handleMouseEnter}}/>
     );
   }
 }

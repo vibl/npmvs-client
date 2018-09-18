@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {getData, mem} from '../../logic/utils';
 import BasicCard from "../card/BasicCard";
 import fn from '../../logic/field-fns';
+import {numberOfMonths} from '../../data/sources/npmDownloads';
 import { mapObjIndexed, pipe, splitEvery, sum} from "ramda";
 
 const description = `
@@ -23,17 +24,16 @@ const getAcceleration = mem( (period, x) => {
   x = (x - 1) * 100; // Percent growth.
   return x;
 });
-export const config = {
-  label: 'Downloads acceleration in the last 18 months',
-  displayFn: pipe(fn.significanPercentDisplay, fn.explicitPlus),
-  description,
-};
+
+const displayFn = pipe(fn.significanPercentDisplay, fn.explicitPlus);
+
 const DownloadsAcceleration = ({data: rawData}) => {
   if( !rawData ) return null;
   const monthlyAggregate = mapObjIndexed(fn.monthlyAggregate, rawData);
-  const data = mapObjIndexed( x => getAcceleration(18, x), monthlyAggregate);
+  const label = `Downloads acceleration in the last ${numberOfMonths} months`;
+  const data = mapObjIndexed( x => getAcceleration(numberOfMonths, x), monthlyAggregate);
   return (
-    <BasicCard {...{config, data}} />
+    <BasicCard {...{config:{displayFn, description, label}, data}} />
   );
 };
 const mapStateToProps = (state) => ({

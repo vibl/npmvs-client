@@ -22,6 +22,7 @@
     "mem": "^4.0.0",
     "memoize-immutable": "^3.0.0",
     "mixedtuplemap": "^1.0.0",
+    "moment": "^2.22.2",
     "namedtuplemap": "^1.0.0",
     "p-map": "^1.2.0",
     "prop-types": "^15.6.2",

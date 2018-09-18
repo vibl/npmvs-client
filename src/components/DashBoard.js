@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import {getPackageColors} from "../logic/utils";
 import cardsComponents, {chartsList} from "./charts";
 import DownloadsGrowth from "./charts/DownloadsGrowth"
-const {gradient, hsl} = require('../logic/vibl-fp');
+const {hsl} = require('../logic/vibl-fp');
 
 const overlayStyles = ({colors, focus}) => pipe(
   mapObjIndexed(
@@ -21,8 +21,7 @@ const overlayStyles = ({colors, focus}) => pipe(
 const chartStyles = ({colors, selection, focus}) => {
   const packages = reverse(selection);
   const styleMapper = (packId, i) => {
-    const {color: baseColor, colorDarker, hue, saturation, lightness} = colors[packId];
-    const barGradient = gradient(baseColor, hsl(hue, saturation, lightness - 10));
+    const {baseColor, colorDarker, lightGradient} = colors[packId];
     const hasFocus = focus === packId;
     const switchColor = hasFocus ? colorDarker : baseColor;
     return `
@@ -77,7 +76,7 @@ const chartStyles = ({colors, selection, focus}) => {
          }  
         .data-row.${packId} {
           .bar {
-            background: ${barGradient};
+            background: ${lightGradient};
             box-shadow: 
             ${ hasFocus ?
             `0 0 3px 3px ${colorDarker} 

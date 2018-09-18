@@ -6,6 +6,7 @@ import Divchart from './BarChart/DivchartContainer';
 import ChartTitle from '../card/ChartTitle';
 import BlinkSlider from '../card/BlinkSlider';
 import {mapObjIndexed} from 'ramda';
+const {isEmpty} = require('../../logic/vibl-fp');
 
 const description = `
 When this number is high, it shows that the project is somehow active (though keep in mind that quantity does not always produce quality).
@@ -42,9 +43,9 @@ class CommitsForPeriod extends Component {
   };
   render() {
     const {onChange, props:{data: rawData}, state:{value}} = this;
-    if( !rawData ) return null;
+    if( isEmpty(rawData) ) return null;
     const sliderConfig = {min: 0, max: 4, step: 1};
-    const data = mapObjIndexed(x => x[value], rawData);
+    const data = mapObjIndexed(x => x && x[value], rawData);
     return (
       <ChartCard>
         <SliderTitle {...{description, value, displayValue: sliderValues[value], onChange, sliderConfig}}/>

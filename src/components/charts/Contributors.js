@@ -25,13 +25,12 @@ export const config = {
 const extractData =
   mem(
     (minCommits, list) =>
-      map(
-        pipe(
-          filter( o => o.commitsCount > minCommits ),
-          length,
-        ),
-        list,
-    )
+      Array.isArray(list) &&
+      list.map( x => {
+        x = x.filter( o => o.commitsCount > minCommits );
+        x = x.length;
+        return x;
+      })
   );
 const SliderTitle = ({description, displayValue, value, onChange, sliderConfig}) => {
   const valueSlider = <BlinkSlider

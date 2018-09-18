@@ -15,30 +15,39 @@ const styles = {
     border: '1px solid #880022',
     background: '#f7f1f1',
    }),
-  // option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-  //   const color = chroma(data.color);
-  //   return {
-  //     ...styles,
-  //     backgroundColor: isDisabled
-  //       ? null
-  //       : isSelected ? data.color : isFocused ? color.alpha(0.1).css() : null,
-  //     color: isDisabled
-  //       ? '#ccc'
-  //       : isSelected
-  //         ? chroma.contrast(color, 'white') > 2 ? 'white' : 'black'
-  //         : data.color,
-  //     cursor: isDisabled ? 'not-allowed' : 'default',
-  //   };
-  // },
+  menu: styles => ({
+    ...styles,
+    zIndex: 3000,
+  }),
+  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+    return {
+      ...styles,
+        // ? null
+        // : isSelected ? 'white' : isFocused ? '#880022' : null,
+      color: '#880022',
+        // ? '#ccc'
+        // : isSelected
+        //   ? chroma.contrast(color, 'white') > 2 ? 'white' : 'black'
+        //   : data.color,
+      backgroundColor: isFocused ? '#FFEEE' : 'white',
+      cursor: isDisabled ? 'not-allowed' : 'default',
+      zIndex: 3000,
+    };
+  },
   multiValue: (styles, state) => {
     const { data, selectProps: {focus, packageColors} } = state;
     const packId = data.value;
     const hasFocus = focus === packId;
     const packColor = packageColors[packId];
+    if( !packColor ) return null;
+    const {lightGradient, colorDarker, baseColor} = packColor;
     return {
       ...styles,
-      backgroundColor: packColor.color,
-      border: hasFocus ? `${packColor.colorDarker} solid 2px` : 'none',
+      background: lightGradient,
+      boxShadow: hasFocus
+        ? `0 0 3px 3px ${colorDarker},inset -1px -1px 1px 0px ${colorDarker}`
+        : `0 0 2px 0 ${baseColor}`,
+      border:  hasFocus ? `1px solid ${baseColor}` : '0'
     };
   },
   multiValueLabel: (styles, { data }) => ({
@@ -69,18 +78,23 @@ const Option = (props) => {
   const d = props.data;
   return (
     <components.Option {...props}>
-      <div style={{display: 'flex'}}>
+      <div style={{
+        display: 'flex',
+        color: '#880022',
+        fontSize: '16px',
+      }}>
         <div style={{width: 300}}>
           {d.label}
         </div>
-        <div style={{width: 100}}>
+        <div style={{width: 100, paddingRight: 20,}}>
           <div style={{
-            backgroundColor: '#eecccc',
-            height: 30,
+            backgroundColor: '#880022',
+            boxShadow: '0 0 2px #880022',
+            height: 15,
             width: Math.round(d.popularity*100)
           }}/>
         </div>
-        <div style={{width: 600}}>
+        <div style={{width: 600, paddingLeft: 20}}>
           {d.description}
         </div>
       </div>
@@ -125,6 +139,7 @@ class PackageSelector extends React.Component {
     const {focus, packageColors} = this.props;
     return (
       <AsyncSelect
+        // menuIsOpen={true}
         ref={this.selectRef}
         isMulti
         cacheOptions

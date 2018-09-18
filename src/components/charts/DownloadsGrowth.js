@@ -48,8 +48,8 @@ const growth = (period, x) => {
   x = x.map( o => o.value);
   x = splitEvery(period/2, x);
   x = x.map(sum);
-  x = x[1] / x[0] * 2; // Total growth
-  x = (x - 1) * 100; // Percent growth.
+  x = (x[1] / x[0] - 1) * 2; // Total growth
+  x = x * 100; // Percent growth.
   return x;
 };
 const displayFn = pipe(fn.significanPercentDisplay, fn.explicitPlus);

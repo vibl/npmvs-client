@@ -1,7 +1,7 @@
 import memoize from '../lib/memoize-immutable';
 import MixedTupleMap from 'mixedtuplemap';
 import {zipObj} from 'ramda'
-const {getDotPath, hsl} = require('./vibl-fp');
+const {getDotPath, gradient, hsl} = require('./vibl-fp');
 
 export const mem = memoize;
 export const memGC = fn => memoize(fn, {cache: new MixedTupleMap()});
@@ -12,8 +12,7 @@ export const getData = mem(
     let acc = {}, key;
     for(key in data) {
       const datapoint = getDotPath(path, data[key]);
-      if( ! datapoint ) return;
-      acc[key] = extractFn ? extractFn(datapoint) : datapoint;
+      acc[key] = datapoint === undefined ? null : extractFn ? extractFn(datapoint) : datapoint;
     }
     return acc;
   }
@@ -24,9 +23,10 @@ export const getPackageColors = mem( (colorObj, selection) => {
   const {hues, hue: hueOffset, saturation, lightness} = colorObj;
   return zipObj(selection, selection.map( (val, i) => {
     const hue = hues[i] + hueOffset;
-    const color = hsl(hue, saturation, lightness);
+    const baseColor = hsl(hue, saturation, lightness);
     const colorDarker = hsl(hue, saturation, darken(lightness));
-    return {...colorObj, hue, color, colorDarker};
+    const lightGradient = gradient(baseColor, hsl(hue, saturation, lightness - 10));
+    return {...colorObj, hue, baseColor, colorDarker, lightGradient};
   }));
   }
 );

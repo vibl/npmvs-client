@@ -8,7 +8,7 @@ const {discard} = require('../logic/vibl-fp').default;
 const add = async (packId) => {
   store.set({selection: append(packId)});
   await Promise.all(  // Promises should be executed in parallel. No need for the return values.
-    values(map( o => o.getData(packId), sources))
+    values(map( source => source.getData(packId), sources))
   );
   setFocus(packId);
 };
@@ -16,16 +16,12 @@ const remove = async (packId) => {
   store.set({selection: discard(packId)});
   unsetFocus(packId);
 };
-const set = (newSelection) => {
+export const setSelection = (newSelection) => {
   const currentSelection = store.get().selection;
   difference(currentSelection, newSelection).map(remove);
   difference(newSelection, currentSelection).map(add);
 };
-const update = pipe(
+export const updateSelection = pipe(
   selectionFromUrlPath,
-  set,
+  setSelection,
 );
-export default {
-  set,
-  update,
-}

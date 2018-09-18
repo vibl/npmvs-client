@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {keys, pipe, reverse} from "ramda";
 import isEmpty from "lodash/isEmpty";
 import styled from 'react-emotion';
-import Divchart from './Divchart';
+import Divchart from './DivchartView';
 import {setFocus} from '../../../logic/focus';
 
 const {anyValue, isNegative, lacksElementsOf, switchValue} = require('../../../logic/vibl-fp');
@@ -24,7 +24,7 @@ class Container extends PureComponent {
     const {selection, displayFn} = this.props;
     if( isEmpty(selection) || isEmpty(data) || lacksElementsOf(selection, keys(data)) ) return null;
     const packages = this.packages = reverse(selection);
-    let max = 0, min = 0, positiveStyle, negativeStyle;
+    let max = 0, min = 0, absMin;
     data = packages.map(packId => {
       let value = data[packId];
       let label = switchValue([
@@ -36,24 +36,22 @@ class Container extends PureComponent {
         [Infinity, undefined, null, isNaN, 0],
       ], value);
       max = value > max ? value : max;
-      min = value < max ? value : min;
+      min = value < min ? value : min;
       return {label, packId, value};
     });
     if( max > 100 ) data = data.map( o => ({...o, value: o.value/max * 100}));
     if( min < 0 ) {
-      const negMax = - min;
-      const span = max - min;
+      absMin = Math.abs(min);
+      const span = max + absMin;
       data = data.map( o => ({...o, value: o.value/span * 100}));
-      positiveStyle = {left: negMax};
-      negativeStyle = {right: max};
+      absMin = Math.abs(min)/span * 100;
     }
     return (
        <StyledDivchart {...{
          data,
          packages,
          handleMouseEnter: this.handleMouseEnter,
-         positiveStyle,
-         negativeStyle,
+         absMin,
        }}/>
     );
   }

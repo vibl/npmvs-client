@@ -2,13 +2,12 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import styled from 'react-emotion';
 import {mem} from '../../../logic/utils';
-import isEmpty from "lodash/isEmpty";
 import LineChartFn from './LineChartView';
 import LineChartOverlay from './LineChartOverlay';
 import {keys, last, pipe, values} from 'ramda';
 import {setFocus} from "../../../logic/focus";
 import MeasureWrapper from './MeasureWrapper';
-const {lacksElementsOf} = require('../../../logic/vibl-fp');
+const {isEmpty, notEmpty, lacksElementsOf} = require('../../../logic/vibl-fp');
 
 const StyleWrapper = styled.div`
   ${({monthIndex}) => `
@@ -19,15 +18,25 @@ const StyleWrapper = styled.div`
 }`;
 const getChartData = mem(
   (selection, data) =>
-  selection.map(packId => ({
-    packId,
-    data: data[packId].map(o => ({...o, packId})),
-  }))
+  selection.map( (packId) => {
+    return data[packId] && ({
+      packId,
+      data: data[packId].map(o => ({...o, packId})),
+    })
+  })
+    .filter(notEmpty)
 );
 // Indexing month order by month id. Ex: { '2017-09':0, '2017-10':1,...}
-const getMonthIndex = mem( (chartData) => values(chartData)[0].map( o => o.month )
+const getMonthIndex = mem( x => {
+  if( !x ) return null;
+  x = values(x);
+  if( !x ) return null;
+  x = x.filter(notEmpty)[0];
+  if( !x ) return null;
+  x = x.map( o => o.month )
     .reduce( (acc, month, i) => { acc[month] = i + 1; return acc }, {})
-);
+  return x;
+});
 class LineChartContainer extends Component {
   constructor(props) {
     super(props);

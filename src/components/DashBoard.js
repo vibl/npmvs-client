@@ -1,11 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import styled from 'react-emotion';
-import {keys, mapObjIndexed, pipe, reverse, values} from 'ramda';
 import Grid from '@material-ui/core/Grid';
 import {getPackageColors} from "../logic/utils";
 import cardsComponents, {chartsList} from "./charts";
-import DownloadsGrowth from "./charts/DownloadsGrowth"
+import DownloadsGrowth from "./charts/DownloadsGrowth";
+import {toHtmlClass} from '../logic/utils';
+
+import {keys, mapObjIndexed, pipe, reverse, values} from 'ramda';
 const {hsl} = require('../logic/vibl-fp');
 
 const overlayStyles = ({colors, focus}) => pipe(
@@ -24,6 +26,7 @@ const chartStyles = ({colors, selection, focus}) => {
     const {baseColor, colorDarker, lightGradient} = colors[packId];
     const hasFocus = focus === packId;
     const switchColor = hasFocus ? colorDarker : baseColor;
+    const packIdClass = toHtmlClass(packId);
     return `
       // Bars
       .bar-chart.VictoryContainer > svg > g:nth-child(2) > path:nth-child(${i+1}) {
@@ -39,12 +42,12 @@ const chartStyles = ({colors, selection, focus}) => {
         fill: ${switchColor} !important;
       }
       // Lines
-      .VictoryContainer.line-chart > svg > g > path.line.${packId} {
+      .VictoryContainer.line-chart > svg > g > path.line.${packIdClass} {
         stroke: ${switchColor} !important;
         stroke-width: ${hasFocus ? 3 : 2} !important;
       }
       // Scatter
-      .VictoryContainer.line-chart > svg > g > path.scatter.${packId} {
+      .VictoryContainer.line-chart > svg > g > path.scatter.${packIdClass} {
         stroke: ${switchColor} !important; 
         fill: ${switchColor} !important;
       }
@@ -71,10 +74,10 @@ const chartStyles = ({colors, selection, focus}) => {
           margin-left: 0.3rem;
           vertical-align: middle;
         }  
-        .label-row.${packId} {
+        .label-row.${packIdClass} {
             color: ${switchColor};
          }  
-        .data-row.${packId} {
+        .data-row.${packIdClass} {
           .bar {
             background: ${lightGradient};
             box-shadow: 

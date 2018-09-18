@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {getData} from "../../logic/utils";
 import fn from '../../logic/field-fns';
 import ChartCard from '../card/ChartCard';
-import DivBarChart from './BarChart/DivchartContainer';
+import DivBarChart from './Divchart/DivchartContainer';
 import ChartTitle from '../card/ChartTitle';
 import BlinkSlider from '../card/BlinkSlider';
 import {map, pipe, prop} from 'ramda';

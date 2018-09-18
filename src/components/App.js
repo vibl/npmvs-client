@@ -4,9 +4,9 @@ import {Provider} from 'react-redux';
 import {pure} from 'recompose';
 import {Route, Router } from 'react-router-dom';
 import styled from "react-emotion";
-import history from '../logic/history';
+import {history} from '../logic/router-utils';
 import {initRedux} from '../logic/store';
-import selection from '../logic/selection';
+import {updateSelection} from '../logic/selection';
 import ComparisonPage from "./ComparisonPage";
 import Blinker from './generic/Blinker';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
@@ -36,7 +36,7 @@ const initialData = {
 
 // A component must return at least null!
 const SelectionChange = pure( ({location}) => {
-  selection.update(location.pathname);
+  updateSelection(location.pathname);
   return null;
 });
 const AppStyles = styled.div`

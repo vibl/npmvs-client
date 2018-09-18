@@ -18,7 +18,7 @@ class WithState extends Component {
   render() {
     const withState = {
       state: this.state,
-      update: {
+      updateSelection: {
         assoc: (path, val) => this.updateState(assocDotPath(path, val)),
         transform: (spec) => this.updateState(transform(spec)),
       }

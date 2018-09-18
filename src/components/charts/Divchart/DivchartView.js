@@ -3,7 +3,9 @@ import {pure} from 'recompose';
 import styled from 'react-emotion';
 import classNames from 'classnames';
 import {omit} from 'ramda';
-const widthFromValue = ({value}) => value + '%';
+import {toHtmlClass} from '../../../logic/utils';
+
+const widthFromValue = ({value}) => Math.abs(value) + '%';
 
 const Bar = styled.div`
     min-width: ${widthFromValue};
@@ -39,28 +41,29 @@ const DataColumn = styled.div`
   flex-direction: column-reverse;
   align-items: stretch;
 `;
-const DataRow = pure( ({label, value, packId, handleMouseEnter, positiveStyle, negativeStyle}) => (
+const DataRow = pure( ({label, value, packId, handleMouseEnter, absMin}) => (
     <BarContainer
-      className={classNames('data-row', packId)}
+      className={classNames('data-row', toHtmlClass(packId))}
       onMouseEnter={() => handleMouseEnter(packId)}
     >
-      <Bar
-        className='bar'
-        {...{value}}
-        style={value >= 0 ? positiveStyle : negativeStyle}/>
+
+      { absMin && <div
+        className="negative placeholder"
+        style={{minWidth: (value < 0 ? absMin - Math.abs(value) : absMin) + '%'}}/>}
+      <Bar className='bar' {...{value}}/>
       <Label className='value'>{label}</Label>
     </BarContainer>
   )
 );
-const Divchart = (props) => {
-  const {data, handleMouseEnter, className, positiveStyle, negativeStyle} = props;
+const DivchartView = (props) => {
+  const {data, handleMouseEnter, className, absMin} = props;
   return (
       <ChartContainer className={classNames(className, 'divchart')}>
         <LabelColumn className='label-column'>
           { data.map( ({packId}) =>
             <FieldLabel
               key={packId}
-              className={classNames('label-row', packId)}
+              className={classNames('label-row', toHtmlClass(packId))}
               onMouseEnter={() => handleMouseEnter(packId)}
             >{packId}</FieldLabel>
           )}
@@ -72,7 +75,7 @@ const Divchart = (props) => {
           { data.map( ({label, value, packId}) =>
             <BarContainer
               key={packId}
-              className={classNames('data-row', packId)}
+              className={classNames('data-row', toHtmlClass(packId))}
               onMouseEnter={() => handleMouseEnter(packId)}
             >
               <Bar
@@ -85,7 +88,7 @@ const Divchart = (props) => {
           { data.map( ({label, value, packId}) =>
             <BarContainer
               key={packId}
-              className={classNames('data-row', packId)}
+              className={classNames('data-row', toHtmlClass(packId))}
               onMouseEnter={() => handleMouseEnter(packId)}
             >
               <Bar
@@ -98,5 +101,5 @@ const Divchart = (props) => {
       </ChartContainer>
   )
 };
-export default pure(Divchart);
+export default pure(DivchartView);
 

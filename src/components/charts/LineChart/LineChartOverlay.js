@@ -9,6 +9,7 @@ import fn from '../../../logic/field-fns';
 const getStats = mem( (selection, data) => {
   let packId, result = {};
   for(packId of selection) {
+    if( ! data[packId] ) continue;
     for(const {month, value} of data[packId]) {
       if( ! result[month] ) result[month] = [];
       result[month].push({packId, value});

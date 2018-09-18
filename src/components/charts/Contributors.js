@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import mem from 'mem';
 import ChartCard from '../card/ChartCard';
-import Divchart from './BarChart/DivchartContainer';
+import Divchart from './Divchart/DivchartContainer';
 import ChartTitle from '../card/ChartTitle';
 import BlinkSlider from '../card/BlinkSlider';
 import {filter, length, map, pipe} from 'ramda';

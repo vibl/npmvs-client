@@ -30,4 +30,5 @@ export const getPackageColors = mem( (colorObj, selection) => {
   }));
   }
 );
+export const toHtmlClass = str => str.replace(/[^\w\d\-_]/g, '_');
 

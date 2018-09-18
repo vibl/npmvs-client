@@ -3,8 +3,8 @@ import {connect} from "react-redux";
 import {keys, pipe, reverse} from "ramda";
 import isEmpty from "lodash/isEmpty";
 import View from './BarChartView';
-import {setFocus} from '../../../logic/focus';
-const {anyValue, isNegative, lacksElementsOf} = require('../../../logic/vibl-fp');
+import {setFocus} from '../logic/focus';
+const {anyValue, isNegative, lacksElementsOf} = require('../logic/vibl-fp');
 
 class Container extends PureComponent {
   handleMouseEnter = (ancestryLevel, offset) => (event) => {

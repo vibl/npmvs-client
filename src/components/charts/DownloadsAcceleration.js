@@ -16,6 +16,7 @@ Calculated with a very simple algorithm:\n
 4. \`acceleration = delta2 / delta1\`
 `;
 const getAcceleration = mem( (period, x) => {
+  if( ! x ) return null;
   x = x.slice(-period);
   x = x.map( o => o.value);
   x = splitEvery(period/3, x);

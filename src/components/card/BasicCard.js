@@ -1,6 +1,6 @@
 import React from 'react';
 import ChartCard from './ChartCard';
-import Divchart from '../charts/BarChart/DivchartContainer';
+import Divchart from '../charts/Divchart/DivchartContainer';
 import ChartTitle from './ChartTitle';
 import {pure} from 'recompose';
 

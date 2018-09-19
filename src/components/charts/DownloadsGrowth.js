@@ -6,11 +6,7 @@ import Divchart from './Divchart/DivchartContainer';
 import ChartTitle from '../card/ChartTitle';
 import BlinkSlider from '../card/BlinkSlider';
 import fn from '../../logic/field-fns';
-import {mean, juxt, map, mapObjIndexed, pipe, prop, slice, splitEvery, sum} from "ramda";
-import {getData} from "../../logic/utils";
-
-import shallowEqual from 'fbjs/lib/shallowEqual'
-
+import {mapObjIndexed, pipe, splitEvery, sum} from "ramda";
 
 const description = `
 The choice of an algorithm to calculate growth is not as obvious as it first seems. Here the one we ended up chosing:\n
@@ -20,33 +16,7 @@ The choice of an algorithm to calculate growth is not as obvious as it first see
 4. Growth for the whole period : ( average 2 / average 1 ) * 2
 `;
 const periods = [6, 12, 18];
-// const extractFn = pipe(
-//   map(prop('downloads')),
-//   slice(-365, Infinity),
-//   juxt([
-//     slice(0, 91),
-//     slice(-91, Infinity)
-//   ]),
-//   map(sum),
-//   ([a,b]) => b/a,
-//   fn.percentGrowth,
-// );
-// const extractFn = (input) => {
-//   const data = input.map( o => o.downloads);
-//   let acc = [], days, downloads, accDownloads = 0, periodN = 0;
-//   let periodDays = periods[periodN][0];
-//   const maxi = Math.min(last(periods)[0], data.length);
-//   for(days = 0; days < maxi; days++ ) {
-//     downloads = data[days];
-//     accDownloads += downloads;
-//     if (days + 1 === periodDays) {
-//       acc.push[accDownloads];
-//       periodN++;
-//       periodDays = periods[periodN][0];
-//     }
-//   }
-//   return acc;
-// };
+
 const growth = (period, x) => {
   if( ! x ) return null;
   x = x.slice(-period);
@@ -80,19 +50,7 @@ class DownloadsGrowth extends Component {
   onChange = (event, value) => {
     this.setState({value});
   };
-  shouldComponentUpdate(nextProps, nextState) {
-    if( !shallowEqual(this.props, nextProps) ) {
-      for(const key in this.props) {
-        if(this.props[key] !== nextProps[key] ) {
-          console.log('Different!', this.props[key], nextProps[key]);
-        }
-      }
-
-    }
-    return !shallowEqual(this.props, nextProps)
-  }
   render() {
-    console.log('Rendering DownloadsGrowth');
     const {onChange, props:{data: rawData}, state:{value}} = this;
     if( !rawData ) return null;
     const sliderConfig = {min: 0, max: 2, step: 1};

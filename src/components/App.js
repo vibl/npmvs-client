@@ -32,6 +32,9 @@ const initialData = {
   session: {
     isNewbie: true,
   },
+  ui: {
+    columnsHeight: {},
+  },
 };
 
 // A component must return at least null!

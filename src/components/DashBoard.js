@@ -6,6 +6,7 @@ import {getPackageColors} from "../logic/utils";
 import cardsComponents, {chartsList} from "./charts";
 import DownloadsGrowth from "./charts/DownloadsGrowth";
 import {toHtmlClass} from '../logic/utils';
+import MeasureColumnHeight from './generic/MeasureColumnHeight';
 
 import {keys, mapObjIndexed, pipe, reverse, values} from 'ramda';
 const {hsl} = require('../logic/vibl-fp');
@@ -55,7 +56,6 @@ const chartStyles = ({colors, selection, focus}) => {
         }
         .label-row, .value {
            font-size: 0.7rem;
-           font-weight: ${hasFocus ? '500' : 'normal'}; 
         }
         .data-row, .label-row {
            height: 0.8rem;
@@ -112,19 +112,19 @@ const cards =
 const DashBoard = ({selection, focus, colors, data}) => {
   return ! data ? null : (
     <StyledGrid container spacing={0} {...{colors, selection, focus}}>
-     <Grid item md={4} sm={6} xs={12}>
+      <Grid item md={4} sm={6} xs={12}>
         { cards([
           'DownloadsGrowth',
           'DownloadsAcceleration',
           'CommitsForPeriod',
         ])}
       </Grid>
-       <Grid item md={4} sm={6} xs={12}>
+      <Grid item md={4} sm={6} xs={12}>
         { cards([
           'DownloadsSeries',
         ])}
       </Grid>
-       <Grid item md={4} sm={6} xs={12}>
+      <Grid  item md={4} sm={6} xs={12}>
         { cards([
           'ClosedIssuesRatio',
           'IssuesClosedInLessThanXdays',

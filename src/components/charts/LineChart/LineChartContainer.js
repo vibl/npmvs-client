@@ -6,17 +6,17 @@ import LineChartFn from './LineChartView';
 import LineChartOverlay from './LineChartOverlay';
 import {keys, last, pipe, values} from 'ramda';
 import {setFocus} from "../../../logic/focus";
-import MeasureWrapper from './MeasureWrapper';
+import MeasureColumnHeight from '../../generic/MeasureColumnHeight';
 const {isEmpty, notEmpty, lacksElementsOf} = require('../../../logic/vibl-fp');
 
 const StyleWrapper = styled.div`
-  position: relative;
-  
-  ${({monthIndex}) => `
-    .VictoryContainer > svg > g > path:nth-child(${monthIndex}) {
-      stroke-width: 6px !important;
-    }
-  `
+    position: relative;
+    flex: 1;
+    ${({monthIndex}) => `
+      .VictoryContainer > svg > g > path:nth-child(${monthIndex}) {
+        stroke-width: 6px !important;
+      }
+    `
 }`;
 const getChartData = mem(
   (selection, data) =>
@@ -76,37 +76,29 @@ class LineChartContainer extends Component {
     if( isEmpty(selection) || isEmpty(data) || lacksElementsOf(selection, keys(data)) ) return null;
     const monthIndex = getMonthIndex(data)[focusedMonth];
     return (
-      <MeasureWrapper>
-        { ({width, height}) => {
-          return ! ( width > 0 && height > 0) ? null : (
-            <StyleWrapper
-              {...{monthIndex}}
-              onMouseEnter={this.handleMouseEnterChart}
-              onMouseLeave={this.handleMouseLeaveChart}
-            >
-              <LineChartFn
-                {...{
-                  data: getChartData(selection, data),
-                  selection,
-                  height: height - 10,
-                  width,
-                  handleMouseEnterMonth: this.handleMouseEnterMonth,
-                  setFocusedMonth: this.setFocusedMonth
-                }}
-              />
-              <LineChartOverlay
-                {...{
-                  show: this.state.showOverlay,
-                  focusedMonth,
-                  selection,
-                  data: data,
-                  mousePosition: this.state.mousePosition
-                }}
-              />
-            </StyleWrapper>
-            )
-        }}
-      </MeasureWrapper>
+      <StyleWrapper
+        {...{monthIndex}}
+        onMouseEnter={this.handleMouseEnterChart}
+        onMouseLeave={this.handleMouseLeaveChart}
+      >
+        <LineChartFn
+          {...{
+            data: getChartData(selection, data),
+            selection,
+            handleMouseEnterMonth: this.handleMouseEnterMonth,
+            setFocusedMonth: this.setFocusedMonth
+          }}
+        />
+        <LineChartOverlay
+          {...{
+            show: this.state.showOverlay,
+            focusedMonth,
+            selection,
+            data: data,
+            mousePosition: this.state.mousePosition
+          }}
+        />
+      </StyleWrapper>
     );
   }
 }

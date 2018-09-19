@@ -71,33 +71,6 @@ const DivchartView = (props) => {
         <DataColumn>
           { data.map( p => <DataRow key={p.packId} {...omit('data', props)} {...p}/> )}
         </DataColumn>
-{/*        <NegativeDataColumn>
-          { data.map( ({label, value, packId}) =>
-            <BarContainer
-              key={packId}
-              className={classNames('data-row', toHtmlClass(packId))}
-              onMouseEnter={() => handleMouseEnter(packId)}
-            >
-              <Bar
-                className='bar' {...{value}}
-                style={{display: value < 0 ? 'block' : 'none'}}/>
-            </BarContainer>
-          )}
-        </NegativeDataColumn>
-        <PositiveDataColumn>
-          { data.map( ({label, value, packId}) =>
-            <BarContainer
-              key={packId}
-              className={classNames('data-row', toHtmlClass(packId))}
-              onMouseEnter={() => handleMouseEnter(packId)}
-            >
-              <Bar
-                className='bar' {...{value}}
-                style={{display: value >= 0 ? 'block' : 'none'}}/>
-               <Label className='value'>{label}</Label>
-            </BarContainer>
-          )}
-        </PositiveDataColumn>*/}
       </ChartContainer>
   )
 };

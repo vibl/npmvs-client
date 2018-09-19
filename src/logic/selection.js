@@ -24,4 +24,4 @@ export const setSelection = (newSelection) => {
 export const updateSelection = (path) => {
   const selection = selectionFromUrlPath(path);
   setSelection(selection);
-}
+};

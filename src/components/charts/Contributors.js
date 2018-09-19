@@ -68,6 +68,7 @@ class Contributors extends Component {
   };
 }
 const mapStateToProps = (state) => ({
+  selection: state.selection,
   data: state.data.contributors,
 });
 export default connect(mapStateToProps)(pure(Contributors));

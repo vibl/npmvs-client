@@ -16,12 +16,14 @@ export const selectionFromUrlPath = (urlPath) => {
 export const updateHistory = (operation, packId) => {
   const selectedAry = selectionFromUrlPath(history.location.pathname);
   const newSelectedAry = operation(packId, selectedAry);
-  const locationPath =  newSelectedAry.map(encodeURIComponent).join(stringSeparator);
+  const locationPath = newSelectedAry.map(encodeURIComponent).join(stringSeparator);
   return history.push(locationPath);
 };
 export const selectPackage = (packId) => updateHistory(append, packId);
 
 export const deselectPackage = (packId) => updateHistory(discard, packId);
+
+export const updateSelectionFromHistory = () => updateSelection(history.location.pathname);
 
 history.listen((location) => {
   updateSelection(location.pathname);

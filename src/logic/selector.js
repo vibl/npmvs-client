@@ -1,5 +1,6 @@
 import mem from 'mem';
 import http from './http';
+import store from './store';
 
 export const getSuggestions = mem(async (str) => {
   const query = `https://api.npms.io/v2/search/?q=${str}+boost-exact:false&size=20`;
@@ -11,3 +12,8 @@ export const getSuggestions = mem(async (str) => {
     popularity: score.detail.popularity,
   }));
 });
+
+export const displayInfoPage = (packId) => store.set({ui:{displayPackId: packId}});
+
+export const hideInfoPage = () => store.set({ui:{displayPackId: null}});
+

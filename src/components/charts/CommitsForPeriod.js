@@ -57,6 +57,7 @@ class CommitsForPeriod extends Component {
 }
 const extractFn = a => a.map( o => o.count );
 const mapStateToProps = (state) => ({
+  selection: state.selection,
   data: getData(extractFn, state.data.commits),
 });
 export default connect(mapStateToProps)(pure(CommitsForPeriod));

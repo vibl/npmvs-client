@@ -4,10 +4,9 @@ import AsyncSelect from 'react-select/lib/Async';
 import { components } from 'react-select';
 import {equals} from 'ramda';
 // import chroma from 'chroma-js'; // TODO: remplacer par le module 'color'?
-import {getSuggestions} from '../../logic/selector';
+import {displayInfoPage, hideInfoPage, getSuggestions} from '../../logic/selector';
 import {selectPackage, deselectPackage} from '../../logic/router-utils';
 import {getPackageColors} from "../../logic/utils";
-import {setFocus} from '../../logic/focus';
 
 const styles = {
   control: styles => ({
@@ -15,8 +14,12 @@ const styles = {
     border: '1px solid #880022',
     background: '#f7f1f1',
    }),
-  menu: styles => ({
-    ...styles,
+  menu: (base, {isFocused}) => ({
+    ...base,
+    zIndex: 3000,
+  }),
+  menuList:  (base, {isFocused}) => ({
+    ...base,
     zIndex: 3000,
   }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
@@ -29,7 +32,7 @@ const styles = {
         // : isSelected
         //   ? chroma.contrast(color, 'white') > 2 ? 'white' : 'black'
         //   : data.color,
-      backgroundColor: isFocused ? '#FFEEE' : 'white',
+      background: isFocused ? '#FEE' : 'white',
       cursor: isDisabled ? 'not-allowed' : 'default',
       zIndex: 3000,
     };
@@ -52,6 +55,7 @@ const styles = {
   },
   multiValueLabel: (styles, { data }) => ({
     ...styles,
+    fontSize: '0.9rem',
   }),
   multiValueRemove: (styles, { data }) => ({
     ...styles,
@@ -101,12 +105,6 @@ const Option = (props) => {
     </components.Option>
   );
 };
-const handleMouseEnter = (evt) => {
-  const packId = evt.target.innerText.trim();
-  if( packId ) {
-    setFocus(packId);
-  }
-};
 class PackageSelector extends React.Component {
   constructor(props) {
     super(props);
@@ -118,6 +116,18 @@ class PackageSelector extends React.Component {
   componentDidUpdate() {
     this.updateSelection();
   }
+  handleMouseEnter = (evt) => {
+    clearTimeout(this.mouseLeaveTimeout);
+    const packId = evt.target.innerText.trim();
+    if( packId ) {
+      displayInfoPage(packId);
+      // setFocus(packId);
+    }
+  };
+  handleMouseLeave = (evt) => {
+    this.mouseLeaveTimeout = setTimeout(hideInfoPage, 100);
+  };
+
   updateSelection() {
     const {selection} = this.props;
     const refSelect = this.selectRef.current;
@@ -132,7 +142,8 @@ class PackageSelector extends React.Component {
       // options.forEach( option => refSelect.select.select.selectOption(option) );
       const valueElements = selectInstance.controlRef.children[0].children;
       for (let i = 0; i < valueElements.length; i++) { // Loop needed because this is an HTMLCollection, not an array.
-        valueElements[i].addEventListener("mouseenter", handleMouseEnter);
+        valueElements[i].addEventListener("mouseenter", this.handleMouseEnter);
+        valueElements[i].addEventListener("mouseleave", this.handleMouseLeave);
       }
   
     }

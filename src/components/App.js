@@ -7,10 +7,10 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import {history} from '../logic/router-utils';
 import {initRedux} from '../logic/store';
 import {updateSelection} from '../logic/selection';
-import ComparisonPage from "./ComparisonPage";
+import MainPage from "./MainPage";
 import Blinker from './generic/Blinker';
 import theme from './styles/theme';
-import initialState from './initial-state';
+import initialState from '../logic/initial-state';
 import AppStyles from './styles/AppStyles';
 
 class App extends Component {
@@ -21,7 +21,7 @@ class App extends Component {
           <MuiThemeProvider theme={createMuiTheme(theme)}>
           <Blinker>
             <AppStyles>
-              <Route path="/" component={ComparisonPage}/>
+              <Route path="/" component={MainPage}/>
             </AppStyles>
           </Blinker>
           </MuiThemeProvider>

@@ -28,6 +28,7 @@ const ClosedIssuesRatio =  ({data}) => ! data ? null : <BasicCard {...{config, d
 const extractFn = (count, openCount) => (count - openCount) / count * 100;
 
 const mapStateToProps = (state) => ({
+  selection: state.selection,
   data: getData(extractFn, state.data.issues_count, state.data.issues_openCount),
 });
 export default connect(mapStateToProps)(pure(ClosedIssuesRatio));

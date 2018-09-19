@@ -18,7 +18,7 @@ class Container extends PureComponent {
   render() {
     let {data} = this.props;
     const {selection, displayFn} = this.props;
-    if( isEmpty(selection) || isEmpty(data) || lacksElementsOf(selection, keys(data)) ) return null;
+    if( isEmpty(selection) || isEmpty(data) ) return null;
     const packages = this.packages = reverse(selection);
     let max = 0, min = 0, absMin;
     data = packages.map(packId => {

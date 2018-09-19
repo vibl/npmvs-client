@@ -2,7 +2,8 @@ import memoize from '../lib/memoize-immutable';
 import MixedTupleMap from 'mixedtuplemap';
 import {createSelectorCreator} from 'reselect';
 import shallowEqual from 'fbjs/lib/shallowEqual'
-import {keys, map, zipObj} from 'ramda'
+import {keys, map, zipObj} from 'ramda';
+import classNames from 'classnames/dedupe';
 const {getDotPath, gradient, hsl, isEmpty} = require('./vibl-fp');
 
 export const mem = memoize;
@@ -69,3 +70,7 @@ export function monitorShouldComponentUpdateWithState(nextProps, nextState) {
     return false;
   }
 }
+export const cn = (...args) => {
+  const clean = args.map(toHtmlClass);
+  return classNames(...clean);
+};

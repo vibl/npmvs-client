@@ -21,7 +21,7 @@ const {
 /* eslint-enable no-unused-vars*/
 
 const {
-  isArray, isEmpty, isFunction, isNumber, isUndefined,
+  isArray, isFunction, isNumber, isUndefined,
   isObject, isArrayLike, isObjectLike, isPlainObject, isString, random, toNumber
 } = _;
 
@@ -65,6 +65,7 @@ const notBlank = complement(isBlank);
 
 const isNegative = x => isNumber(x) && x < 0;
 
+const isEmpty = x => x === undefined || R.isEmpty(x);
 const notEmpty = complement(isEmpty);
 const notMatch = pipe(match, isEmpty);
 

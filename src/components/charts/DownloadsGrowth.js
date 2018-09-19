@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {pure} from 'recompose';
 import ChartCard from '../card/ChartCard';
 import Divchart from './Divchart/DivchartContainer';
 import ChartTitle from '../card/ChartTitle';
@@ -7,6 +8,9 @@ import BlinkSlider from '../card/BlinkSlider';
 import fn from '../../logic/field-fns';
 import {mean, juxt, map, mapObjIndexed, pipe, prop, slice, splitEvery, sum} from "ramda";
 import {getData} from "../../logic/utils";
+
+import shallowEqual from 'fbjs/lib/shallowEqual'
+
 
 const description = `
 The choice of an algorithm to calculate growth is not as obvious as it first seems. Here the one we ended up chosing:\n
@@ -76,7 +80,19 @@ class DownloadsGrowth extends Component {
   onChange = (event, value) => {
     this.setState({value});
   };
+  shouldComponentUpdate(nextProps, nextState) {
+    if( !shallowEqual(this.props, nextProps) ) {
+      for(const key in this.props) {
+        if(this.props[key] !== nextProps[key] ) {
+          console.log('Different!', this.props[key], nextProps[key]);
+        }
+      }
+
+    }
+    return !shallowEqual(this.props, nextProps)
+  }
   render() {
+    console.log('Rendering DownloadsGrowth');
     const {onChange, props:{data: rawData}, state:{value}} = this;
     if( !rawData ) return null;
     const sliderConfig = {min: 0, max: 2, step: 1};
@@ -92,6 +108,6 @@ class DownloadsGrowth extends Component {
   };
 }
 const mapStateToProps = (state) => ({
-  data: getData(state, 'downloads'),
+  data: state.data.downloads,
 });
-export default connect(mapStateToProps)(DownloadsGrowth);
+export default connect(mapStateToProps)(pure(DownloadsGrowth));

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import mem from 'mem';
+import {pure} from "recompose";
+import {mem} from '../../logic/utils';
 import {connect} from "react-redux";
 import {getData} from "../../logic/utils";
 import fn from '../../logic/field-fns';
@@ -101,6 +102,6 @@ class IssuesClosedInLessThanXdays extends Component {
 const extractFn = mapKeys( key => key/3600 );
 
 const mapStateToProps = (state) => ({
-  data: getData(state, 'issues.distribution', extractFn),
+  data: getData(extractFn, state.data.issues_distribution),
 });
-export default connect(mapStateToProps)(IssuesClosedInLessThanXdays);
+export default connect(mapStateToProps)(pure(IssuesClosedInLessThanXdays));

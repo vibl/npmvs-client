@@ -10,6 +10,8 @@ import MeasureWrapper from './MeasureWrapper';
 const {isEmpty, notEmpty, lacksElementsOf} = require('../../../logic/vibl-fp');
 
 const StyleWrapper = styled.div`
+  position: relative;
+  
   ${({monthIndex}) => `
     .VictoryContainer > svg > g > path:nth-child(${monthIndex}) {
       stroke-width: 6px !important;
@@ -80,7 +82,7 @@ class LineChartContainer extends Component {
             <StyleWrapper
               {...{monthIndex}}
               onMouseEnter={this.handleMouseEnterChart}
-              // onMouseLeave={this.handleMouseLeaveChart}
+              onMouseLeave={this.handleMouseLeaveChart}
             >
               <LineChartFn
                 {...{

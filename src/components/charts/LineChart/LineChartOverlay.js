@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "react-emotion";
-import mem from "mem";
+import {mem} from '../../../logic/utils';
 import {pure} from 'recompose';
 import {keys, last} from 'ramda';
 import {setFocus} from "../../../logic/focus"
@@ -19,9 +19,9 @@ const getStats = mem( (selection, data) => {
 });
 const AbsoluteContainer = styled.div`
     visibility: ${p => p.show ? 'visible' : 'hidden' };
-    position: fixed;
-    left: ${p => p.mousePosition[0] - 100}px;
-    top: ${p => p.mousePosition[1] - 120}px;
+    position: absolute;
+    left: 0;
+    top: 0;
     z-index: 3000;
        * {
       text-shadow:

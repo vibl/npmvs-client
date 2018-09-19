@@ -109,8 +109,8 @@ const cards =
         const Component = cardsComponents[chartId];
         return <Component key={chartId} {...{chartId}}/>
       });
-const DashBoard = ({selection, focus, colors}) => {
-  return (
+const DashBoard = ({selection, focus, colors, data}) => {
+  return ! data ? null : (
     <StyledGrid container spacing={0} {...{colors, selection, focus}}>
      <Grid item md={4} sm={6} xs={12}>
         { cards([
@@ -135,6 +135,7 @@ const DashBoard = ({selection, focus, colors}) => {
     )
 };
 const mapStateToProps = (state) => ({
+  data : state.data,
   focus: state.focus,
   selection: state.selection,
   colors: getPackageColors(state.color, state.selection),

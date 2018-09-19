@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {pure} from 'recompose';
 import {connect} from 'react-redux';
 import {getData} from '../../logic/utils';
 import ChartCard from '../card/ChartCard';
@@ -56,6 +57,6 @@ class CommitsForPeriod extends Component {
 }
 const extractFn = a => a.map( o => o.count );
 const mapStateToProps = (state) => ({
-  data: getData(state, 'commits', extractFn),
+  data: getData(extractFn, state.data.commits),
 });
-export default connect(mapStateToProps)(CommitsForPeriod);
+export default connect(mapStateToProps)(pure(CommitsForPeriod));

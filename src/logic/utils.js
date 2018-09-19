@@ -1,18 +1,22 @@
 import memoize from '../lib/memoize-immutable';
 import MixedTupleMap from 'mixedtuplemap';
-import {zipObj} from 'ramda'
-const {getDotPath, gradient, hsl} = require('./vibl-fp');
+import {createSelectorCreator} from 'reselect';
+
+import {keys, map, zipObj} from 'ramda'
+const {getDotPath, gradient, hsl, isEmpty} = require('./vibl-fp');
 
 export const mem = memoize;
 export const memGC = fn => memoize(fn, {cache: new MixedTupleMap()});
 
 export const getData = mem(
-  ({data}, path, extractFn) => {
-    if( ! data ) return;
-    let acc = {}, key;
-    for(key in data) {
-      const datapoint = getDotPath(path, data[key]);
-      acc[key] = datapoint === undefined ? null : extractFn ? extractFn(datapoint) : datapoint;
+  (extractFn, ...datapoints) => {
+    if( datapoints.some(isEmpty) ) return null;
+    const packIds = keys(datapoints[0]);
+    let packData, packId, acc = {};
+    for( packId of packIds ) {
+      packData = datapoints.map(o => o[packId]);
+      if( packData.some(isEmpty) ) return null;
+      acc[packId] = extractFn(...packData);
     }
     return acc;
   }
@@ -31,4 +35,6 @@ export const getPackageColors = mem( (colorObj, selection) => {
   }
 );
 export const toHtmlClass = str => str.replace(/[^\w\d\-_]/g, '_');
+
+export const createSelector = createSelectorCreator(mem);
 

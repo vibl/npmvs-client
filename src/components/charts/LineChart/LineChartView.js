@@ -71,7 +71,7 @@ class LineChartView extends Component {
   //   return false;
   // }
   render() {
-    console.log('Rendering LineChartView');
+    // console.log('Rendering LineChartView');
     const {data, height, width, setFocusedMonth, handleMouseEnterMonth} = this.props;
     return (
       <VictoryChart

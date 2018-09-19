@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import styled from 'react-emotion';
-import mem from 'mem';
+import {mem} from '../../logic/utils';
 import {dissoc, not} from 'ramda';
 const {sleep} = require('../../logic/vibl-utils');
 const {isEmpty, mapToArray, transform} = require('../../logic/vibl-fp');

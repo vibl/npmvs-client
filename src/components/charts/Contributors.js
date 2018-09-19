@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import mem from 'mem';
+import {connect} from "react-redux";
+import {mem} from '../../logic/utils';
+import {pure} from 'recompose';
 import ChartCard from '../card/ChartCard';
 import Divchart from './Divchart/DivchartContainer';
 import ChartTitle from '../card/ChartTitle';
 import BlinkSlider from '../card/BlinkSlider';
 import {filter, length, map, pipe} from 'ramda';
-import {connect} from "react-redux";
 import {getData} from "../../logic/utils";
 
 const description = `
@@ -67,6 +68,6 @@ class Contributors extends Component {
   };
 }
 const mapStateToProps = (state) => ({
-  data: getData(state, 'contributors'),
+  data: state.data.contributors,
 });
-export default connect(mapStateToProps)(Contributors);
+export default connect(mapStateToProps)(pure(Contributors));

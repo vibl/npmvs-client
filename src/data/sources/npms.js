@@ -30,7 +30,12 @@ const dataPoints = {
       homepage: 2,
         forksCount: 1,
         subscribersCount: 1,
-        issues: 1,
+        issues: {
+          count: 2,
+          openCount: 2,
+          distribution: 2,
+
+        },
         contributors: 1,
         commits: 1,
     },
@@ -39,9 +44,9 @@ const dataPoints = {
 
 const idFromPath = (level, path) => {
   const nameSegments = path.slice(path.length - level, path.length);
-  return nameSegments.join('.');
+  return nameSegments.join('_');
 };
-const mapRecurse = (parent, parentPath, data) => {
+const mapRecurse = (packId, parent, parentPath, data) => {
   let result = {};
   let key, node, nodePath, value;
   for (key in parent) {
@@ -50,10 +55,11 @@ const mapRecurse = (parent, parentPath, data) => {
     value = data[key];
     if( typeof node === 'number' ) {
       const id = idFromPath(node, nodePath);
-      result[id] = value;
+      if( ! result[id] ) result[id] = {};
+      result[id][packId] = value;
     } else {
       if( value ) {
-        result = {...result, ...mapRecurse(node, nodePath, value)};
+        result = {...result, ...mapRecurse(packId, node, nodePath, value)};
       }
     }
   }
@@ -62,8 +68,8 @@ const mapRecurse = (parent, parentPath, data) => {
 const getData = async (packId) => {
   const url = enpointUrl + params + encodeURIComponent(packId);
   const resp = await http.memGet(url);
-  const data = mapRecurse(dataPoints, [], resp.data);
-  store.set({data:{[packId]: data}});
+  const data = mapRecurse(packId, dataPoints, [], resp.data);
+  store.set({data});
 };
 export default {
   getData,

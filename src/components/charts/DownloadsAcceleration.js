@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {pure} from 'recompose';
 import {getData, mem} from '../../logic/utils';
 import BasicCard from "../card/BasicCard";
 import fn from '../../logic/field-fns';
@@ -38,8 +39,8 @@ const DownloadsAcceleration = ({data: rawData}) => {
   );
 };
 const mapStateToProps = (state) => ({
-  data: getData(state, 'downloads'),
+  data: state.data.downloads,
 });
-export default connect(mapStateToProps)(DownloadsAcceleration);
+export default connect(mapStateToProps)(pure(DownloadsAcceleration));
 
 

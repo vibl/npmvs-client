@@ -110,6 +110,6 @@ const DownloadSeries = ({data: rawData}) => {
   );
 };
 const mapStateToProps = (state) => ({
-  data: getData(state, 'downloads'),
+  data: state.data.downloads,
 });
-export default pure(connect(mapStateToProps)(DownloadSeries));
+export default connect(mapStateToProps)(pure(DownloadSeries));

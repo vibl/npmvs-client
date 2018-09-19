@@ -1,143 +1,86 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import {pure} from 'recompose';
 import styled from 'react-emotion';
+import {css} from 'emotion';
 import Grid from '@material-ui/core/Grid';
 import {getPackageColors} from "../logic/utils";
 import cardsComponents, {chartsList} from "./charts";
 import DownloadsGrowth from "./charts/DownloadsGrowth";
-import {toHtmlClass} from '../logic/utils';
-import MeasureColumnHeight from './generic/MeasureColumnHeight';
-
-import {keys, mapObjIndexed, pipe, reverse, values} from 'ramda';
+import theme from './styles/theme';
+import {keys} from 'ramda';
+import {connect} from "react-redux";
 const {hsl} = require('../logic/vibl-fp');
 
-const chartStyles = ({colors, selection, focus}) => {
-  const packages = reverse(selection);
-  const styleMapper = (packId, i) => {
-    const {baseColor, colorDarker, lightGradient} = colors[packId];
-    const hasFocus = focus === packId;
-    const switchColor = hasFocus ? colorDarker : baseColor;
-    const packIdClass = toHtmlClass(packId);
-    return `
-      // Bars
-      .bar-chart.VictoryContainer > svg > g:nth-child(2) > path:nth-child(${i+1}) {
-        fill: ${baseColor} !important;
-        stroke:  ${switchColor} !important;
-      }
-      // Bar labels
-      .bar-chart.VictoryContainer > svg > g:nth-child(2) > text:nth-child(${i+4}) > tspan {
-        fill: ${switchColor} !important;
-      }
-      // Tick labels
-      .bar-chart.VictoryContainer > svg > g:nth-child(1) > g:nth-child(${i+2}) > text > tspan {
-        fill: ${switchColor} !important;
-      }
-      // Lines
-      .VictoryContainer.line-chart > svg > g > path.line.${packIdClass} {
-        stroke: ${switchColor} !important;
-        stroke-width: ${hasFocus ? 3 : 2} !important;
-      }
-      // Scatter
-      .VictoryContainer.line-chart > svg > g > path.scatter.${packIdClass} {
-        stroke: ${switchColor} !important; 
-        fill: ${switchColor} !important;
-      }
-      // Overlay
-      .VictoryContainer.line-chart + div table tr.overlay.${packIdClass} { 
-        color: ${switchColor}; 
-        font-weight: ${hasFocus ? '500' : 'normal'}; 
-      }
-      ///////////////////////////////////////////////////////////////////////////
-      // Divcharts
-      .divchart {   
-        
-        .label-row  {
-           margin-right: 0.3rem;
-        }
-        .label-row, .value {
-           font-size: 0.7rem;
-        }
-        .data-row, .label-row {
-           height: 0.8rem;
-           margin-top: 0.25rem;
-           margin-bottom: 0.25rem
-        }
-        .bar {
-          border: 0; 
-          vertical-align: middle;
-        }
-        .value {
-          margin-left: 0.3rem;
-          vertical-align: middle;
-        }  
-        .label-row.${packIdClass} {
-            color: ${switchColor};
-         }  
-        .data-row.${packIdClass} {
-          .bar {
-            background: ${lightGradient};
-            box-shadow: 
-            ${ hasFocus ?
-            `0 0 3px 3px ${colorDarker} 
-            ,inset -1px -1px 1px 0px ${colorDarker};`
-            : `0 0 2px 0 ${baseColor}; border: 1px solid ${baseColor};`}
-          }
-          .bar[value='0'] {
-            box-shadow: none;
-            border: none;
-           }
-          .value {
-            color: ${switchColor};
-          }
-        }
-      }
-    `;
-  };
-  return packages.map(styleMapper);
-};
+const breakpoints = theme.breakpoints.values;
+const screenSizes = keys(breakpoints);
+
 const StyledGrid = styled(Grid)`
     position: relative;
     align-items: stretch;
-    .VictoryContainer > svg {
-      overflow: visible;
-    }
-    ${chartStyles}
+    padding: 0 .1rem;
+    margin: .3rem .1rem;
 `;
+const orderStyles = ({order}) => {
+  let size, style, acc = [];
+  for(size in order) {
+    style = css`
+      @media (min-width: ${breakpoints[size]}px) {
+        order: ${order[size]};
+      }
+    `;
+    acc.push(style);
+  }
+  return acc;
+};
+const StyledGridItem = styled(Grid)`
+  ${orderStyles}
+`;
+const strToScreenCfg = str =>
+  str.split(' ').reduce( (acc, val, i) => ({...acc, [screenSizes[i]]: parseInt(val)}), {});
+
+const Column = ({sizes, order, children}) => {
+  return (
+    <StyledGridItem item {...{...strToScreenCfg(sizes), order: strToScreenCfg(order)}}>
+      {children}
+    </StyledGridItem>
+  )
+};
 const cards =
     chartIds =>
       chartIds.map( chartId => {
         const Component = cardsComponents[chartId];
         return <Component key={chartId} {...{chartId}}/>
       });
-const DashBoard = ({selection, focus, colors, data}) => {
+const DashBoard = ({data}) => {
   return ! data ? null : (
-    <StyledGrid container spacing={0} {...{colors, selection, focus}}>
-      <Grid item md={4} sm={6} xs={12}>
+    <StyledGrid
+      container
+      spacing={0}
+      justify="center"
+    >
+      <Column sizes="12 10 6 6 4" order="2 2 1 1 1">
         { cards([
           'DownloadsGrowth',
           'DownloadsAcceleration',
           'CommitsForPeriod',
         ])}
-      </Grid>
-      <Grid item md={4} sm={6} xs={12}>
+      </Column>
+      <Column sizes="12 10 12 12 4" order="1 1 3 3 2">
         { cards([
           'DownloadsSeries',
         ])}
-      </Grid>
-      <Grid  item md={4} sm={6} xs={12}>
+      </Column>
+      <Column sizes="12 10 6 6 4" order="3 3 2 2 3">
         { cards([
           'ClosedIssuesRatio',
           'IssuesClosedInLessThanXdays',
           'Contributors',
         ])}
-      </Grid>
+      </Column>
     </StyledGrid>
     )
 };
 const mapStateToProps = (state) => ({
   data : state.data,
-  focus: state.focus,
-  selection: state.selection,
-  colors: getPackageColors(state.color, state.selection),
 });
-export default connect(mapStateToProps)(DashBoard);
+export default connect(mapStateToProps)(pure(DashBoard));

@@ -7,12 +7,11 @@ import logo from '../../assets/img/logo.png';
 const Container = styled.div`
     width: 100%;
     display: flex;
-    height: 2rem;
     align-content: center;
 `;
 const SelectorWrapper = styled.div`
     flex-grow: 1;
-    margin: .2em 0 0 0;
+    margin: .2rem 0 0 0;
 `;
 const LogoWrapper = styled.div`
     margin: 0.1rem 0 0 0;

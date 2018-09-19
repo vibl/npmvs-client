@@ -1,14 +1,14 @@
 import React from 'react';
 import ChartCard from './ChartCard';
 import Divchart from '../charts/Divchart/DivchartContainer';
-import ChartTitle from './ChartTitle';
+import Title from './ChartTitle';
 import {pure} from 'recompose';
 
 const BasicCard = ({config, data}) => {
   const {label, description, displayFn} = config;
   return (
     <ChartCard>
-      <ChartTitle {...{description}}>{label}</ChartTitle>
+      <Title {...{description}}>{label}</Title>
       <Divchart  {...{data, displayFn}}/>
     </ChartCard>
   );

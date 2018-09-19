@@ -5,16 +5,12 @@ import isEmpty from "lodash/isEmpty";
 import styled from 'react-emotion';
 import Divchart from './DivchartView';
 import {setFocus} from '../../../logic/focus';
+import divchartStyles from './divchart-styles';
 
-const {anyValue, isNegative, lacksElementsOf, switchValue} = require('../../../logic/vibl-fp');
+const { lacksElementsOf, switchValue} = require('../../../logic/vibl-fp');
 
-const StyledDivchart = styled(Divchart)`
-  //.divchart .row {
-  //   .bar {
-  //     background-color: purple;
-  //   }
-  //}
-`;
+const StyledDivchart = styled(Divchart)`${divchartStyles}`;
+
 class Container extends PureComponent {
   handleMouseEnter = (packId) => {
     setFocus(packId);

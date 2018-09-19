@@ -3,13 +3,11 @@ import {pure} from 'recompose';
 import styled from 'react-emotion';
 import {css} from 'emotion';
 import Grid from '@material-ui/core/Grid';
-import {getPackageColors} from "../logic/utils";
 import cardsComponents, {chartsList} from "./charts";
 import DownloadsGrowth from "./charts/DownloadsGrowth";
 import theme from './styles/theme';
 import {keys} from 'ramda';
 import {connect} from "react-redux";
-const {hsl} = require('../logic/vibl-fp');
 
 const breakpoints = theme.breakpoints.values;
 const screenSizes = keys(breakpoints);
@@ -17,8 +15,7 @@ const screenSizes = keys(breakpoints);
 const StyledGrid = styled(Grid)`
     position: relative;
     align-items: stretch;
-    padding: 0 .1rem;
-    margin: .3rem .1rem;
+    margin: .4rem .1rem;
 `;
 const orderStyles = ({order}) => {
   let size, style, acc = [];

@@ -1,5 +1,6 @@
 import { createBrowserHistory } from 'history';
 import {append, match} from 'ramda';
+import {updateSelection} from "./selection";
 const {discard} = require('./vibl-fp').default;
 
 export const history = createBrowserHistory();
@@ -21,3 +22,7 @@ export const updateHistory = (operation, packId) => {
 export const selectPackage = (packId) => updateHistory(append, packId);
 
 export const deselectPackage = (packId) => updateHistory(discard, packId);
+
+history.listen((location) => {
+  updateSelection(location.pathname);
+});

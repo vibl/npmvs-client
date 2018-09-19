@@ -103,7 +103,9 @@ const Option = (props) => {
 };
 const handleMouseEnter = (evt) => {
   const packId = evt.target.innerText.trim();
-  setFocus(packId);
+  if( packId ) {
+    setFocus(packId);
+  }
 };
 class PackageSelector extends React.Component {
   constructor(props) {

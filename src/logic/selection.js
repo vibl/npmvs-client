@@ -21,7 +21,7 @@ export const setSelection = (newSelection) => {
   difference(currentSelection, newSelection).map(remove);
   difference(newSelection, currentSelection).map(add);
 };
-export const updateSelection = pipe(
-  selectionFromUrlPath,
-  setSelection,
-);
+export const updateSelection = (path) => {
+  const selection = selectionFromUrlPath(path);
+  setSelection(selection);
+}

@@ -13,10 +13,6 @@ import theme from './styles/theme';
 import initialState from './initial-state';
 import AppStyles from './styles/AppStyles';
 
-const SelectionChange = pure( ({location}) => {
-  updateSelection(location.pathname);
-  return null;
-});
 class App extends Component {
   render() {
     return (
@@ -25,7 +21,6 @@ class App extends Component {
           <MuiThemeProvider theme={createMuiTheme(theme)}>
           <Blinker>
             <AppStyles>
-              <Route path="/" component={SelectionChange}/>
               <Route path="/" component={ComparisonPage}/>
             </AppStyles>
           </Blinker>

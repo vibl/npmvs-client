@@ -4,22 +4,26 @@ import classNames from 'classnames';
 import {omit} from 'ramda';
 import {toHtmlClass} from '../../../logic/utils';
 
-const DataRow = pure( ({label, value, packId, handleMouseEnter, absMin}) => (
-    <div
-      className={classNames('data row', toHtmlClass(packId))}
-      onMouseEnter={() => handleMouseEnter(packId)}
-    >
-      { absMin && <div
-        className="negative placeholder"
-        style={{minWidth: (value < 0 ? absMin - Math.abs(value) : absMin) + '%'}}/>}
+const DataRow = pure( ({label, value, packId, handleMouseEnter, absMin}) => {
+  const placeholderValue = value < 0 ? absMin - Math.abs(value) : absMin;
+  return (
       <div
-        style={{minWidth: Math.abs(value) + '%'}}
-        className='bar' {...{value}}
-      />
-      <div className='value'>{label}</div>
-    </div>
-  )
-);
+        className={classNames('data row', toHtmlClass(packId))}
+        onMouseEnter={() => handleMouseEnter(packId)}
+      >
+        { absMin && <div
+          className="negative placeholder"
+          value={placeholderValue}
+          style={{minWidth: placeholderValue + '%'}}/>}
+        <div
+          style={{minWidth: Math.abs(value) + '%'}}
+          className='bar'
+          {...{value}}
+        />
+        <div className='value'>{label}</div>
+      </div>
+    )
+});
 const DivchartView = (props) => {
   const {data, handleMouseEnter, className, absMin} = props;
   return (

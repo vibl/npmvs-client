@@ -40,9 +40,9 @@ export default () => css`
     vertical-align: middle;
     height: 100%;
   }
-  .bar[value='0'] {
-    box-shadow: none;
-    border: none;
+  .bar[value='0'],
+  .placeholder[value='100'] {
+    display: none;
   }
   .value {
     margin-left: 0.4rem;

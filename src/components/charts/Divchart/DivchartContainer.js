@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import {connect} from "react-redux";
-import {keys, pipe, reverse} from "ramda";
+import {pipe, reverse} from "ramda";
 import isEmpty from "lodash/isEmpty";
 import styled from 'react-emotion';
 import Divchart from './DivchartView';
@@ -31,6 +31,10 @@ class Container extends PureComponent {
       value = switchValue([
         [Infinity, undefined, null, isNaN, 0],
       ], value);
+      if( label.endsWith && label.endsWith('%') && value  >= 1000 ) {
+        label = '(Not enough data)';
+        value = 0;
+      }
       max = value > max ? value : max;
       min = value < min ? value : min;
       return {label, packId, value};

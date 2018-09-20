@@ -12,6 +12,7 @@ injectGlobal`
   html {
      font-size: 16px;
      line-height: 23px;
+     background-color: ${theme.pageBackgroundColor};
   }
 `;
 const StyledAppContainer = styled.div`

@@ -3,6 +3,7 @@ import styled from 'react-emotion';
 import Selector from "./Selector";
 import ColorDialog from './ColorDialog';
 import logo from '../../assets/img/logo.png';
+import {hideInfoPageAfterTimeout} from '../infopage/infopage-display-hide';
 
 const Container = styled.div`
     width: 100%;
@@ -24,7 +25,7 @@ const Logo = styled.img`
     width: 7rem;
 `;
 const ControlPanel = () => (
-  <Container>
+  <Container onMouseEnter={hideInfoPageAfterTimeout}>
     <LogoWrapper>
       <Logo src={logo}/>
     </LogoWrapper>

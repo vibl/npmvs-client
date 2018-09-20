@@ -5,20 +5,28 @@ import styled from 'react-emotion';
 import {css} from 'emotion';
 import {cn, toHtmlClass} from '../../logic/utils';
 import InfoPage from "./InfoPage";
-const {toArray} = require('../../logic/vibl-fp');
+import MeasureColumnHeight from "../generic/MeasureColumnHeight";
+const {isEmpty, toArray} = require('../../logic/vibl-fp');
 
 const displayedInfoPage = (p) => {
-   return   ! p.displayPackId
+   return isEmpty(p.displayPackId)
      ? null
      :css`
       .infopage.${toHtmlClass(p.displayPackId)} {
-        display: block;
+        display: block !important;
       }`;
 };
 
 const InfoPagesWrapper = styled.div`
   .infopage {
     display: none;
+    z-index: 3000;
+    
+    td.label {
+      text-align: right;
+      color: #802;
+      padding-right: 0.5rem;
+    }
   }
   ${displayedInfoPage}
 `;

@@ -4,10 +4,12 @@ import {dec, last, length, map, mean, multiply, pipe, reduce, slice, sum, toPair
 const {concatLeft, curry2, getDotPath, ident, percent, pipeD} = require('./vibl-fp');
 
 const significantDigits = curry2(
-  (digits, n) =>
-   Math.round(n) >= 10 ** digits
-    ? Math.round(n).toString()
-    : Number.parseFloat(n).toPrecision(digits)
+  (digits, n) => {
+    let x = Math.round(n) >= 10 ** digits
+      ? Math.round(n).toString()
+      : Number.parseFloat(n).toPrecision(digits)
+    return x.replace(/\.0+$/, '');
+  }
 );
 const percentGrowth = pipe(dec, multiply(100));
 
@@ -45,12 +47,7 @@ const fns = {
   explicitPlus: str => parseFloat(str) > 0 ? '+' + str : str,
   ident,
   none: () => undefined,
-  joinComma: ary => ary.join(", "),
   count: val => size(val),
-  author: getDotPath('name'), // (o) => o && o.name,
-  publisher: getDotPath('username'), // (o) => o && o.username,
-  repository: getDotPath('url'), // (o) => o && o.url,
-  releases: getDotPath('3.count'), //(a) => a && a[3] && a[3].count,
   downloads: getDotPath('5.count'), // (a) => a[5] && a[5].count,
   commits6months: getDotPath('3.count'), // (a) => a[4] && a[4].count,
   linters: getDotPath('js.0'), // (o) => o && o.js && o.js[0],

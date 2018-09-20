@@ -13,7 +13,5 @@ export const getSuggestions = mem(async (str) => {
   }));
 });
 
-export const displayInfoPage = (packId) => store.set({ui:{displayPackId: packId}});
 
-export const hideInfoPage = () => store.set({ui:{displayPackId: null}});
 

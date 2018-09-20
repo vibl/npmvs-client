@@ -54,10 +54,6 @@ const LineBasis = ({pack, handleMouseEnterMonth}) => {
 };
 
 class LineChartView extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.shouldComponentUpdate = monitorShouldComponentUpdateWithState;
-  }
   render() {
     const {data, setFocusedMonth, handleMouseEnterMonth} = this.props;
     return (

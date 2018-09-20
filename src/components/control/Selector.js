@@ -3,7 +3,8 @@ import {connect} from 'react-redux';
 import AsyncSelect from 'react-select/lib/Async';
 import { components } from 'react-select';
 import {equals} from 'ramda';
-import {displayInfoPage, hideInfoPage, getSuggestions} from '../../logic/selector';
+import {getSuggestions} from '../../logic/get-suggestions';
+import {displayInfoPage, hideInfoPageAfterTimeout} from '../infopage/infopage-display-hide';
 import {selectPackage, deselectPackage} from '../../logic/router-utils';
 import {getPackageColors} from "../../logic/utils";
 import {setFocus} from '../../logic/focus';
@@ -116,18 +117,16 @@ class PackageSelector extends React.Component {
   componentDidUpdate() {
     this.updateSelection();
   }
-  handleMouseEnter = (evt) => {
-    clearTimeout(this.mouseLeaveTimeout);
+  handleMouseEnterButton = (evt) => {
     const packId = evt.target.innerText.trim();
     if( packId ) {
-      // displayInfoPage(packId);
+      displayInfoPage(packId);
       setFocus(packId);
     }
   };
   handleMouseLeave = (evt) => {
-    this.mouseLeaveTimeout = setTimeout(hideInfoPage, 100);
+    hideInfoPageAfterTimeout();
   };
-
   updateSelection() {
     const {selection} = this.props;
     const refSelect = this.selectRef.current;
@@ -142,8 +141,8 @@ class PackageSelector extends React.Component {
       // options.forEach( option => refSelect.select.select.selectOption(option) );
       const valueElements = selectInstance.controlRef.children[0].children;
       for (let i = 0; i < valueElements.length; i++) { // Loop needed because this is an HTMLCollection, not an array.
-        valueElements[i].addEventListener("mouseenter", this.handleMouseEnter);
-        // valueElements[i].addEventListener("mouseleave", this.handleMouseLeave);
+        valueElements[i].addEventListener("mouseenter", this.handleMouseEnterButton);
+        valueElements[i].addEventListener("mouseleave", this.handleMouseLeave);
       }
     }
   }
@@ -156,6 +155,7 @@ class PackageSelector extends React.Component {
         isMulti
         cacheOptions
         defaultOptions
+        openMenuOnClick={false}
         maxMenuHeight={600}
         onChange={onChange}
         loadOptions={getSuggestions}

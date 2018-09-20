@@ -13,7 +13,7 @@ class MainPage extends PureComponent {
       <div>
         <ControlPanel/>
         <DashBoard/>
-        {/*<InfoPages/>*/}
+        <InfoPages/>
       </div>
     )
   }

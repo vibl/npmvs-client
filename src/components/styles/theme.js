@@ -1,4 +1,5 @@
 export default {
+  pageBackgroundColor: '#f7f1f1 ',
   breakpoints: {
     values: {
       xs: 0,

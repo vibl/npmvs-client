@@ -2,7 +2,8 @@ import store from "./store";
 import {selectionFromUrlPath} from './router-utils';
 import sources from '../data/sources';
 import {setFocus, unsetFocus} from "../logic/focus";
-import {append, difference, map, pipe, values} from 'ramda';
+import {displayInfoPage, hideInfoPage} from '../components/infopage/infopage-display-hide';
+import {append, difference, last, map, pipe, values} from 'ramda';
 const {discard} = require('../logic/vibl-fp').default;
 
 const add = async (packId) => {
@@ -15,6 +16,14 @@ const add = async (packId) => {
 const remove = async (packId) => {
   store.set({selection: discard(packId)});
   unsetFocus(packId);
+  if( store.get().ui.displayPackId === packId ) {
+    const lastSelected = last(store.get().selection);
+    if( lastSelected ) {
+      displayInfoPage(lastSelected);
+    } else {
+      hideInfoPage();
+    }
+  }
 };
 export const setSelection = (newSelection) => {
   const currentSelection = store.get().selection;

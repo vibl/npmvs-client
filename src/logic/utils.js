@@ -53,7 +53,7 @@ export const getPackageColors = mem( (colorObj, selection) => {
   }));
   }
 );
-export const toHtmlClass = str => str.replace(/[^\w\d\-_]/g, '_');
+export const toHtmlClass = str => str && str.replace ? str.replace(/[^\w\d\-_]/g, '_') : '';
 
 export const createSelector = createSelectorCreator(mem);
 

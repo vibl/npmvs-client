@@ -6,7 +6,7 @@ const {discard} = require('./vibl-fp').default;
 export const history = createBrowserHistory();
 
 const stringSeparator = '-vs-';
-const selectionUrlSegmentRegex = /^\/?(.+)\/?$/;
+const selectionUrlSegmentRegex = /([^/]+)\/?$/;
 
 export const selectionFromUrlPath = (urlPath) => {
   const lastPathSegment = match(selectionUrlSegmentRegex, urlPath)[1] || '';

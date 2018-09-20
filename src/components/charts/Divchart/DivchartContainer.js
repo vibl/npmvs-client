@@ -31,7 +31,7 @@ class Container extends PureComponent {
       value = switchValue([
         [Infinity, undefined, null, isNaN, 0],
       ], value);
-      if( label.endsWith && label.endsWith('%') && value  >= 1000 ) {
+      if( label.endsWith && label.endsWith('%') && Math.abs(value)  >= 1000 ) {
         label = '(Not enough data)';
         value = 0;
       }

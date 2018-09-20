@@ -8,6 +8,7 @@ import DownloadsGrowth from "./charts/DownloadsGrowth";
 import theme from './styles/theme';
 import {keys} from 'ramda';
 import {connect} from "react-redux";
+const {isEmpty} = require('../logic/vibl-fp');
 
 const breakpoints = theme.breakpoints.values;
 const screenSizes = keys(breakpoints);
@@ -16,6 +17,7 @@ const StyledGrid = styled(Grid)`
     position: relative;
     align-items: stretch;
     margin: .4rem .1rem;
+    width: 99.9%;
 `;
 const orderStyles = ({order}) => {
   let size, style, acc = [];
@@ -48,8 +50,8 @@ const cards =
         const Component = cardsComponents[chartId];
         return <Component key={chartId} {...{chartId}}/>
       });
-const DashBoard = ({data}) => {
-  return ! data ? null : (
+const DashBoard = ({data, selection}) => {
+  return isEmpty(data) || isEmpty(selection) ? null : (
     <StyledGrid
       container
       spacing={0}
@@ -79,5 +81,6 @@ const DashBoard = ({data}) => {
 };
 const mapStateToProps = (state) => ({
   data : state.data,
+  selection: state.selection,
 });
 export default connect(mapStateToProps)(pure(DashBoard));

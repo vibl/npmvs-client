@@ -44,8 +44,10 @@ class Target {
     clearTimeout(this.timeout);
   }
   async getBlinkerInstance() {
-    // Allow for some time for a Blinker to be instantiated.
-    await sleep(1000);
+    while( ! thisBlinker ) {
+      await sleep(100); // Allow for some time for a Blinker to be instantiated.
+
+    }
     this.blinker = thisBlinker;
     this.blinker.set({targets:{[this.id]:{target:this, on: true}}});
     this.loop();

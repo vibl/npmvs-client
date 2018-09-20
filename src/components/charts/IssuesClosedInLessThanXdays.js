@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {pure} from "recompose";
-import {mem} from '../../logic/utils';
+import {connectStatePure, mem} from '../../logic/utils';
 import {connect} from "react-redux";
 import {getData} from "../../logic/utils";
 import fn from '../../logic/field-fns';
@@ -12,7 +12,7 @@ import {map, pipe, prop} from 'ramda';
 const {mapKeys} = require('../../logic/vibl-fp');
 
 const description = `
--> *(Number of issues that where closed less than three days after they were open)* <-
+-> *(Number of issues that stayed open for duration X)* <-
 
 -> divided by <-
 
@@ -99,9 +99,6 @@ class IssuesClosedInLessThanXdays extends Component {
   };
 }
 
-const extractFn = mapKeys( key => key/3600 );
+const selectorFn = ({issues_distribution}) => mapKeys( key => key/3600, issues_distribution);
 
-const mapStateToProps = (state) => ({
-  data: getData(extractFn, state.data.issues_distribution),
-});
-export default connect(mapStateToProps)(pure(IssuesClosedInLessThanXdays));
+export default connectStatePure(IssuesClosedInLessThanXdays, selectorFn);

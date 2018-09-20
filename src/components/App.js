@@ -6,7 +6,6 @@ import {Route, Router } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import {history} from '../logic/router-utils';
 import {initRedux} from '../logic/store';
-import {updateSelection} from '../logic/selection';
 import MainPage from "./MainPage";
 import Blinker from './generic/Blinker';
 import theme from './styles/theme';

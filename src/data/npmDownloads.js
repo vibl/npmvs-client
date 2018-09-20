@@ -1,5 +1,5 @@
-import http from "../../logic/http";
-import store from "../../logic/store";
+import http from "../logic/http";
+import store from "../logic/store";
 
 export const numberOfMonths = 18;
 const endpointUrl = 'https://api.npmjs.org/downloads/range/';

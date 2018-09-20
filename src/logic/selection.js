@@ -1,6 +1,6 @@
 import store from "./store";
 import {selectionFromUrlPath} from './router-utils';
-import sources from '../data/sources/index';
+import sources from '../data/sources';
 import {setFocus, unsetFocus} from "../logic/focus";
 import {append, difference, map, pipe, values} from 'ramda';
 const {discard} = require('../logic/vibl-fp').default;

@@ -1,7 +1,4 @@
 export default {
-  // medianIssueDuration: https://github.com/IndigoUnited/node-gh-issues-stats/blob/master/index.js
-  // issuesOpenMoreThanTenDays: issues.distribution
-  // dependenciesWithLessThan100000downloadsLastYear: dependencies,
   name: {
     label: 'Name',
     dataPoint: 'name',

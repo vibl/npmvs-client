@@ -4,7 +4,7 @@ import {pure} from 'recompose';
 import {getData, mem} from '../../logic/utils';
 import BasicCard from "../card/BasicCard";
 import fn from '../../logic/field-fns';
-import {numberOfMonths} from '../../data/sources/npmDownloads';
+import {numberOfMonths} from '../../data/npmDownloads';
 import { mapObjIndexed, pipe, splitEvery, sum} from "ramda";
 
 const description = `

@@ -3,10 +3,10 @@ import {connect} from 'react-redux';
 import AsyncSelect from 'react-select/lib/Async';
 import { components } from 'react-select';
 import {equals} from 'ramda';
-// import chroma from 'chroma-js'; // TODO: remplacer par le module 'color'?
 import {displayInfoPage, hideInfoPage, getSuggestions} from '../../logic/selector';
 import {selectPackage, deselectPackage} from '../../logic/router-utils';
 import {getPackageColors} from "../../logic/utils";
+import {setFocus} from '../../logic/focus';
 
 const styles = {
   control: styles => ({
@@ -120,8 +120,8 @@ class PackageSelector extends React.Component {
     clearTimeout(this.mouseLeaveTimeout);
     const packId = evt.target.innerText.trim();
     if( packId ) {
-      displayInfoPage(packId);
-      // setFocus(packId);
+      // displayInfoPage(packId);
+      setFocus(packId);
     }
   };
   handleMouseLeave = (evt) => {
@@ -143,9 +143,8 @@ class PackageSelector extends React.Component {
       const valueElements = selectInstance.controlRef.children[0].children;
       for (let i = 0; i < valueElements.length; i++) { // Loop needed because this is an HTMLCollection, not an array.
         valueElements[i].addEventListener("mouseenter", this.handleMouseEnter);
-        valueElements[i].addEventListener("mouseleave", this.handleMouseLeave);
+        // valueElements[i].addEventListener("mouseleave", this.handleMouseLeave);
       }
-  
     }
   }
   render() {

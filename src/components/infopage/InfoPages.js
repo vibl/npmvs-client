@@ -5,6 +5,7 @@ import styled from 'react-emotion';
 import {css} from 'emotion';
 import {cn, toHtmlClass} from '../../logic/utils';
 import InfoPage from "./InfoPage";
+const {toArray} = require('../../logic/vibl-fp');
 
 const displayedInfoPage = (p) => {
    return   ! p.displayPackId
@@ -21,20 +22,20 @@ const InfoPagesWrapper = styled.div`
   }
   ${displayedInfoPage}
 `;
-const InfoPages = ({selection, displayPackId}) => {
-  return ! selection ? null : (
+const InfoPages = ({infoPages, displayPackId}) => {
+  return ! infoPages ? null : (
      <InfoPagesWrapper {...{displayPackId}}>
-       { selection.map( packId => (
+       { toArray(infoPages, (data, packId) => (
          <InfoPage
            key={packId}
-           {...{packId}}
+           {...{packId, data}}
          />
        ))}
      </InfoPagesWrapper>
   )
 };
 const mapStateToProps = (state) => ({
-  selection: state.selection,
+  infoPages: state.data.InfoPages,
   displayPackId: state.ui.displayPackId,
 });
 export default connect(mapStateToProps)(pure(InfoPages));

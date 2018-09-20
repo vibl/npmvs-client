@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import {Curve, Point, VictoryAxis, VictoryLine, VictoryChart,
   VictoryClipContainer, VictoryScatter, VictoryVoronoiContainer} from 'victory';
 import theme from './line-chart-theme';
-import {monitorShouldComponentUpdateWithState} from '../../../logic/utils';
+import {monitorShouldComponentUpdateWithState, toHtmlClass} from '../../../logic/utils';
 
 const VoronoiContainer = ({setFocusedMonth}) => (
   <VictoryVoronoiContainer
@@ -21,7 +21,7 @@ const Scatter = ({pack, handleMouseEnterMonth}) => (
     data={pack.data}
     x="month"
     y="value"
-    dataComponent={<Point className={"scatter " + pack.packId} events={{onMouseEnter:handleMouseEnterMonth}}/>}
+    dataComponent={<Point className={"scatter " + toHtmlClass(pack.packId)} events={{onMouseEnter:handleMouseEnterMonth}}/>}
   />
 );
 const Line = ({pack, handleMouseEnterMonth}) => {
@@ -32,7 +32,7 @@ const Line = ({pack, handleMouseEnterMonth}) => {
       x="month"
       y="value"
       interpolation="natural"
-      dataComponent={<Curve className={"line " + pack.packId} events={{onMouseEnter:handleMouseEnterMonth}}/>}
+      dataComponent={<Curve className={"line " + toHtmlClass(pack.packId)} events={{onMouseEnter:handleMouseEnterMonth}}/>}
       groupComponent={<VictoryClipContainer clipPadding={{top: 30, bottom: 30, left: 0, right: 0}}/>}// Needed in order to avoid curves to be clipped at the top.
     />
 
@@ -46,7 +46,7 @@ const LineBasis = ({pack, handleMouseEnterMonth}) => {
       x="month"
       y="value"
       interpolation="basis"
-      dataComponent={<Curve className={"line " + pack.packId} events={{onMouseEnter:handleMouseEnterMonth}}/>}
+      dataComponent={<Curve className={"line " + toHtmlClass(pack.packId)} events={{onMouseEnter:handleMouseEnterMonth}}/>}
       groupComponent={<VictoryClipContainer clipPadding={{top: 30, bottom: 30, left: 0, right: 0}}/>}// Needed in order to avoid curves to be clipped at the top.
     />
 

@@ -414,6 +414,18 @@ const reIndex = curry3( (oldIndexProp, newIndexProp, index) => {
 
 const lacks = complement(contains);
 
+const transposeKeys = (obj1) => {
+  let acc = {};
+  for(const key1 in obj1) {
+    const obj2 = obj1[key1];
+    for(const key2 in obj2) {
+      if( ! acc[key2]) acc[key2] = {};
+      acc[key2][key1] = obj2[key2];
+    }
+  }
+  return acc;
+};
+
 // Does listB contains all the element of listA?
 const lacksElementsOf = curry2( (listA, listB) => {
   for(let a of listA) {
@@ -424,7 +436,7 @@ const lacksElementsOf = curry2( (listA, listB) => {
 
 const haveSameElements = curry2( (a, b) => ! lacksElementsOf(a, b) && ! lacksElementsOf(b, a));
 
-const mapToArray = curry2( (fn, obj) => {
+const toArray = (obj, fn) => {
   let acc = [], key;
   for(key in obj) {
     if( obj.hasOwnProperty(key) ) {
@@ -433,7 +445,9 @@ const mapToArray = curry2( (fn, obj) => {
     }
   }
   return acc;
-});
+};
+const mapToArray = curry2(flip(toArray));
+
 // `cases` is an array of arrays. Each case has at least two items, the last of witch is the return value.
 // The first items of the case are either functions (which will be evaluated as truthy or not) or values.
 // If a case is not an array, the evaluation is stopped and this value is returned.
@@ -478,7 +492,7 @@ const viblPure = {
   random, rangeMap, rangeStep, reduceFirst, reduceFirstP, reduceIndexed, reduceP,
   reduceSteps, reduceTemplate, reIndex, removed, removeShortest, rest, reverseDifference, round,
   splitLinesTrim, splitPipe, splitProperties, store, switchValue,
-  tablify, takeLastUntil, toNumber, transform, trimIfString,
+  toArray, tablify, takeLastUntil, toNumber, transform, transposeKeys, trimIfString,
   unlessEmpty, updateWhere,
   whenDefined,
   zipObjMap,

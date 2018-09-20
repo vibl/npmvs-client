@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from "react-emotion";
-import {mem} from '../../../logic/utils';
+import {mem, toHtmlClass} from '../../../logic/utils';
 import {pure} from 'recompose';
 import {keys, last} from 'ramda';
 import {setFocus} from "../../../logic/focus"
@@ -61,7 +61,7 @@ const handleMouseEnter = (event) => {
 };
 const StatRow = ({packId, value}) => (
   <Row
-    className={`overlay ${packId}`}
+    className={`overlay ${toHtmlClass(packId)}`}
     key={packId}
     onMouseEnter={handleMouseEnter}
     data-packid={packId}

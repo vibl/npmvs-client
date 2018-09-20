@@ -11,7 +11,7 @@ const Info = styled(InfoIcon)`
 const StyledRichTip = styled(RichTip)`
     background: white;
     font-family: "Roboto", sans-serif;
-    font-size: 0.6em;
+    font-size: 0.7rem;
     color: #333;
     margin: 0;
     max-width: 23rem;

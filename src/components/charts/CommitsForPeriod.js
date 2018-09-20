@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {pure} from 'recompose';
 import {connect} from 'react-redux';
-import {getData} from '../../logic/utils';
+import {connectStatePure} from '../../logic/utils';
 import ChartCard from '../card/ChartCard';
 import Divchart from './Divchart/DivchartContainer';
 import ChartTitle from '../card/ChartTitle';
@@ -55,9 +55,6 @@ class CommitsForPeriod extends Component {
     );
   };
 }
-const extractFn = a => a.map( o => o.count );
-const mapStateToProps = (state) => ({
-  selection: state.selection,
-  data: getData(extractFn, state.data.commits),
-});
-export default connect(mapStateToProps)(pure(CommitsForPeriod));
+const selectorFn = ({commits}) => commits.map( o => o.count );
+
+export default connectStatePure(CommitsForPeriod, selectorFn);

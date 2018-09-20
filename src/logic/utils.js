@@ -1,9 +1,11 @@
+import {connect} from 'react-redux';
+import {createSelectorCreator} from 'reselect';
+import {pure} from 'recompose';
+import classNames from 'classnames/dedupe';
 import memoize from '../lib/memoize-immutable';
 import MixedTupleMap from 'mixedtuplemap';
-import {createSelectorCreator} from 'reselect';
 import shallowEqual from 'fbjs/lib/shallowEqual'
 import {keys, map, zipObj} from 'ramda';
-import classNames from 'classnames/dedupe';
 const {getDotPath, gradient, hsl, isEmpty} = require('./vibl-fp');
 
 export const mem = memoize;
@@ -22,6 +24,22 @@ export const getData = mem(
     return acc;
   }
 );
+export const connectState = (component, selectorFn) => {
+  const mapStateToProps = (state) => {
+    let data = state.data[component.displayName];
+    if( selectorFn) data = getData(selectorFn, data);
+    return {
+      data,
+      selection: state.selection,
+    };
+  };
+  return connect(mapStateToProps)(component);
+};
+export const connectStatePure = (component, selectorFn) => {
+  const pureComponent = pure(component);
+  pureComponent.displayName = pureComponent.displayName.replace(/pure\((\w+)\)/, '$1');
+  return connectState(pureComponent, selectorFn);
+};
 const darken = (lightness) => lightness * 0.6;
 
 export const getPackageColors = mem( (colorObj, selection) => {
@@ -73,4 +91,11 @@ export function monitorShouldComponentUpdateWithState(nextProps, nextState) {
 export const cn = (...args) => {
   const clean = args.map(toHtmlClass);
   return classNames(...clean);
+};
+export const getFieldsFromSpecs = (specs) => {
+  let acc = {};
+  for(const path in specs) {
+    acc = {...acc, ...specs[path]};
+  }
+  return acc;
 };

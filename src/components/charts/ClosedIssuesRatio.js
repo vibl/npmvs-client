@@ -1,9 +1,7 @@
 import React from 'react';
-import {connect} from "react-redux";
-import {pure} from 'recompose';
 import BasicCard from "../card/BasicCard";
 import fn from '../../logic/field-fns';
-import {getData} from "../../logic/utils";
+import {connectStatePure} from "../../logic/utils";
 
 const description = `
 -> *(Number of closed issues)* <-
@@ -23,12 +21,8 @@ export const config = {
   description,
 };
 
-const ClosedIssuesRatio =  ({data}) => ! data ? null : <BasicCard {...{config, data}} />;
+const ClosedIssuesRatio = ({data}) => ! data ? null : <BasicCard {...{config, data}} />;
 
-const extractFn = (count, openCount) => (count - openCount) / count * 100;
+const selectorFn = ({issues_count, issues_openCount}) => (issues_count - issues_openCount) / issues_count * 100;
 
-const mapStateToProps = (state) => ({
-  selection: state.selection,
-  data: getData(extractFn, state.data.issues_count, state.data.issues_openCount),
-});
-export default connect(mapStateToProps)(pure(ClosedIssuesRatio));
+export default connectStatePure(ClosedIssuesRatio, selectorFn);

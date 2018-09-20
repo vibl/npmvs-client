@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
-import {connect} from "react-redux";
-import {mem} from '../../logic/utils';
-import {pure} from 'recompose';
+import {connectStatePure, mem} from '../../logic/utils';
 import ChartCard from '../card/ChartCard';
 import Divchart from './Divchart/DivchartContainer';
 import ChartTitle from '../card/ChartTitle';
 import BlinkSlider from '../card/BlinkSlider';
-import {filter, length, map, pipe} from 'ramda';
-import {getData} from "../../logic/utils";
+const {transposeKeys} = require('../../logic/vibl-fp');
 
 const description = `
 Contributors with one or two commits are not usually much involved in maintaining the project. 
@@ -23,16 +20,7 @@ export const config = {
   extractFn: x => x,
   description,
 };
-const extractData =
-  mem(
-    (minCommits, packagesData) =>
-      map( x => {
-        if( !x ) return null;
-        x = x.filter( o => o.commitsCount > minCommits );
-        x = x.length;
-        return x;
-      }, packagesData)
-  );
+
 const SliderTitle = ({description, displayValue, value, onChange, sliderConfig}) => {
   const valueSlider = <BlinkSlider
     {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '5rem'}}}/>
@@ -54,21 +42,30 @@ class Contributors extends Component {
   };
   render() {
     const {description} = config;
-    const {onChange, props:{data: list}, state:{exponent}} = this;
-    const minCommits = 2**exponent;
-    if( !list ) return null;
-    const data = extractData(minCommits, list);
+    const {onChange, props:{data}, state:{exponent}} = this;
+    if( ! data ) return null;
+    const thisData = transposeKeys(data);
+    const minCommits = 2 ** exponent;
     const sliderConfig = {min: 0, max: 10, step: 1};
     return (
       <ChartCard>
         <SliderTitle {...{description, value: exponent, displayValue: minCommits, onChange, sliderConfig}}/>
-        <Divchart  {...{config, data}}/>
+        <Divchart  {...{config, data: thisData[minCommits]}}/>
       </ChartCard>
     );
   };
 }
-const mapStateToProps = (state) => ({
-  selection: state.selection,
-  data: state.data.contributors,
+const selectorFn = mem( (data) => {
+  const min = 0, max = 10;
+  let acc = {};
+  const {contributors} = data;
+  if ( ! contributors) return null;
+  for (let i = min; i < max; i++) {
+    const minCommits = 2 ** i;
+    if( ! acc[minCommits] ) acc[minCommits] = {};
+    const list = contributors.filter(o => o.commitsCount > minCommits);
+    acc[minCommits] = list.length;
+  }
+  return acc;
 });
-export default connect(mapStateToProps)(pure(Contributors));
+export default connectStatePure(Contributors, selectorFn);

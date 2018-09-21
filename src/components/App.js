@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import {Provider} from 'react-redux';
-import {pure} from 'recompose';
+import { PersistGate } from 'redux-persist/integration/react'
 import {Route, Router } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import {history} from '../logic/router-utils';
@@ -12,11 +12,14 @@ import theme from './styles/theme';
 import initialState from '../logic/initial-state';
 import AppStyles from './styles/AppStyles';
 
+const {reduxStore, persistor} = initRedux(initialState);
+
 class App extends Component {
   render() {
     return (
       <Router history={history}>
-        <Provider store={initRedux(initialState)}>
+        <Provider store={reduxStore}>
+          <PersistGate loading={null} persistor={persistor}>
           <MuiThemeProvider theme={createMuiTheme(theme)}>
           <Blinker>
             <AppStyles>
@@ -24,6 +27,7 @@ class App extends Component {
             </AppStyles>
           </Blinker>
           </MuiThemeProvider>
+          </PersistGate>
         </Provider>
       </Router>
     );

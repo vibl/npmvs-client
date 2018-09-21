@@ -10,11 +10,12 @@ const reducer = (state, {payload}) => payload ? transform(payload, state) : stat
 const persistConfig = {
   key: 'root',
   storage,
+  whitelist: ['session'],
 };
 const persistedReducer = persistReducer(persistConfig, reducer);
 
 
-let reduxStore = {};
+let reduxStore = {}, persistor;
 
 export const initRedux = (initialData) => {
   reduxStore = createStore(
@@ -22,10 +23,12 @@ export const initRedux = (initialData) => {
     initialData,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   );
-  return reduxStore;
+  const persistor = persistStore(reduxStore);
+  return {
+    reduxStore,
+    persistor,
+  };
 };
-export const persistor = persistStore(store);
-
 function set(payload) {
   reduxStore.dispatch({type: 'SET', payload, debug: stringifier.stringify(payload)});
 };

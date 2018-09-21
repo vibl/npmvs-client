@@ -10,7 +10,7 @@ const reducer = (state, {payload}) => payload ? transform(payload, state) : stat
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['session'],
+  whitelist: ['session', 'color'],
 };
 const persistedReducer = persistReducer(persistConfig, reducer);
 

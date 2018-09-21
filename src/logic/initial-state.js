@@ -12,6 +12,7 @@ export default {
   },
   session: {
     isNewbie: true,
+    language: 'fr',
   },
   ui: {
     columnsHeight: {},

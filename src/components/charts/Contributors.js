@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import l from '../../logic/localiz';
 import {connectStatePure, mem} from '../../logic/utils';
 import ChartCard from '../card/ChartCard';
 import Divchart from './Divchart/DivchartContainer';
@@ -14,6 +15,8 @@ but it already cuts the number by half or more in some cases. We might change it
 
 In a future version of NPMvs, we will use *additions* (i.e. lines of code) to the project, as a better measure
  of contribution.
+<>
+Les contributeurs avec un ou deux commits ne sont généralement pas très impliqués dans le projet.
 `;
 export const config = {
   dataPoint: 'contributors',
@@ -26,7 +29,7 @@ const SliderTitle = ({description, displayValue, value, onChange, sliderConfig})
     {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '5rem'}}}/>
   return (
     <ChartTitle {...{description}}>
-      Contributors with more than {valueSlider} commits
+      {l`Contributors with more than <>Contributeurs avec plus de`} {valueSlider} commits
     </ChartTitle>
   )
 };
@@ -49,7 +52,7 @@ class Contributors extends Component {
     const sliderConfig = {min: 0, max: 10, step: 1};
     return (
       <ChartCard>
-        <SliderTitle {...{description, value: exponent, displayValue: minCommits, onChange, sliderConfig}}/>
+        <SliderTitle {...{description: l(description), value: exponent, displayValue: minCommits, onChange, sliderConfig}}/>
         <Divchart  {...{config, data: thisData[minCommits]}}/>
       </ChartCard>
     );

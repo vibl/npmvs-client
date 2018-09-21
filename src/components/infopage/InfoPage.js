@@ -96,11 +96,11 @@ const InfoPage = ({data, packId}) => {
           <table className="main">
             <tbody>
             { toArray(leftColumnData, (value, fieldId) => {
-              const field = fields[fieldId];
-              const {displayFn} = field;
-              if( displayFn ) value = displayFn(value);
-              return isBlank(value) ? null :
-                <Row {...{key: fieldId, fieldId, field, value}}/>
+                const field = fields[fieldId];
+                const {displayFn} = field;
+                if( displayFn ) value = displayFn(value);
+                return isBlank(value) ? null :
+                  <Row {...{key: fieldId, fieldId, field, value}}/>
             })}
             </tbody>
           </table>

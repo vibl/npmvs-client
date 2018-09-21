@@ -2,14 +2,15 @@ import React from 'react';
 import Popover from '@material-ui/core/Popover';
 import styled from "react-emotion";
 import ColorSliders from './ColorSliders';
-import img from '../../assets/img';
+import colorWheel from '../../assets/img/color-wheel.png';
 
 const ColorDialogButton = styled.div`
   height: 42px;
-`;
-const Icon = styled.img`
-  height: 100%;
-  width:auto;
+    
+  img {
+    height: 100%;
+    width:auto;
+  }
 `;
 
 class ColorDialog extends React.Component {
@@ -41,7 +42,7 @@ class ColorDialog extends React.Component {
           variant="contained"
           onClick={this.handleClick}
         >
-          <Icon src={img.colorWheel}/>
+          <img src={colorWheel}/>
         </ColorDialogButton>
         <Popover
           id="simple-popper"

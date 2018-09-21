@@ -3,6 +3,7 @@ import styled from 'react-emotion';
 import Selector from "./Selector";
 // import Selector from "../selector/Selector";
 import ColorDialog from './ColorDialog';
+import SwitchLocale from './SwitchLocale';
 import logo from '../../assets/img/logo.png';
 import {hideInfoPageIfEntered} from '../infopage/infopage-display-hide';
 
@@ -36,6 +37,9 @@ const ControlPanel = () => (
     <ColorDialogWrapper>
       <ColorDialog/>
     </ColorDialogWrapper>
+    <SwitchLocale/>
+
+
 
   </Container>
 );

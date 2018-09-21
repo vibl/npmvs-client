@@ -22,9 +22,9 @@ const wrapPatternInComponent = (Component, pattern, group, str) => {
   const splitted = str.split(match);
 
   if( typeof Component === 'string') {
-    componentInstance = React.createElement(Component, null, match);
+    componentInstance = React.createElement(Component, {key: match}, match);
   } else {
-    componentInstance = <Component>{match}</Component>;
+    componentInstance = <Component key={match}>{match}</Component>;
   }
   const interspersed = intersperse(componentInstance, splitted);
   return (

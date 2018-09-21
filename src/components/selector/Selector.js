@@ -77,7 +77,6 @@ class PackageSelector extends React.Component {
     blinkerTarget.unregister();
   };
   handleMouseLeave = (evt) => {
-    hideInfoPageAfterTimeout();
   };
   updateSelection() {
     const {selection} = this.props;

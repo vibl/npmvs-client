@@ -62,8 +62,8 @@ export const displayDependencies =
   ({value}) =>
     <table>
       <tbody>
-      { value
-      && toArray(value,
+      { ! value ? 0 :
+        toArray(value,
         (version, name) => (
           <tr key={name}>
             <td className="label"><NpmPackageLink {...{name}}/></td>

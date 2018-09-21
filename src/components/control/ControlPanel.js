@@ -4,7 +4,7 @@ import Selector from "./Selector";
 // import Selector from "../selector/Selector";
 import ColorDialog from './ColorDialog';
 import logo from '../../assets/img/logo.png';
-import {hideInfoPageAfterTimeout} from '../infopage/infopage-display-hide';
+import {hideInfoPageIfEntered} from '../infopage/infopage-display-hide';
 
 const Container = styled.div`
     width: 100%;
@@ -26,7 +26,7 @@ const Logo = styled.img`
     width: 7rem;
 `;
 const ControlPanel = () => (
-  <Container onMouseEnter={hideInfoPageAfterTimeout}>
+  <Container onMouseEnter={hideInfoPageIfEntered}>
     <LogoWrapper>
       <Logo src={logo}/>
     </LogoWrapper>

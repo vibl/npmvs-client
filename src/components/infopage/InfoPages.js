@@ -3,9 +3,8 @@ import {connect} from 'react-redux';
 import {pure} from 'recompose';
 import styled from 'react-emotion';
 import {css} from 'emotion';
-import {cn, toHtmlClass} from '../../logic/utils';
+import {toHtmlClass} from '../../logic/utils';
 import InfoPage from "./InfoPage";
-import MeasureColumnHeight from "../generic/MeasureColumnHeight";
 const {isBlank, toArray} = require('../../logic/vibl-fp');
 
 const displayedInfoPage = (p) => {

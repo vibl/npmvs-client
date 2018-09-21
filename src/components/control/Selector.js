@@ -4,7 +4,7 @@ import AsyncSelect from 'react-select/lib/Async';
 import { components } from 'react-select';
 import {equals} from 'ramda';
 import {getSuggestions} from '../../logic/get-suggestions';
-import {displayInfoPage, hideInfoPageAfterTimeout} from '../infopage/infopage-display-hide';
+import {displayInfoPage} from '../infopage/infopage-display-hide';
 import {selectPackage, deselectPackage} from '../../logic/router-utils';
 import {getPackageColors} from "../../logic/utils";
 import {setFocus} from '../../logic/focus';
@@ -146,7 +146,6 @@ class PackageSelector extends React.Component {
     blinkerTarget.unregister();
   };
   handleMouseLeave = (evt) => {
-    hideInfoPageAfterTimeout();
   };
   updateSelection() {
     const {selection} = this.props;

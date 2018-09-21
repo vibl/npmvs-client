@@ -6,9 +6,17 @@ import LineChartFn from './LineChartView';
 import LineChartOverlay from './LineChartOverlay';
 import {keys, last, pipe, values} from 'ramda';
 import {setFocus} from "../../../logic/focus";
-import MeasureColumnHeight from '../../generic/MeasureColumnHeight';
-const {isEmpty, notEmpty, lacksElementsOf} = require('../../../logic/vibl-fp');
+import {toHtmlClass} from '../../../logic/utils';
+const {isBlank, notEmpty, lacksElementsOf} = require('../../../logic/vibl-fp');
 
+const getPackIdClassNameIndex = (selection) => {
+  let acc = {};
+  for(const packId of selection) {
+    const className = toHtmlClass(packId);
+    acc[className] = packId;
+  }
+  return acc;
+};
 const StyleWrapper = styled.div`
     position: relative;
     flex: 1;
@@ -52,9 +60,10 @@ class LineChartContainer extends Component {
     const focusedMonth = state.focusedMonth || last(keys(getMonthIndex(props.data)));
     return {focusedMonth};
   };
-  handleMouseEnterMonth = (event) => {
+  handleMouseEnterLine = (event) => {
     let node = event.currentTarget;
-    const packId = node.className.baseVal.split(' ')[1];
+    const packIdClassName = node.className.baseVal.split(' ')[1];
+    const packId = this.packIdClassNameIndex[packIdClassName];
     this.setState({
       mousePosition: [event.pageX, event.pageY],
     });
@@ -73,8 +82,9 @@ class LineChartContainer extends Component {
   };
   render () {
     const {props:{data, selection}, state:{focusedMonth}} = this;
-    if( isEmpty(selection) || isEmpty(data) || lacksElementsOf(selection, keys(data)) ) return null;
+    if( isBlank(selection) || isBlank(data) || lacksElementsOf(selection, keys(data)) ) return null;
     const monthIndex = getMonthIndex(data)[focusedMonth];
+    this.packIdClassNameIndex = getPackIdClassNameIndex(selection);
     return (
       <StyleWrapper
         {...{monthIndex}}
@@ -85,7 +95,7 @@ class LineChartContainer extends Component {
           {...{
             data: getChartData(selection, data),
             selection,
-            handleMouseEnterMonth: this.handleMouseEnterMonth,
+            handleMouseEnterLine: this.handleMouseEnterLine,
             setFocusedMonth: this.setFocusedMonth
           }}
         />

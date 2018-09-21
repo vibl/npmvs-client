@@ -9,7 +9,7 @@ import {registerBlinkerTarget, unregisterBlinkerTarget} from '../generic/Blinker
 const StyledSpan = styled.span`
     span.popslider.value {
       padding: 0.15rem 0.2rem;
-      box-shadow: inset 0 0 2px 0 #d0b6bd, 0 0 2px 0 #d0b6bd;
+      box-shadow: inset 0 0 2px 0 #802, 0 0 2px 0 #802;
       //transition: box-shadow 1s;  // Uses too much cpu.
     }
 `;
@@ -20,15 +20,14 @@ class BlinkSlider extends Component {
   componentDidMount() {
     if( this.props.isNewbie && ! blinkerIsRegistered ) {
       const vibrateMs = 200;
+      const pauseDuration = 4000;
       popSliderBlinkerTarget = registerBlinkerTarget({
         selector: 'span.popslider.value',
         rule: 'box-shadow: inset 0 0 2px 0 #ffffff, 0 0 2px 0 #ffffff !important',
-        cycles: [[vibrateMs, vibrateMs],[vibrateMs, vibrateMs],[2000,vibrateMs]],
+        cycles: [[vibrateMs, vibrateMs],[vibrateMs, vibrateMs],[pauseDuration,vibrateMs]],
       });
       blinkerIsRegistered = true; // We don't want to register more than once. Waiting for the promise is not an option because many blinkers could be created in the meantime.
-
       // setTimeout( () => , 1000); // Allow for the component to be rendered before starting the blinker.
-
     }
   }
   handleMouseEnterSlider = () => {

@@ -1,6 +1,6 @@
 
 export default {
-  'data.ClosedIssuesRatio.{packId}': {
+  'data:ClosedIssuesRatio:{packId}': {
     issues_openCount: {
       datapoint: 'issues_openCount',
     },
@@ -8,19 +8,29 @@ export default {
       datapoint: 'issues_count',
     },
   },
-  'data.CommitsForPeriod.{packId}': {
+  'data:CommitsForPeriod:{packId}': {
     commits: {
       datapoint: 'commits',
     },
   },
-  'data.Contributors.{packId}': {
+  'data:ReleasesForPeriod:{packId}': {
+    releases: {
+      datapoint: 'releases',
+    },
+  },
+  'data:Contributors:{packId}': {
     contributors: {
       datapoint: 'contributors',
     },
   },
-  'data.IssuesClosedInLessThanXdays.{packId}': {
+  'data:IssuesClosedInLessThanXdays:{packId}': {
     issues_distribution: {
       datapoint: 'issues_distribution',
+    },
+  },
+  'data:Dependents:{packId}': {
+    dependentsCount: {
+      datapoint: 'dependentsCount',
     },
   },
 };

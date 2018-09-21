@@ -188,6 +188,19 @@ const assocDotPath = curry3((path, val, obj) => assocPath(dotPath(path), val, ob
 
 const getDotPath = curry2( (str, obj) => path(dotPath(str), obj) );
 
+const colStringToPath = pipe(split(':'), map(toIntIfNumber));
+// Accepts col-separated strings as path, or an array of col-separated strings.
+let colPath = () => {};
+colPath = cond([
+  [Array.isArray, pipe(chain, colPath)],
+  [_.isString, colStringToPath]
+]);
+
+const assocColPath = curry3((path, val, obj) => assocPath(colPath(path), val, obj));
+
+const getColPath = curry2( (str, obj) => path(colPath(str), obj) );
+
+
 const overlaps = pipe(intersection, notEmpty);
 
 const equalsAny = curry2((ary, val) => {
@@ -474,12 +487,12 @@ const switchValue = curry2( (cases, val) => {
 });
 
 const viblPure = {
-  added, allEquals, anyValue, appendStr, assocDotPath, areEquals, haveSameElements,
+  added, allEquals, anyValue, appendStr, assocColPath, assocDotPath, areEquals, haveSameElements,
   bindAll, bindAllDeep, budge,
-  collect, combine, concatArray, concatLeft, curry2, curry3, curryFlip, deIndex,
+  collect, colPath, combine, concatArray, concatLeft, curry2, curry3, curryFlip, deIndex,
   discard, dissocAll, doesMatch, dotPath, dotStringToPath, equals, equalsAny,
   fnOr, filterKeys, filterP, flipAll, from,
-  geoMean, get, getDotPath, gradient, hsl,
+  geoMean, get, getColPath, getDotPath, gradient, hsl,
   ifDefinedElse, ident, indexByProp, interleave, isBlank, isEmpty, isFunction,
   isNegative, isNumber, isObject, isObjectLike, isPlainObject, isString,
   keep, keepRandom,

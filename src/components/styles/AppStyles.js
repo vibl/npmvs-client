@@ -17,7 +17,8 @@ injectGlobal`
 `;
 const StyledAppContainer = styled.div`
   background-color: #f7f1f1;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
+  color: #444;
   ${chartStyles}
 `;
 const AppStyles = ({focus, selection, colors, children}) => {

@@ -8,6 +8,8 @@ import {displayInfoPage, hideInfoPageAfterTimeout} from '../infopage/infopage-di
 import {selectPackage, deselectPackage} from '../../logic/router-utils';
 import {getPackageColors} from "../../logic/utils";
 import {setFocus} from '../../logic/focus';
+import {registerBlinkerTarget} from "../generic/Blinker";
+import store from "../../logic/store";
 
 const styles = {
   control: styles => ({
@@ -106,6 +108,22 @@ const Option = (props) => {
     </components.Option>
   );
 };
+let blinkerTarget, blinkerIsRegistered;
+
+const setBlinker = (isNewbie) => {
+  if( isNewbie && ! blinkerIsRegistered ) {
+    const vibrateMs = 200;
+    const pauseDuration = 3000;
+    blinkerTarget = registerBlinkerTarget({
+      selector: '.selector > div > div:first-child  > div',
+      rule: 'box-shadow: inset 0 0 2px 0 #ffffff, 0 0 2px 0 #ffffff !important',
+      cycles: [[vibrateMs, vibrateMs],[vibrateMs, vibrateMs],[pauseDuration,vibrateMs]],
+    });
+    blinkerIsRegistered = true; // We don't want to register more than once. Waiting for the promise is not an option because many blinkers could be created in the meantime.
+    // setTimeout( () => , 1000); // Allow for the component to be rendered before starting the blinker.
+  }
+};
+
 class PackageSelector extends React.Component {
   constructor(props) {
     super(props);
@@ -113,6 +131,7 @@ class PackageSelector extends React.Component {
   }
   componentDidMount() {
     this.updateSelection();
+    setBlinker(this.props.isNewbie);
   }
   componentDidUpdate() {
     this.updateSelection();
@@ -123,6 +142,8 @@ class PackageSelector extends React.Component {
       displayInfoPage(packId);
       setFocus(packId);
     }
+    store.set({session:{isNewbie: false}});
+    blinkerTarget.unregister();
   };
   handleMouseLeave = (evt) => {
     hideInfoPageAfterTimeout();
@@ -161,6 +182,7 @@ class PackageSelector extends React.Component {
         loadOptions={getSuggestions}
         components={{ Option }}
         styles={styles}
+        className="selector"
         {...{focus, packageColors}}
       />
     );
@@ -170,6 +192,7 @@ const mapStateToProps = (state) => ({
   focus: state.focus,
   selection: state.selection,
   packageColors: getPackageColors(state.color, state.selection),
+  isNewbie: state.session.isNewbie,
 });
 
 export default connect(mapStateToProps)(PackageSelector);

@@ -1,8 +1,9 @@
 import React from 'react';
-import {GithubUserLink, GithubUsersLinks, Link} from './infopage-elements';
+import {deduplicateLinks, displayDependencies, displayReleasesCount,
+  GithubUserLink, GithubUsersLinks, Link} from './infopage-elements';
 
 export default {
-  'data.InfoPages.{packId}': {
+  'data:InfoPages:{packId}': {
     version: {
       label: 'Latest version',
       datapoint: 'version',
@@ -21,19 +22,21 @@ export default {
       datapoint: 'links_repository',
       displayFn: value => Link({value}),
     },
-    npm: {
-      label: 'NPM',
-      datapoint: 'links_npm',
-      displayFn: value => Link({value}),
-    },
     homepage: {
       label: 'Homepage',
       datapoint: 'links_homepage',
+      extractFn: deduplicateLinks(['links_repository', 'github_homepage', 'links_npm']),
       displayFn: value => Link({value}),
     },
     homepageGH: {
       label: 'Homepage',
       datapoint: 'github_homepage',
+      extractFn: deduplicateLinks(['links_repository', 'links_npm']),
+      displayFn: value => Link({value}),
+    },
+    npm: {
+      label: 'NPM page',
+      datapoint: 'links_npm',
       displayFn: value => Link({value}),
     },
     bugs: {
@@ -41,10 +44,35 @@ export default {
       datapoint: 'links_bugs',
       displayFn: value => Link({value}),
     },
-    license: {
-      label: 'License',
-      datapoint: 'license',
+    // releases: {
+    //   label: 'Releases',
+    //   datapoint: 'releases',
+    //   displayFn: value => displayReleasesCount({value}),
+    // },
+    // dependentsCount: {
+    //   label: 'Modules that depend on this one',
+    //   datapoint: 'dependentsCount',
+    // },
+    starsCount: {
+      label: 'Stars (GH)',
+      datapoint: 'starsCount',
     },
+    subscribersCount: {
+      label: 'Subscribers (GH)',
+      datapoint: 'subscribersCount',
+    },
+    forksCount: {
+      label: 'Forks (GH)',
+      datapoint: 'forksCount',
+    },
+    // issues_count: {
+    //   label: 'Total issues',
+    //   datapoint: 'issues_count',
+    // },
+    // issues_openCount: {
+    //   label: 'Open issues',
+    //   datapoint: 'issues_openCount',
+    // },
     author: {
       label: 'Author',
       datapoint: 'author',
@@ -60,22 +88,24 @@ export default {
       datapoint: 'maintainers',
       displayFn: users => GithubUsersLinks({users}),
     },
-    releases: {
-      label: 'Releases',
-      datapoint: 'releases',
-      displayFn: a => a && a[3] && a[3].count,
+    license: {
+      label: 'License',
+      datapoint: 'license',
+    },
+    dependencies: {
+      label: 'Dependencies',
+      datapoint: 'dependencies',
+      displayFn: value => displayDependencies({value}),
     },
     readme: {
       label: 'Readme',
       datapoint: 'readme',
     },
-    // dependencies: {
-    //   label: 'Dependencies',
-    //   datapoint: 'dependencies',
-    // },
-    forksCount: {
-      label: 'Forks',
-      datapoint: 'forksCount',
-    }
+    updated_on: {
+      label: 'Updated on',
+      datapoint: 'metadata_date',
+      displayFn: s => new Date(s).toLocaleString('en-GB').slice(0,10),
+    },
+
   },
 };

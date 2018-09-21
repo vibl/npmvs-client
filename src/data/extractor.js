@@ -1,8 +1,8 @@
 import rawSpecs from './gather-specs';
 import store from '../logic/store';
-const {assocDotPath} = require('../logic/vibl-fp');
+const {assocColPath} = require('../logic/vibl-fp');
 
-let indexedSpecs;
+let jobs;
 
 // const recurse = (parent, parentPath = []) => {
 //   let acc = {};
@@ -12,7 +12,7 @@ let indexedSpecs;
 //     path =  [...parentPath, key];
 //     if( Array.isArray(node) ) {
 //       const [datapoint, extractFn] = node;
-//       const [source, datapointId] = datapoint.split('.');
+//       const [source, datapointId] = datapoint.split(':');
 //       if( ! acc[source] ) acc[source] = {};
 //       acc[source][datapointId] = {extractFn, path};
 //     } else {
@@ -23,23 +23,23 @@ let indexedSpecs;
 //   return acc;
 // };
 
-const getIndexedSpecs = () => {
-  if( ! indexedSpecs ) {
-    let acc = {};
+const getJobs = () => {
+  if( ! jobs ) {
+    let acc = [];
     for(const specId in rawSpecs) {
       const spec = rawSpecs[specId];
       for(const storePath in spec) {
         const fields = spec[storePath];
         for(const fieldId in fields) {
           const {datapoint, extractFn} = fields[fieldId];
-          const pathTemplate =  storePath + '.' + fieldId;
-          acc[datapoint] = {extractFn, pathTemplate};
+          const pathTemplate =  storePath + ':' + fieldId;
+          acc.push({datapoint, extractFn, pathTemplate});
         }
       }
     }
-    indexedSpecs = acc;
+    jobs = acc;
   }
-  return indexedSpecs;
+  return jobs;
 };
 const getPath = (pathTemplate, params) => {
   let str = pathTemplate;
@@ -50,15 +50,14 @@ const getPath = (pathTemplate, params) => {
   return str;
 };
 const extract = (data, params) => {
-  const specs = getIndexedSpecs();
+  const jobs = getJobs();
   const state = store.get();
   let acc = {};
-  for(const key in specs) {
-    let value = data[key];
-    const {extractFn, pathTemplate} = specs[key];
+  for(const {datapoint, extractFn, pathTemplate} of jobs) {
+    let value = data[datapoint];
     const path = getPath(pathTemplate, params);
     if( extractFn ) value = extractFn({value, params, path, state, data});
-    acc = assocDotPath(path, value, acc);
+    acc = assocColPath(path, value, acc);
   }
   return acc;
 };

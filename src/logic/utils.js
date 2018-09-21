@@ -6,19 +6,19 @@ import memoize from '../lib/memoize-immutable';
 import MixedTupleMap from 'mixedtuplemap';
 import shallowEqual from 'fbjs/lib/shallowEqual'
 import {keys, map, zipObj} from 'ramda';
-const {getDotPath, gradient, hsl, isEmpty} = require('./vibl-fp');
+const {gradient, hsl, isBlank} = require('./vibl-fp');
 
 export const mem = memoize;
 export const memGC = fn => memoize(fn, {cache: new MixedTupleMap()});
 
 export const getData = mem(
   (extractFn, ...datapoints) => {
-    if( datapoints.some(isEmpty) ) return null;
+    if( datapoints.some(isBlank) ) return null;
     const packIds = keys(datapoints[0]);
     let packData, packId, acc = {};
     for( packId of packIds ) {
       packData = datapoints.map(o => o[packId]);
-      if( packData.some(isEmpty) ) return null;
+      if( packData.some(isBlank) ) return null;
       acc[packId] = extractFn(...packData);
     }
     return acc;

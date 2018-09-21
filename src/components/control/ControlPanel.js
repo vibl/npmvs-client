@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'react-emotion';
 import Selector from "./Selector";
+// import Selector from "../selector/Selector";
 import ColorDialog from './ColorDialog';
 import logo from '../../assets/img/logo.png';
 import {hideInfoPageAfterTimeout} from '../infopage/infopage-display-hide';

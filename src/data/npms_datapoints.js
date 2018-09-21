@@ -3,6 +3,7 @@ export default {
     metadata: {
       name: 1,
       version: 1,
+      date: 2,
       description: 1,
       keywords: 1,
       author: 1,
@@ -19,8 +20,12 @@ export default {
       releases: 1,
       readme: 1,
     },
+    npm: {
+      dependentsCount: 1,
+    },
     github: {
       homepage: 2,
+      starsCount: 1,
       forksCount: 1,
       subscribersCount: 1,
       issues: {

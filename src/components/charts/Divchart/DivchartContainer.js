@@ -1,13 +1,12 @@
 import React, {PureComponent} from 'react';
 import {connect} from "react-redux";
 import {pipe, reverse} from "ramda";
-import isEmpty from "lodash/isEmpty";
 import styled from 'react-emotion';
 import Divchart from './DivchartView';
 import {setFocus} from '../../../logic/focus';
 import divchartStyles from './divchart-styles';
 
-const { lacksElementsOf, switchValue} = require('../../../logic/vibl-fp');
+const {isBlank, lacksElementsOf, switchValue} = require('../../../logic/vibl-fp');
 
 const StyledDivchart = styled(Divchart)`${divchartStyles}`;
 
@@ -18,7 +17,7 @@ class Container extends PureComponent {
   render() {
     let {data} = this.props;
     const {selection, displayFn} = this.props;
-    if( isEmpty(selection) || isEmpty(data) ) return null;
+    if( isBlank(selection) || isBlank(data) ) return null;
     const packages = this.packages = reverse(selection);
     let max = 0, min = 0, absMin;
     data = packages.map(packId => {

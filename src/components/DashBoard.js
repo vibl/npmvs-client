@@ -8,7 +8,7 @@ import DownloadsGrowth from "./charts/DownloadsGrowth";
 import theme from './styles/theme';
 import {keys} from 'ramda';
 import {connect} from "react-redux";
-const {isEmpty} = require('../logic/vibl-fp');
+const {isBlank} = require('../logic/vibl-fp');
 
 const breakpoints = theme.breakpoints.values;
 const screenSizes = keys(breakpoints);
@@ -51,7 +51,7 @@ const cards =
         return <Component key={chartId} {...{chartId}}/>
       });
 const DashBoard = ({data, selection}) => {
-  return isEmpty(data) || isEmpty(selection) ? null : (
+  return isBlank(data) || isBlank(selection) ? null : (
     <StyledGrid
       container
       spacing={0}
@@ -59,9 +59,9 @@ const DashBoard = ({data, selection}) => {
     >
       <Column sizes="12 10 6 6 4" order="2 2 1 1 1">
         { cards([
-          'DownloadsGrowth',
-          'DownloadsAcceleration',
+          'Dependents',
           'CommitsForPeriod',
+          'ReleasesForPeriod',
         ])}
       </Column>
       <Column sizes="12 10 12 12 4" order="1 1 3 3 2">

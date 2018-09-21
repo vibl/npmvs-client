@@ -3,7 +3,7 @@ import styled from 'react-emotion';
 import {mem} from '../../logic/utils';
 import {dissoc, not} from 'ramda';
 const {sleep} = require('../../logic/vibl-utils');
-const {isEmpty, mapToArray, transform} = require('../../logic/vibl-fp');
+const {isBlank, mapToArray, transform} = require('../../logic/vibl-fp');
 
 let thisBlinker = {};
 
@@ -13,7 +13,7 @@ const getStyle = mem(
 );
 const BlinkerWrapper = styled.div`
   ${({targets}) => {
-    if( isEmpty(targets)) return null;
+    if( isBlank(targets)) return null;
     return mapToArray(getStyle, targets)
 }}
 `;

@@ -8,8 +8,8 @@ import dataSpecs from './infopage-data-specs';
 import {hasEntered, hideInfoPage} from './infopage-display-hide';
 import StyledInfoPageWrapper from './StyledInfoPageWrapper';
 import Grid from '@material-ui/core/Grid';
-
 import theme from '../styles/theme';
+import Readme from './Readme';
 
 import {keys, omit} from 'ramda';
 const {isBlank, toArray} = require('../../logic/vibl-fp');
@@ -83,7 +83,7 @@ const InfoPage = ({data, packId}) => {
           sizes="12 12 12 12 6"
           order="2 2 2 2 1"
         >
-          <Markdown source={data.readme} escapeHtml={false} />
+          <Readme source={data.readme} github={data.repository}/>
         </Column>
         
         <Column

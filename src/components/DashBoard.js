@@ -59,7 +59,7 @@ const DashBoard = ({data, selection}) => {
     >
       <Column sizes="12 10 6 6 4" order="2 2 1 1 1">
         { cards([
-          'Dependents',
+          'Contributors',
           'CommitsForPeriod',
           'ReleasesForPeriod',
         ])}
@@ -73,7 +73,7 @@ const DashBoard = ({data, selection}) => {
         { cards([
           'ClosedIssuesRatio',
           'IssuesClosedInLessThanXdays',
-          'Contributors',
+           'Dependents',
         ])}
       </Column>
     </StyledGrid>

@@ -1,4 +1,5 @@
-import React, {Fragment} from 'react'
+import React, {Fragment} from 'react';
+import {intersperse} from 'ramda';
 const {isBlank, toArray} = require('../../logic/vibl-fp');
 
 export const deduplicateLinks = (linksNames) => ({value, data}) => {
@@ -13,10 +14,30 @@ export const deduplicateLinks = (linksNames) => ({value, data}) => {
   }
   return value;
 };
+const wrapPatternInComponent = (Component, pattern, group, str) => {
+  let componentInstance;
+  const res = str.match(pattern);
+  if( ! res ) return str;
+  const match = res[group]; // Use only one group (one set of parentheses)
+  const splitted = str.split(match);
 
-export const Link =
-  ({value}) =>
-    isBlank(value) ? null : <a href={value} target="_blank">{value}</a>;
+  if( typeof Component === 'string') {
+    componentInstance = React.createElement(Component, null, match);
+  } else {
+    componentInstance = <Component>{match}</Component>;
+  }
+  const interspersed = intersperse(componentInstance, splitted);
+  return (
+    <Fragment>
+      {interspersed}
+    </Fragment>
+  )
+};
+export const Link = ({value: url}) => {
+  if( isBlank(url) ) return null;
+  const content = wrapPatternInComponent('strong', /^https?:\/\/(www\.)?([^/]+)/, 2, url);
+  return <a href={url} target="_blank">{content}</a>;
+};
 
 export const GithubUserLink =
   ({username}) =>

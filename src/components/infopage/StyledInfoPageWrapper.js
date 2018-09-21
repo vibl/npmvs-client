@@ -14,15 +14,12 @@ const StyledInfoPageWrapper = styled(Card)`
     a {
       color: ${mainColor};
     }
-    pre {
-      white-space: pre-wrap;
-    }
     h1, h2, h3, h4, h5 {
       color: ${mainColor};
       font-weight: 500;
     }
     h1 {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 700;
     } 
     h2 {
@@ -102,6 +99,10 @@ const StyledInfoPageWrapper = styled(Card)`
         }
       } 
     }
+    img {
+      max-width: 100%;
+    }
+}
 }
 `;
 export default StyledInfoPageWrapper;

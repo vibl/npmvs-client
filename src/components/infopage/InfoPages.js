@@ -12,13 +12,13 @@ const displayedInfoPage = (p) => {
      ? null
      :css`
       .infopage.${toHtmlClass(p.displayPackId)} {
-        display: block !important;
+        visibility: visible !important;
       }`;
 };
 
 const InfoPagesWrapper = styled.div`
   .infopage {
-    display: none;
+    visibility: hidden;
     z-index: 3000;
    }
   ${displayedInfoPage}

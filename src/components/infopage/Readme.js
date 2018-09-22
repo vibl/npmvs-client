@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import SyntaxHighlighter from 'react-syntax-highlighter';
+import SyntaxHighlighter from 'react-syntax-highlighter/prism';
 import visit from 'unist-util-visit';
 
 const absoluteGithubLinks = (tree) => {
@@ -20,9 +20,10 @@ const image = (github) => (props) => {
 };
 class CodeBlock extends React.PureComponent {
   render() {
-    const { language = 'javascript', value } = this.props;
+    const {value } = this.props;
+    //style={atelierDuneLight}
     return (
-      <SyntaxHighlighter language={language}>
+      <SyntaxHighlighter language={'jsx'} >
         {value}
       </SyntaxHighlighter>
     );
@@ -32,7 +33,7 @@ class Readme extends React.PureComponent {
   render() {
     return (
         <ReactMarkdown
-          source={this.props.source}
+          {...this.props}
           renderers={{
             code: CodeBlock,
             image: image(this.props.github),

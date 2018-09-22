@@ -47,7 +47,7 @@ const setBlinker = (isNewbie) => {
     const vibrateMs = 200;
     const pauseDuration = 4000;
     blinkerTarget = registerBlinkerTarget({
-      selector: '.selector > div > div:first-child  > div',
+      selector: '.package-selector > div > div:first-child  > div',
       rule: 'box-shadow: inset 0 0 2px 0 #ffffff, 0 0 2px 0 #ffffff !important',
       cycles: [[vibrateMs, vibrateMs],[vibrateMs, vibrateMs],[pauseDuration,vibrateMs]],
     });
@@ -107,8 +107,8 @@ class PackageSelector extends React.Component {
         maxMenuHeight={600}
         loadOptions={getSuggestions}
         components={{Option, MultiValueContainer, ValueContainer}}
-        className="selector"
-        classNamePrefix="selector"
+        className="package-selector"
+        classNamePrefix="package-selector"
         {...{onChange}}
       />
     );

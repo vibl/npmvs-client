@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
+import l from '../../logic/localiz';
 import ChartCard from '../card/ChartCard';
 import Divchart from './Divchart/DivchartContainer';
 import ChartTitle from '../card/ChartTitle';
@@ -36,7 +37,7 @@ const SliderTitle = ({description, displayValue, value, onChange, sliderConfig})
     {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '2rem'}}}/>;
   return (
     <ChartTitle {...{description}}>
-      Downloads growth in the last {valueSlider} months
+      {l`Downloads growth in the last ${valueSlider} months<>Croissance des téléchargements dans les derniers ${valueSlider} mois`}
     </ChartTitle>
   )
 };
@@ -59,7 +60,7 @@ class DownloadsGrowth extends Component {
     const data = mapObjIndexed( x => growth(period, x), monthlyAggregate);
     return (
       <ChartCard>
-        <SliderTitle {...{description, value, displayValue: periods[value], onChange, sliderConfig}}/>
+        <SliderTitle {...{description: l(description), value, displayValue: periods[value], onChange, sliderConfig}}/>
         <Divchart  {...{displayFn, data}}/>
       </ChartCard>
     );

@@ -1,5 +1,6 @@
 import React from 'react';
 import {pure} from 'recompose';
+import l from '../../logic/localiz';
 import ChartCard from '../card/ChartCard';
 import Title from '../card/ChartTitle';
 import LineChart from "./LineChart/LineChartContainer";
@@ -65,7 +66,7 @@ This is to avoid displaying variations merely due to month durations (30, 31 or 
 //   return regression.polynomial(x, { order: 9 });
 // };
 export const config = {
-  label: 'Monthly downloads in the last 18 months',
+  title: 'Monthly downloads in the last 18 months<>Téléchargements mensuels dans les derniers 18 mois',
   description,
 };
 /*
@@ -99,12 +100,12 @@ const LineChartCard = styled(ChartCard)`
     min-height: 12.5rem;
 `;
 const DownloadSeries = ({data: rawData}) => {
-  const {label, description} = config;
+  const {title, description} = config;
   if( !rawData ) return null;
   const data = mapObjIndexed(fn.monthlyAggregate, rawData);
   return (
     <LineChartCard>
-      <Title {...{description}}>{label}</Title>
+      <Title {...{description: l(description)}}>{l(title)}</Title>
       <LineChart {...{data}}/>
     </LineChartCard>
   );

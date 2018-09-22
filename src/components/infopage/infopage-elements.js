@@ -1,10 +1,12 @@
 import React, {Fragment} from 'react';
+import ReactMarkdown from 'react-markdown';
 import {intersperse} from 'ramda';
+import l from '../../logic/localiz';
 const {isBlank, toArray} = require('../../logic/vibl-fp');
 
-export const deduplicateLinks = (linksNames) => ({value, data}) => {
+export const ifDifferentLink = (linksNames) => ({value, data}) => {
   if( isBlank(value) ) return null;
-  const bareLink = s => s.replace(/^https?:\/\/(.+)\/?$/, '$1');
+  const bareLink = s => s.match(/^https?:\/\/([^#]+)/)[1].replace(/\/$/,'');
   for(const linkName of linksNames) {
     const link = data[linkName];
     if( isBlank(link) ) continue;
@@ -39,39 +41,47 @@ export const Link = ({value: url}) => {
   return <a href={url} target="_blank">{content}</a>;
 };
 
-export const GithubUserLink =
-  ({username}) =>
+export const GithubUserLink = ({username}) =>
     isBlank(username) ? null : <a href={`https://github.com/${username}`} target="_blank">{username}</a>;
 
-export const NpmPackageLink =
-  ({name}) =>
+export const NpmPackageLink = ({name}) =>
     isBlank(name) ? null : <a href={`https://www.npmjs.com/package/${name}`} target="_blank">{name}</a>;
 
-export const GithubUsersLinks =
-  ({users}) =>
-    <Fragment>
-      { users
-        && users.map(
-         ({username}) => isBlank(username) ? null : <Fragment key={username}> <GithubUserLink {...{username}}/>, </Fragment>
-        )
-      }
-    </Fragment>;
+export const NPMUserLink = ({username}) =>
+    isBlank(username) ? null : <a href={`https://www.npmjs.com/~${username}`} target="_blank">{username}</a>;
 
+export const NPMUsersLinks = ({users}) => {
+  if( ! users ) return null;
+  const usersLinks = users.map(
+    ({username}) => isBlank(username) ? null : <NPMUserLink key={username} {...{username}}/>);
+  return (
+    <Fragment>
+      { intersperse(',', usersLinks) }
+    </Fragment>
+  );
+};
+export const Author = ({name, username}) => {
+  return isBlank(username) ? null : (
+    <Fragment>
+      {name} (<a href={`https://www.npmjs.com/~${username}`} target="_blank">{username}</a>)
+    </Fragment>
+  );
+};
 const releasesTimeSpan = [
-  'last month',
-  'last 3 months',
-  'last 6 months',
-  'last year',
-  'last 2 years',
+  'last month<>le mois dernier',
+  'last 3 months<>les 3 derniers mois',
+  'last 6 months<>les 6 derniers mois',
+  'last year<>l\'année passée',
+  'last 2 years<>les 2 dernières années',
 ];
 export const displayReleasesCount =
   ({value}) =>
     <table>
       <tbody>
-      { value
-      && value.map( ({count}, i) => (
+      { ! value ? null :
+         value.map( ({count}, i) => (
           <tr key={i}>
-            <td className="label">{releasesTimeSpan[i]}</td>
+            <td className="label">{l(releasesTimeSpan[i])}</td>
             <td className="value">{count}</td>
           </tr>
         ))
@@ -83,7 +93,7 @@ export const displayDependencies =
   ({value}) =>
     <table>
       <tbody>
-      { ! value ? 0 :
+      { ! value ? null :
         toArray(value,
         (version, name) => (
           <tr key={name}>
@@ -94,3 +104,10 @@ export const displayDependencies =
       }
       </tbody>
     </table>;
+
+export const Markdown = (props) => (
+  <ReactMarkdown
+    {...props}
+    escapeHtml={false}
+  />
+);

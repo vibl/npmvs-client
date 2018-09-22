@@ -6,6 +6,7 @@ import {Route, Router } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import {history} from '../logic/router-utils';
 import {initRedux} from '../logic/store';
+import Head from './Head';
 import MainPage from "./MainPage";
 import Blinker from './generic/Blinker';
 import theme from './styles/theme';
@@ -24,13 +25,14 @@ class App extends Component {
       <Router history={history}>
         <Provider store={reduxStore}>
           <PersistGate loading={null} persistor={persistor}>
-          <MuiThemeProvider theme={createMuiTheme(theme)}>
-          <Blinker>
-            <AppStyles>
-              <Route path="/" component={MainPage}/>
-            </AppStyles>
-          </Blinker>
-          </MuiThemeProvider>
+            <Head/>
+            <MuiThemeProvider theme={createMuiTheme(theme)}>
+            <Blinker>
+              <AppStyles>
+                <Route path="/" component={MainPage}/>
+              </AppStyles>
+            </Blinker>
+            </MuiThemeProvider>
           </PersistGate>
         </Provider>
       </Router>

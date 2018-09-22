@@ -41,6 +41,28 @@ const StyledInfoPageWrapper = styled(Card)`
     .column {     
        padding: 1rem;
     
+      &.readme {
+        p, ul, pre {
+          margin: .6rem .8rem;
+        }
+      }
+      &.data {
+        p, ul, pre {
+          margin: 0;
+        }
+        td table {
+          width: 100%;   
+  
+          td {
+            font-size: 0.9em;
+            width: 50%;
+            
+            &.value {
+              color: ${mainColor};
+            }
+          }  
+        }
+      }
     }
     ul {
       padding-left: .9em;
@@ -56,9 +78,6 @@ const StyledInfoPageWrapper = styled(Card)`
         position: relative;
         top: .21em;
       }
-    }
-    p, ul, pre {
-      margin: .6rem .8rem;
     }
     table.main {
       width: 100%;   
@@ -87,22 +106,22 @@ const StyledInfoPageWrapper = styled(Card)`
         }
       } 
     } 
-    .columm.value table {
-       width: 100%;   
-
-       td {
-        font-size: 0.8em;
-        width: 50%;
-        
-        &.value {
-          color: ${mainColor};
-        }
-      } 
-    }
     img {
       max-width: 100%;
     }
-}
-}
+    .updated-readme {
+      color: ${mainColor};
+      font-size: .6rem;
+      font-weight: 300;
+      margin: 0 0 -.6rem 0;
+    }
+    .goog-trans-control {
+      margin-top: 1rem;
+      
+      .goog-te-sectional-gadget-link-text {
+        /*//display: none;*/
+      }
+     
+    }
 `;
 export default StyledInfoPageWrapper;

@@ -2,15 +2,14 @@ import React from 'react';
 import {pure} from 'recompose';
 import styled from 'react-emotion';
 import {css} from 'emotion';
-import Markdown from 'react-markdown';
+import l, {getFullDate} from '../../logic/localiz';
 import {cn, getFieldsFromSpecs} from "../../logic/utils";
 import dataSpecs from './infopage-data-specs';
-import {hasEntered, hideInfoPage} from './infopage-display-hide';
+import {hasEntered} from './infopage-display-hide';
 import StyledInfoPageWrapper from './StyledInfoPageWrapper';
 import Grid from '@material-ui/core/Grid';
 import theme from '../styles/theme';
 import Readme from './Readme';
-
 import {keys, omit} from 'ramda';
 const {isBlank, toArray} = require('../../logic/vibl-fp');
 const fields = getFieldsFromSpecs(dataSpecs);
@@ -48,30 +47,25 @@ const Column = ({sizes, order, className, children}) => {
     </StyledGridItem>
   )
 };
-// const DateNotice = styled.div`
-//     position: absolute;
-//     right: 1rem;
-//     font-size: .6rem;
-//     color: #802;
-// `;
 // const handleMouseEnter
 // onMouseEnter={handleMouseEnter}
 const Row = ({fieldId, field, value}) => (
   <tr>
     <td className="cell label">
-      {field.label}
+      {l(field.label)}
     </td>
     <td className="cell value">
       {value}
     </td>
   </tr>
 );
+
 const InfoPage = ({data, packId}) => {
-  const leftColumnData = omit(['readme', 'updated_on'], data);
+  const leftColumnData = omit(['readme', 'updated_on', 'readmeUpdated'], data);
   return (
     <StyledInfoPageWrapper
       className={cn('infopage', packId)}
-      onMouseEnter={hasEntered}
+      onMouseOver={hasEntered}
     >
       <StyledGrid
         container
@@ -79,15 +73,19 @@ const InfoPage = ({data, packId}) => {
         justify="center"
       >
         <Column
-          className="column left"
+          className="column readme"
           sizes="12 12 12 12 6"
           order="2 2 2 2 1"
         >
-          <Readme source={data.readme} github={data.repository}/>
+          { data.readmeUpdated &&
+            <div className="updated-readme">{l`Readme freshly downloaded from GitHub<>Readme téléchargé à l'instant depuis GitHub`}
+              &nbsp;({getFullDate(data.readmeUpdated)})</div>
+          }
+            <Readme className="readme-wrapper" source={data.readme} github={data.repository}/>
         </Column>
         
         <Column
-          className="column right"
+          className="column data"
           sizes="12 12 12 12 6"
           order="1 1 1 1 2"
         >
@@ -97,8 +95,7 @@ const InfoPage = ({data, packId}) => {
             <tbody>
             { toArray(leftColumnData, (value, fieldId) => {
                 const field = fields[fieldId];
-                const {displayFn} = field;
-                if( displayFn ) value = displayFn(value);
+                value = field && field.displayFn ? field.displayFn(value, packId, data) : value;
                 return isBlank(value) ? null :
                   <Row {...{key: fieldId, fieldId, field, value}}/>
             })}

@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import {pure} from "recompose";
+import l from '../../logic/localiz';
 import {connectStatePure, mem} from '../../logic/utils';
-import {connect} from "react-redux";
-import {getData} from "../../logic/utils";
 import fn from '../../logic/field-fns';
 import ChartCard from '../card/ChartCard';
 import DivBarChart from './Divchart/DivchartContainer';
@@ -22,17 +20,17 @@ would be issues that are used for deliberation for long-running decisions. Howev
 rare and wouldn't affect this ratio much.</small>
 `;
 const labels = {
-  1: "1 hour",
-  3: "3 hours",
-  9: "9 hours",
-  27: "1 day",
-  81: "3 days",
-  243: "10 days",
-  729: "30 days",
-  2187: "3 months",
-  6561: "9 months",
-  19683: "2 years",
-  59049: "7 years",
+  1: "1 hour<>1 heure",
+  3: "3 hours<>3 heures",
+  9: "9 hours<>9 heures",
+  27: "1 day<>1 jour",
+  81: "3 days<>3 jours",
+  243: "10 days<>10 jours",
+  729: "30 days<>30 jours",
+  2187: "3 months<>3 mois",
+  6561: "9 months<>9 mois",
+  19683: "2 years<>2 ans",
+  59049: "7 years<>7 ans",
 };
 // const extractFn =  (issues) => {
 //   let data = toPairs(issues.distribution);
@@ -66,11 +64,10 @@ const extractData = mem( (exponent, dist) => {
   return Math.round(relevantCount / totalCount * 100);
 });
 const SliderTitle = ({description, value, displayValue, sliderConfig, onChange}) => {
-  const valueSlider = <BlinkSlider
-    {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '4rem'}}}/>
   return (
     <ChartTitle {...{description}}>
-      Issues closed in less than {valueSlider}
+      {l`Issues that stayed open for less than<>Tickets fermés en moins de`} <BlinkSlider
+      {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '4rem'}}}/>
     </ChartTitle>
   );
 };
@@ -92,7 +89,7 @@ class IssuesClosedInLessThanXdays extends Component {
     const sliderConfig = {min: 0, max: 9, step: 1};
     return (
       <ChartCard>
-        <SliderTitle {...{description, value: exponent, displayValue:labels[3**exponent], sliderConfig, onChange}}/>
+        <SliderTitle {...{description: l(description), value: exponent, displayValue:l(labels[3**exponent]), sliderConfig, onChange}}/>
         <DivBarChart {...{displayFn, data}}/>
       </ChartCard>
     );

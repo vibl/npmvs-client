@@ -1,7 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
-import {getData, mem} from '../../logic/utils';
+import l from '../../logic/localiz';
+import {mem} from '../../logic/utils';
 import BasicCard from "../card/BasicCard";
 import fn from '../../logic/field-fns';
 import {numberOfMonths} from '../../data/npmDownloads';
@@ -32,10 +33,10 @@ const displayFn = pipe(fn.significanPercentDisplay, fn.explicitPlus);
 const DownloadsAcceleration = ({data: rawData}) => {
   if( !rawData ) return null;
   const monthlyAggregate = mapObjIndexed(fn.monthlyAggregate, rawData);
-  const label = `Downloads acceleration in the last ${numberOfMonths} months`;
+  const title = `Downloads acceleration in the last ${numberOfMonths} months<>Accélération des téléchargements dans les derniers ${numberOfMonths} mois`;
   const data = mapObjIndexed( x => getAcceleration(numberOfMonths, x), monthlyAggregate);
   return (
-    <BasicCard {...{config:{displayFn, description, label}, data}} />
+    <BasicCard {...{displayFn, description: l(description), title: l(title), data}} />
   );
 };
 const mapStateToProps = (state) => ({

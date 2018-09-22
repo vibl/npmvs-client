@@ -3,12 +3,12 @@ import ChartCard from './ChartCard';
 import Divchart from '../charts/Divchart/DivchartContainer';
 import Title from './ChartTitle';
 import {pure} from 'recompose';
+import l from '../../logic/localiz';
 
-const BasicCard = ({config, data}) => {
-  const {label, description, displayFn} = config;
+const BasicCard = ({title, description, displayFn, data}) => {
   return (
     <ChartCard>
-      <Title {...{description}}>{label}</Title>
+      <Title {...{description}}>{l(title)}</Title>
       <Divchart  {...{data, displayFn}}/>
     </ChartCard>
   );

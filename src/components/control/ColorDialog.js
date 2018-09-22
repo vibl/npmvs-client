@@ -1,17 +1,8 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import Popover from '@material-ui/core/Popover';
 import styled from "react-emotion";
 import ColorSliders from './ColorSliders';
 import colorWheel from '../../assets/img/color-wheel.png';
-
-const ColorDialogButton = styled.div`
-  height: 42px;
-    
-  img {
-    height: 100%;
-    width:auto;
-  }
-`;
 
 class ColorDialog extends React.Component {
   state = {
@@ -35,15 +26,16 @@ class ColorDialog extends React.Component {
     const open = Boolean(anchorEl);
 
     return (
-      <div>
-        <ColorDialogButton
+      <Fragment >
+        <div
+          className="color-dialog button"
           aria-owns={open ? 'simple-popper' : null}
           aria-haspopup="true"
           variant="contained"
           onClick={this.handleClick}
         >
           <img src={colorWheel}/>
-        </ColorDialogButton>
+        </div>
         <Popover
           id="simple-popper"
           open={open}
@@ -60,7 +52,7 @@ class ColorDialog extends React.Component {
         >
           <ColorSliders/>
         </Popover>
-      </div>
+      </Fragment>
     );
   }
 }export default ColorDialog;

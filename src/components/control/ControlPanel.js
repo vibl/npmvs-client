@@ -5,43 +5,57 @@ import Selector from "./Selector";
 import ColorDialog from './ColorDialog';
 import SwitchLocale from './SwitchLocale';
 import logo from '../../assets/img/logo.png';
-import {hideInfoPageIfEntered} from '../infopage/infopage-display-hide';
+import {hideInfoPageAfterTimeoutIfEntered} from '../infopage/infopage-display-hide';
 
-const Container = styled.div`
-    width: 100%;
+const Toolbar = styled.div`
     display: flex;
+    position: relative; // Allow child elements to be positionned as absolute.
     align-content: center;
+    width: 100%;
+    height: 2.7rem;
+  
+    #logo {
+      
+      img {
+        height: 3rem;
+        width: 9rem;
+      }
+    }
+    .color-dialog.button {
+      height: 100%;
+      padding: 0.15rem 0.15rem;
+      
+      img {
+        height: 100%;
+        width:auto;
+      }
+    }
+    .package-selector {
+      flex-grow: 1;
+      margin: .2rem 0 0 0;
+    }
+    .locale-switcher {
+        height: 100%;
+        padding: 0.4rem;
+      
+        img {
+          height: 100%;
+          width: auto;
+        }
+    }
 `;
-const SelectorWrapper = styled.div`
-    flex-grow: 1;
-    margin: .2rem 0 0 0;
-`;
-const LogoWrapper = styled.div`
-    margin: 0.1rem 0 0 0;
-`;
-const ColorDialogWrapper = styled.div`
-    margin: 0.15rem 0 0 0;
-`;
-const Logo = styled.img`
-    height: 2.5rem;
-    width: 7rem;
-`;
+const handleMouseEnter = () => {
+  hideInfoPageAfterTimeoutIfEntered(100);
+};
 const ControlPanel = () => (
-  <Container onMouseEnter={hideInfoPageIfEntered}>
-    <LogoWrapper>
-      <Logo src={logo}/>
-    </LogoWrapper>
-    <SelectorWrapper>
-      <Selector/>
-    </SelectorWrapper>
-    <ColorDialogWrapper>
-      <ColorDialog/>
-    </ColorDialogWrapper>
+  <Toolbar onMouseEnter={handleMouseEnter}>
+    <div id="logo">
+      <img src={logo}/>
+    </div>
+    <Selector/>
+    <ColorDialog/>
     <SwitchLocale/>
-
-
-
-  </Container>
+  </Toolbar>
 );
 
 export default ControlPanel;

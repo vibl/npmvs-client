@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import styled from 'react-emotion';
 import store from '../../logic/store';
 import PopSlider from "../card/PopSlider";
-import HelpTooltip from '../generic/HelpTooltip';
 import {registerBlinkerTarget, unregisterBlinkerTarget} from '../generic/Blinker';
 
 const StyledSpan = styled.span`
@@ -13,7 +12,7 @@ const StyledSpan = styled.span`
       //transition: box-shadow 1s;  // Uses too much cpu.
     }
 `;
-let popSliderBlinkerTarget, blinkerIsRegistered;
+let blinkerTarget, blinkerIsRegistered;
 
 class BlinkSlider extends Component {
 
@@ -21,7 +20,7 @@ class BlinkSlider extends Component {
     if( this.props.isNewbie && ! blinkerIsRegistered ) {
       const vibrateMs = 200;
       const pauseDuration = 4000;
-      popSliderBlinkerTarget = registerBlinkerTarget({
+      blinkerTarget = registerBlinkerTarget({
         selector: 'span.popslider.value',
         rule: 'box-shadow: inset 0 0 2px 0 #ffffff, 0 0 2px 0 #ffffff !important',
         cycles: [[vibrateMs, vibrateMs],[vibrateMs, vibrateMs],[pauseDuration,vibrateMs]],
@@ -32,7 +31,10 @@ class BlinkSlider extends Component {
   }
   handleMouseEnterSlider = () => {
     store.set({session:{isNewbie: false}});
-    popSliderBlinkerTarget.unregister();
+    if( blinkerTarget ) {
+      blinkerTarget.unregister();
+      blinkerTarget = null;
+    }
   };
  render() {
    const {value, displayValue, sliderConfig, onChange, popupStyle} = this.props;

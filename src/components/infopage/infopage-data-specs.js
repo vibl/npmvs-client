@@ -1,99 +1,90 @@
 import React from 'react';
-import {deduplicateLinks, displayDependencies, displayReleasesCount,
-  GithubUserLink, GithubUsersLinks, Link} from './infopage-elements';
+import {Author, ifDifferentLink, displayDependencies,
+  NPMUsersLinks, Link, Markdown, NPMUserLink} from './infopage-elements';
 
 export default {
   'data:InfoPages:{packId}': {
     version: {
-      label: 'Latest version',
+      label: 'Latest version<>Dernière version',
       datapoint: 'version',
     },
     description: {
       label: 'Description',
       datapoint: 'description',
+      displayFn: str => Markdown({source: str}),
     },
     keywords: {
-      label: 'Keywords',
+      label: 'Keywords<>Mots-clés',
       datapoint: 'keywords',
       displayFn: a => a && a.join(", "),
     },
     repository: {
-      label: 'Repository',
+      label: 'Repository<>Dépôt',
       datapoint: 'links_repository',
       displayFn: value => Link({value}),
     },
     homepage: {
-      label: 'Homepage',
+      label: 'Homepage<>Site web',
       datapoint: 'links_homepage',
-      extractFn: deduplicateLinks(['links_repository', 'github_homepage', 'links_npm']),
+      extractFn: ifDifferentLink(['links_repository', 'github_homepage', 'links_npm']),
       displayFn: value => Link({value}),
     },
     homepageGH: {
-      label: 'Homepage',
+      label: 'Homepage<>Site web',
       datapoint: 'github_homepage',
-      extractFn: deduplicateLinks(['links_repository', 'links_npm']),
+      extractFn: ifDifferentLink(['links_repository', 'links_npm']),
       displayFn: value => Link({value}),
     },
     npm: {
-      label: 'NPM page',
+      label: 'NPM page<>Page sur NPM',
       datapoint: 'links_npm',
       displayFn: value => Link({value}),
     },
     bugs: {
-      label: 'Bugs',
+      label: 'Bug reports<>Gestion des tickets',
       datapoint: 'links_bugs',
       displayFn: value => Link({value}),
     },
-    // releases: {
-    //   label: 'Releases',
-    //   datapoint: 'releases',
-    //   displayFn: value => displayReleasesCount({value}),
-    // },
-    // dependentsCount: {
-    //   label: 'Modules that depend on this one',
-    //   datapoint: 'dependentsCount',
-    // },
     starsCount: {
-      label: 'Stars (GH)',
+      label: 'GitHub stars',
       datapoint: 'starsCount',
     },
     subscribersCount: {
-      label: 'Subscribers (GH)',
+      label: 'GitHub subscribers',
       datapoint: 'subscribersCount',
     },
     forksCount: {
-      label: 'Forks (GH)',
+      label: 'GitHub forks',
       datapoint: 'forksCount',
     },
-    // issues_count: {
-    //   label: 'Total issues',
-    //   datapoint: 'issues_count',
-    // },
-    // issues_openCount: {
-    //   label: 'Open issues',
-    //   datapoint: 'issues_openCount',
-    // },
     author: {
-      label: 'Author',
+      label: 'Author<>Auteur',
       datapoint: 'author',
-      displayFn: o => o && o.name,
+      displayFn: author => author && Author(author),
     },
     publisher: {
-      label: 'Publisher',
+      label: 'Publisher on NPM<>Contributeur sur NPM',
       datapoint: 'publisher',
-      displayFn: ({username}) => username && GithubUserLink({username}),
+      displayFn: ({username}, _, data) =>
+        username && (username === data.publisher.username || username === data.author.username)
+          ? null
+          : NPMUserLink({username}),
     },
     maintainers: {
-      label: 'Maintainers',
+      label: 'Maintainers<>Développeurs',
       datapoint: 'maintainers',
-      displayFn: users => GithubUsersLinks({users}),
+      displayFn: (users, _, data) =>  {
+        users.length <= 1 && ( users[0].username === data.publisher.username || users[0].username === data.author.username )
+          ? null
+          : NPMUsersLinks({users})
+      }
     },
     license: {
-      label: 'License',
+      label: 'License<>Licence',
       datapoint: 'license',
     },
     dependencies: {
-      label: 'Dependencies',
+      label: 'Dependencies<>Dépendences',
       datapoint: 'dependencies',
       displayFn: value => displayDependencies({value}),
     },
@@ -106,6 +97,22 @@ export default {
       datapoint: 'metadata_date',
       displayFn: s => new Date(s).toLocaleString('en-GB').slice(0,10),
     },
-
+    // releases: {
+    //   label: 'Releases',
+    //   datapoint: 'releases',
+    //   displayFn: value => displayReleasesCount({value}),
+    // },
+    // dependentsCount: {
+    //   label: 'Modules that depend on this one',
+    //   datapoint: 'dependentsCount',
+    // },
+    // issues_count: {
+    //   label: 'Total issues',
+    //   datapoint: 'issues_count',
+    // },
+    // issues_openCount: {
+    //   label: 'Open issues',
+    //   datapoint: 'issues_openCount',
+    // },
   },
 };

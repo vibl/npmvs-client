@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import l from '../../logic/localiz';
 import {connectStatePure} from '../../logic/utils';
 import ChartCard from '../card/ChartCard';
 import Divchart from './Divchart/DivchartContainer';
@@ -10,23 +11,22 @@ const {isBlank} = require('../../logic/vibl-fp');
 const description = `
 When this number is high, it shows that the project is somehow active (though keep in mind that quantity does not always produce quality).
 
-When the number is close to 0, it might be a bad sign...
+When the number is close to zero, it might be a bad sign...
 `;
 const sliderValues = [
-  ['month'],
-  ['3 months'],
-  ['6 months'],
-  ['year'],
-  ['2 years']
+  ['the last month<>le dernier mois'],
+  ['the last 3 months<>les 3 derniers mois'],
+  ['the last 6 months<>les 6 derniers mois'],
+  ["the last year<>l'année passée"],
+  ["the last 2 years<>les deux dernières années"],
 ];
 const displayFn = x => x;
 
 const SliderTitle = ({description, displayValue, value, onChange, sliderConfig}) => {
-  const valueSlider = <BlinkSlider
-    {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '5rem'}}}/>;
   return (
     <ChartTitle {...{description}}>
-      Number of releases in the last {valueSlider}
+      {l`Number of releases in <>Nombre de releases dans`} <BlinkSlider
+      {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '5rem'}}}/>
     </ChartTitle>
   )
 };
@@ -47,7 +47,7 @@ class ReleasesForPeriod extends Component {
     const data = mapObjIndexed(x => x && x[value], rawData);
     return (
       <ChartCard>
-        <SliderTitle {...{description, value, displayValue: sliderValues[value], onChange, sliderConfig}}/>
+        <SliderTitle {...{description, value, displayValue: l(sliderValues[value]), onChange, sliderConfig}}/>
         <Divchart  {...{displayFn, data}}/>
       </ChartCard>
     );

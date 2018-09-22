@@ -29,12 +29,26 @@ const recurse = (parent, parentPath, data) => {
   }
   return acc;
 };
+const updateReadme = async (data, packId) => {
+  const readmeUrl = data.collected.metadata.links.repository
+    .replace(/https?:\/\/github.com\/([^/]+\/[^/]+).*/, 'https://raw.githubusercontent.com/$1/master/README.md');
+  const readme = await http.memGet(readmeUrl);
+  if( readme.data ) {
+    store.set({data:{InfoPages:{[packId]: {
+      readme: readme.data,
+      readmeUpdated: new Date(),
+    }}}});
+  }
+
+}
 const getData = async (packId) => {
   const url = enpointUrl + encodeURIComponent(packId);
   const resp = await http.memGet(url);
+  if( ! resp.data ) throw new Error('Data could not be downloaded from', url);
   const data = recurse(dataPoints, ['npms'], resp.data);
   const transformer = extract(data, {packId});
   store.set(transformer);
+  await updateReadme(resp.data, packId);
 };
 export default {
   getData,

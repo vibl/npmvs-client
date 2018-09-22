@@ -4,7 +4,7 @@ import AsyncSelect from 'react-select/lib/Async';
 import { components } from 'react-select';
 import {equals} from 'ramda';
 import {getSuggestions} from '../../logic/get-suggestions';
-import {displayInfoPage} from '../infopage/infopage-display-hide';
+import {displayInfoPage, hideInfoPageAfterTimeout} from '../infopage/infopage-display-hide';
 import {selectPackage, deselectPackage} from '../../logic/router-utils';
 import {getPackageColors} from "../../logic/utils";
 import {setFocus} from '../../logic/focus';
@@ -115,7 +115,7 @@ const setBlinker = (isNewbie) => {
     const vibrateMs = 200;
     const pauseDuration = 3000;
     blinkerTarget = registerBlinkerTarget({
-      selector: '.selector > div > div:first-child  > div',
+      selector: '.package-selector > div > div:first-child  > div',
       rule: 'box-shadow: inset 0 0 2px 0 #ffffff, 0 0 2px 0 #ffffff !important',
       cycles: [[vibrateMs, vibrateMs],[vibrateMs, vibrateMs],[pauseDuration,vibrateMs]],
     });
@@ -143,9 +143,13 @@ class PackageSelector extends React.Component {
       setFocus(packId);
     }
     store.set({session:{isNewbie: false}});
-    blinkerTarget.unregister();
+    if( blinkerTarget ) {
+      blinkerTarget.unregister();
+      blinkerTarget = null;
+    }
   };
-  handleMouseLeave = (evt) => {
+  handleMouseLeaveButton = (evt) => {
+    hideInfoPageAfterTimeout(500);
   };
   updateSelection() {
     const {selection} = this.props;
@@ -162,7 +166,7 @@ class PackageSelector extends React.Component {
       const valueElements = selectInstance.controlRef.children[0].children;
       for (let i = 0; i < valueElements.length; i++) { // Loop needed because this is an HTMLCollection, not an array.
         valueElements[i].addEventListener("mouseenter", this.handleMouseEnterButton);
-        valueElements[i].addEventListener("mouseleave", this.handleMouseLeave);
+        valueElements[i].addEventListener("mouseleave", this.handleMouseLeaveButton);
       }
     }
   }
@@ -170,6 +174,7 @@ class PackageSelector extends React.Component {
     const {focus, packageColors} = this.props;
     return (
       <AsyncSelect
+        className="package-selector"
         // menuIsOpen={true}
         ref={this.selectRef}
         isMulti
@@ -181,7 +186,6 @@ class PackageSelector extends React.Component {
         loadOptions={getSuggestions}
         components={{ Option }}
         styles={styles}
-        className="selector"
         {...{focus, packageColors}}
       />
     );

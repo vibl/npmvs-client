@@ -28,7 +28,7 @@ const SliderTitle = ({description, displayValue, value, onChange, sliderConfig})
   const valueSlider = <BlinkSlider
     {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '5rem'}}}/>
   return (
-    <ChartTitle {...{description}}>
+    <ChartTitle {...{description: l(description)}}>
       {l`Contributors with more than <>Contributeurs avec plus de`} {valueSlider} commits
     </ChartTitle>
   )

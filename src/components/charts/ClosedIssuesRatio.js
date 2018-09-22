@@ -1,4 +1,5 @@
 import React from 'react';
+import l from '../../logic/localiz';
 import BasicCard from "../card/BasicCard";
 import fn from '../../logic/field-fns';
 import {connectStatePure} from "../../logic/utils";
@@ -14,14 +15,18 @@ const description = `
 because it takes into account the size of the project.   
 Also, some types of projects just generate more issues   
  than others.</small>
-`;
-export const config = {
-  label: 'Percent of closed issues',
-  displayFn: fn.significanPercentDisplay,
-  description,
-};
+ <>
+-> *(Nombre de tickets fermés)* <-
 
-const ClosedIssuesRatio = ({data}) => ! data ? null : <BasicCard {...{config, data}} />;
+-> divisé par <-
+
+-> *(Nombre total de tickets)* <-
+`;
+const title = 'Percent of closed issues<>Pourcentage de tickets fermés';
+const displayFn = fn.significanPercentDisplay;
+
+const ClosedIssuesRatio = ({data}) => ! data ? null :
+  <BasicCard {...{title: l(title), description: l(description), displayFn, data}} />
 
 const selectorFn = ({issues_count, issues_openCount}) => (issues_count - issues_openCount) / issues_count * 100;
 

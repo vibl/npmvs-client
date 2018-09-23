@@ -10,14 +10,14 @@ import {connect} from "react-redux";
 
 injectGlobal`
   html {
-     font-size: 16px;
-     line-height: 23px;
-     background-color: ${theme.pageBackgroundColor};
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 23px;
+    background-color: ${theme.pageBackgroundColor};
   }
 `;
 const StyledAppContainer = styled.div`
   background-color: #f7f1f1;
-  font-family: Roboto, sans-serif;
   color: #444;
   ${chartStyles}
 `;

@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import Popover from '@material-ui/core/Popover';
-import styled from "react-emotion";
+import l from '../../logic/localiz';
 import ColorSliders from './ColorSliders';
 import colorWheel from '../../assets/img/color-wheel.png';
 
@@ -34,7 +34,12 @@ class ColorDialog extends React.Component {
           variant="contained"
           onClick={this.handleClick}
         >
-          <img src={colorWheel}/>
+          <div className="icon">
+            <img src={colorWheel}/>
+          </div>
+          <div className="label">
+            {l`Change colors<>Changer les couleurs`}
+          </div>
         </div>
         <Popover
           id="simple-popper"

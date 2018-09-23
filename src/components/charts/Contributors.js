@@ -71,4 +71,4 @@ const selectorFn = mem( (data) => {
   }
   return acc;
 });
-export default connectStatePure(Contributors, selectorFn);
+export default connectStatePure(Contributors, 'Contributors', selectorFn);

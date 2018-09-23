@@ -16,4 +16,4 @@ const Dependents = ({data}) => ! data ? null : <BasicCard {...{title: l(title), 
 
 const selectorFn = ({dependentsCount}) => dependentsCount;
 
-export default connectStatePure(Dependents, selectorFn);
+export default connectStatePure(Dependents, 'Dependents', selectorFn);

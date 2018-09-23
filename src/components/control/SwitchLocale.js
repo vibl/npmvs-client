@@ -1,19 +1,28 @@
 import React from 'react';
+import l from '../../logic/localiz';
 import {clearHideTimeout} from '../infopage/infopage-display-hide';
 import {switchLanguage} from "../../logic/localiz";
-import flags from '../../assets/img/flags.jpg';
+import flags from '../../assets/img/flags-square-faded.jpg';
+import {ReactComponent as FlagFr} from '../../assets/img/flag-fr-4x3.svg';
+import {ReactComponent as FlagEn} from '../../assets/img/flag-gb-4x3.svg';
 
 const handleClick = () => {
   switchLanguage();
 };
-const SwitchLocale = () => {
+const SwitchLocale = ({children}) => {
   return (
     <div
-      className="locale-switcher"
+      className="locale-switcher button"
       onClick={handleClick}
       onMouseEnter={clearHideTimeout}
     >
-      <img src={flags} alt="Switch locale"/>
+      <div className="icon">
+        {l([<FlagFr/>,<FlagEn/>])}
+        {/*<img src={flags} alt="Switch locale"/>*/}
+      </div>
+      <div className="label">
+       {l`Version française<>Switch to English version`}
+      </div>
     </div>
   )
 };

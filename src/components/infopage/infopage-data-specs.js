@@ -73,11 +73,10 @@ export default {
     maintainers: {
       label: 'Maintainers<>Développeurs',
       datapoint: 'maintainers',
-      displayFn: (users, _, data) =>  {
+      displayFn: (users, _, data) =>
         users.length <= 1 && ( users[0].username === data.publisher.username || users[0].username === data.author.username )
           ? null
           : NPMUsersLinks({users})
-      }
     },
     license: {
       label: 'License<>Licence',

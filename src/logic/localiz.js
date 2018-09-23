@@ -1,3 +1,4 @@
+import React from 'react';
 import deepForceUpdate from 'react-deep-force-update';
 import store from './store';
 import loadGoogleTranslate from './google-translate';
@@ -13,7 +14,7 @@ const dateFormats = {fullDate, fullDateTime};
 let
   dictionary = {},
   currentLanguage,
-  appInstance;
+  mainPageInstance;
 
 const getUserLanguage = () => {
   const lang = navigator.language.slice(0,2);
@@ -38,7 +39,7 @@ export const switchLanguage = (arg) => {
 // even if components in the middle of it
 // define a strict shouldComponentUpdate().
 
-  deepForceUpdate(appInstance);
+  deepForceUpdate(mainPageInstance);
   return lang;
 };
 export const getTranslation = (str) => {
@@ -52,18 +53,26 @@ export const localiz = (...list) => {
 };
 export const getSessionLocale = () => store.get().session.language;
 
-export const getFullDate = (date = new Date, format = 'fullDateTime') => {
+export const getFullDate = (date = new Date(), format = 'fullDateTime') => {
   return date.toLocaleString(getSessionLocale(), dateFormats[format]);
 };
 export const l = (parts, ...args) => {
   let str;
   if( Array.isArray(parts) ) {
-    let acc = parts[0];
-    let i, max = parts.length;
-    for(i=1; i < max; i++) {
-      acc += args[i-1] + parts[i];
+    if( parts.every(p => typeof p === 'string') ) {
+      let acc = parts[0];
+      let i, max = parts.length;
+      for(i=1; i < max; i++) {
+        acc += args[i-1] + parts[i];
+      }
+      str = acc;
+    } else {
+      if( React.isValidElement(parts[0]) ) {
+        return parts[currentLanguage];
+      } else {
+        return null;
+      }
     }
-    str = acc;
   } else {
     str = parts;
   }
@@ -71,9 +80,9 @@ export const l = (parts, ...args) => {
   if( versions.length > 1 ) localiz(...versions);
   return getTranslation(versions[0]);
 };
-export const localizInit = (thisApp) => {
-  appInstance = thisApp; // Useful for reloading the whole app when language is switched.
-  const lang = getSessionLocale() || getUserLanguage();
+export const localizInit = (thisMainPage) => {
+  mainPageInstance = thisMainPage; // Useful for reloading the whole app when language is switched.
+  const lang = getSessionLocale();// || getUserLanguage();
   switchLanguage(lang);
 };
 export default l;

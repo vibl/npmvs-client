@@ -1,3 +1,4 @@
+import React from 'react';
 import {connect} from 'react-redux';
 import {createSelectorCreator} from 'reselect';
 import {pure} from 'recompose';
@@ -24,9 +25,9 @@ export const getData = mem(
     return acc;
   }
 );
-export const connectState = (component, selectorFn) => {
+export const connectState = (component, name, selectorFn) => {
   const mapStateToProps = (state) => {
-    let data = state.data[component.displayName];
+    let data = state.data[name];
     if( selectorFn) data = getData(selectorFn, data);
     return {
       data,
@@ -35,10 +36,10 @@ export const connectState = (component, selectorFn) => {
   };
   return connect(mapStateToProps)(component);
 };
-export const connectStatePure = (component, selectorFn) => {
+// Ne marche pas en prendre car les noms sont minifiés !!!
+export const connectStatePure = (component, name, selectorFn) => {
   const pureComponent = pure(component);
-  pureComponent.displayName = pureComponent.displayName.replace(/pure\((\w+)\)/, '$1');
-  return connectState(pureComponent, selectorFn);
+  return connectState(pureComponent, name, selectorFn);
 };
 const darken = (lightness) => lightness * 0.6;
 
@@ -99,3 +100,4 @@ export const getFieldsFromSpecs = (specs) => {
   }
   return acc;
 };
+export const isReactComponent = (obj) => React.Component.isPrototypeOf(obj);

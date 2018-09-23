@@ -1,8 +1,9 @@
+const path = require('path');
+const fs = require('fs');
 const rewireReactHotLoader = require('react-app-rewire-hot-loader');
 const {injectBabelPlugin} = require('react-app-rewired');
 const rewireEslint = require('react-app-rewire-eslint');
-const path = require('path');
-const fs = require('fs');
+const rewireSVGR = require('react-app-rewire-svgr');
 
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveModulePath = relativePath => path.resolve(appDirectory, 'node_modules/' + relativePath);
@@ -30,5 +31,6 @@ module.exports = function override (config, env) {
     config.module.rules[1].oneOf[1].include,
     ...modulePaths,
   ];
+  config = rewireSVGR(config, env);
   return config;
 };

@@ -12,6 +12,7 @@ import theme from '../styles/theme';
 import Readme from './Readme';
 import {keys, omit} from 'ramda';
 const {isBlank, toArray} = require('../../logic/vibl-fp');
+
 const fields = getFieldsFromSpecs(dataSpecs);
 const breakpoints = theme.breakpoints.values;
 const screenSizes = keys(breakpoints);

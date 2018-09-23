@@ -42,6 +42,7 @@ class CommitsForPeriod extends Component {
   };
   render() {
     const {onChange, props:{data: rawData}, state:{value}} = this;
+    console.log(rawData);
     if( isBlank(rawData) ) return null;
     const sliderConfig = {min: 0, max: 4, step: 1};
     const data = mapObjIndexed(x => x && x[value], rawData);
@@ -55,4 +56,4 @@ class CommitsForPeriod extends Component {
 }
 const selectorFn = ({commits}) => commits.map( o => o.count );
 
-export default connectStatePure(CommitsForPeriod, selectorFn);
+export default connectStatePure(CommitsForPeriod, 'CommitsForPeriod', selectorFn);

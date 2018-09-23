@@ -88,7 +88,7 @@ export const displayReleasesCount =
       }
       </tbody>
     </table>;
-    
+
 export const displayDependencies =
   ({value}) =>
     <table>
@@ -111,3 +111,4 @@ export const Markdown = (props) => (
     escapeHtml={false}
   />
 );
+export const tmp1 = null;

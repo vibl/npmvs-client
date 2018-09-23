@@ -12,14 +12,10 @@ import Blinker from './generic/Blinker';
 import theme from './styles/theme';
 import initialState from '../logic/initial-state';
 import AppStyles from './styles/AppStyles';
-import {localizInit} from '../logic/localiz';
 
 const {reduxStore, persistor} = initRedux(initialState);
 
 class App extends Component {
-  componentDidMount() {
-    localizInit(this);
-  }
   render() {
     return (
       <Router history={history}>

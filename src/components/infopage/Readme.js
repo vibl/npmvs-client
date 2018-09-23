@@ -2,6 +2,7 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import SyntaxHighlighter from 'react-syntax-highlighter/prism';
 import visit from 'unist-util-visit';
+import prepareTargetElement from '../../logic/google-translate';
 
 const absoluteGithubLinks = (tree) => {
   const visitor = (node) => {
@@ -30,10 +31,17 @@ class CodeBlock extends React.PureComponent {
   }
 }
 class Readme extends React.PureComponent {
+  componentDidMount() {
+    prepareTargetElement(this.el);
+  }
+  componentDidUpdate() {
+    prepareTargetElement(this.el);
+  }
   render() {
     return (
         <ReactMarkdown
           {...this.props}
+          ref={el => this.el = el}
           renderers={{
             code: CodeBlock,
             image: image(this.props.github),

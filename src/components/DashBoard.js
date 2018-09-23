@@ -3,11 +3,14 @@ import {pure} from 'recompose';
 import styled from 'react-emotion';
 import {css} from 'emotion';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import cardsComponents from "./charts";
 import theme from './styles/theme';
 import {keys} from 'ramda';
 import {connect} from "react-redux";
+import {history} from '../logic/router-utils';
 const {isBlank} = require('../logic/vibl-fp');
+
 
 const breakpoints = theme.breakpoints.values;
 const screenSizes = keys(breakpoints);
@@ -50,7 +53,9 @@ const cards =
         return <Component key={chartId} {...{chartId}}/>
       });
 const DashBoard = ({data, selection}) => {
-  return isBlank(data) || isBlank(selection) ? null : (
+  return isBlank(data) || isBlank(selection)
+    ? <Button onClick={() => history.push('recharts-vs-victory-vs-react-vis')}>Charger des données de test</Button>
+    : (
     <StyledGrid
       container
       spacing={0}

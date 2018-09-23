@@ -55,4 +55,4 @@ class ReleasesForPeriod extends Component {
 }
 const selectorFn = ({releases}) => releases.map(o => o.count );
 
-export default connectStatePure(ReleasesForPeriod, selectorFn);
+export default connectStatePure(ReleasesForPeriod, 'ReleasesForPeriod', selectorFn);

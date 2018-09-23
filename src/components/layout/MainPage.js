@@ -1,10 +1,11 @@
 import React, {PureComponent} from 'react';
-import AppBar from './control/AppBar';
+import AppBar from '../toolbar/AppBar';
 import DashBoard from './DashBoard';
-import {updateSelectionFromHistory} from '../logic/router-utils';
-import InfoPages from "./infopage/InfoPages";
+import {updateSelectionFromHistory} from '../../logic/router-utils';
+import InfoPages from "../infopage/InfoPages";
 import styled from 'react-emotion';
-import {localizInit} from "../logic/localiz";
+import {localizInit} from "../../logic/localiz";
+import Footer from "./Footer";
 
 const ContWrapper = styled.div`
    position: relative; // So that it can be InfoPages context for absolute positioning.
@@ -22,6 +23,7 @@ class MainPage extends PureComponent {
           <DashBoard/>
           <InfoPages/>
         </ContWrapper>
+      <Footer/>
       </div>
     )
   }

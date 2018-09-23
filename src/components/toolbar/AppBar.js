@@ -30,7 +30,9 @@ const handleMouseEnter = () => {
 const AppBar = () => (
   <StyledWrapper onMouseEnter={handleMouseEnter}>
     <div id="logo">
-      <img src={logo}/>
+      <a href={websiteUrl}>
+        <img src={logo}/>
+      </a>
     </div>
     <Selector/>
     <AppMenu/>

@@ -4,12 +4,12 @@ import styled from 'react-emotion';
 import {css} from 'emotion';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import cardsComponents from "./charts";
-import theme from './styles/theme';
+import cardsComponents from "../charts/index";
+import theme from '../styles/theme';
 import {keys} from 'ramda';
 import {connect} from "react-redux";
-import {history} from '../logic/router-utils';
-const {isBlank} = require('../logic/vibl-fp');
+import {history} from '../../logic/router-utils';
+const {isBlank} = require('../../logic/vibl-fp');
 
 
 const breakpoints = theme.breakpoints.values;

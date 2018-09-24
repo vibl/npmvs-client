@@ -9,7 +9,7 @@ export const clearHideTimeout = () => {
 
 export const displayInfoPage = (packId) => {
   clearHideTimeout();
-  store.set({ui:{displayPackId: packId}});
+  store.trans({ui:{displayPackId: packId}});
   entered = false;
 };
 export const hasEntered = () => {
@@ -18,7 +18,7 @@ export const hasEntered = () => {
 };
 
 export const hideInfoPage = () => {
-  store.set({ui:{displayPackId: null}});
+  store.trans({ui:{displayPackId: null}});
   // console.log("Page hidden after timeout:", hideInfoPageTimeout);
 };
 

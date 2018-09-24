@@ -20,6 +20,7 @@ class App extends Component {
     return (
       <Router history={history}>
         <Provider store={reduxStore}>
+          <div>
           <PersistGate loading={null} persistor={persistor}>
             <Head/>
             <MuiThemeProvider theme={createMuiTheme(theme)}>
@@ -30,10 +31,12 @@ class App extends Component {
             </Blinker>
             </MuiThemeProvider>
           </PersistGate>
+          </div>
         </Provider>
       </Router>
     );
   }
 }
+
 export default hot(module)(App);
 

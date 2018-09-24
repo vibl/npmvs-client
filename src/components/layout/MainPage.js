@@ -1,4 +1,6 @@
 import React, {PureComponent} from 'react';
+import {connect} from 'react-redux';
+import store from '../../logic/store';
 import AppBar from '../appbar/AppBar';
 import DashBoard from './DashBoard';
 import {updateSelectionFromHistory} from '../../logic/router-utils';
@@ -28,4 +30,7 @@ class MainPage extends PureComponent {
     )
   }
 }
-export default MainPage;
+const mapStateToProps = (state) => ({
+  userHasSeenAppMenu: state.session.user.hasSeenAppMenu,
+});
+export default connect(mapStateToProps)(MainPage);

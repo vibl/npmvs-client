@@ -1,4 +1,4 @@
-import theme from "../styles/theme";
+import theme from "../../styles/theme";
 import {css} from 'emotion';
 
 const mainColor = theme.palette.primary.main;

@@ -1,13 +1,23 @@
 import { createStore } from 'redux';
-import stringifier from 'stringifier';
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
 
-const {transform} = require('./vibl-fp').default;
+const {assocDotPath, transform} = require('./vibl-fp').default;
 
-const reducer = (state, {payload}) => {
-  const newState = payload ? transform(payload, state) : state;
-  if( payload && payload.data && payload.data.CommitsForPeriod ) {
+const reducer = (state, action) => {
+  const {type, payload} = action;
+  let newState;
+  switch(type) {
+    case 'SET':
+      newState = payload ? assocDotPath(payload.path, payload.value, state) : state;
+      break;
+    case 'TRANS':
+      newState = payload ? transform(payload, state) : state;
+      break;
+    default:
+      newState =state;
+  }
+  if( payload && payload.path && payload.path.includes('blinkers') ) {
     console.log('Reducer: old state:', state, '\npayload:', payload, '\nnew state:', newState);
   }
   return newState;
@@ -34,11 +44,15 @@ export const initRedux = (initialData) => {
     persistor,
   };
 };
-function set(payload) {
-  reduxStore.dispatch({type: 'SET', payload, debug: stringifier.stringify(payload)});
+const set = (path, value) => {
+  reduxStore.dispatch({type: 'SET', payload: {path, value}});
+};
+const trans = (payload) => {
+  reduxStore.dispatch({type: 'TRANS', payload});
 };
 
 export default {
   get: (...args) => reduxStore.getState(...args),
   set,
+  trans,
 }

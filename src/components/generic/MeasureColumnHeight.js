@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 class MeasureColumnHeight extends PureComponent {
 
   setDimensionsCostly = (contentRect) => {
-    store.set({ui: {columnsHeight: {[this.props.name]: contentRect.bounds.height}}});
+    store.trans({ui: {columnsHeight: {[this.props.name]: contentRect.bounds.height}}});
   };
   setDimensions = debounce(this.setDimensionsCostly, 2000);
 

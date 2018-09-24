@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'react-emotion';
-import Selector from "./Selector";
+import Selector from "../selector/Selector";
 // import Selector from "../selector/Selector";
 import {hideInfoPageAfterTimeoutIfEntered} from '../infopage/infopage-display-hide';
 import AppMenu from "./AppMenu";
@@ -22,6 +22,14 @@ const StyledWrapper = styled.div`
     .package-selector {
       flex-grow: 1;
       margin: .2rem 0 0 0;
+    }
+    #app-menu-button {
+      padding: 0.4rem;
+      min-width: 2rem;
+
+      span {
+        padding: 0.2rem;
+      }
     }
 `;
 const handleMouseEnter = () => {

@@ -34,7 +34,7 @@ export const connectState = (component, name, selectorFn) => {
       data,
       selection: state.selection,
       state: state.session.components[name],
-      setState: (value) => store.set({session:{components:{[name]: value}}}),
+      setState: (value) => store.trans({session:{components:{[name]: value}}}),
     };
   };
   return connect(mapStateToProps)(component);

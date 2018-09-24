@@ -89,7 +89,7 @@ class HelpTooltip extends Component {
     });
   };
   setActive(bool) {
-    store.set({session:{helpTooltips:{[this.props.group]: bool}}});
+    store.trans({session:{helpTooltips:{[this.props.group]: bool}}});
   }
   noMoreHelp = () => {
     this.setActive(false);

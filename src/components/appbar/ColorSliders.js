@@ -27,7 +27,7 @@ const GradientSlider = styled(Slider)`
 `;
 class ColorSlider extends Component {
   handleChange = (event, value) => {
-    store.set({color:{[this.props.id]: value} });
+    store.trans({color:{[this.props.id]: value} });
   };
   render() {
     const {id, color, label, max} = this.props;

@@ -14,7 +14,7 @@ const params = '2017-03-01:2018-08-31/';
 const getData = async (packId) => {
   const url = endpointUrl + params + encodeURIComponent(packId);
   const resp = await http.memGet(url);
-  store.set({data:{downloads:{[packId]: resp.data.downloads}}});
+  store.trans({data:{downloads:{[packId]: resp.data.downloads}}});
 };
 export default {
   getData,

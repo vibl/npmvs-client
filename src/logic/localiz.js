@@ -34,7 +34,7 @@ export const switchLanguage = (arg) => {
   }
   const lang = languages[currentLanguage];
   if( lang === 'fr' ) loadGoogleTranslate();
-  store.set({session:{language: lang}});
+  store.trans({session:{language: lang}});
   // Will force-update the whole rendered tree
 // even if components in the middle of it
 // define a strict shouldComponentUpdate().

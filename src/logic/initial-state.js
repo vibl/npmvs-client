@@ -11,6 +11,9 @@ export default {
     lightness: 70,
   },
   session: {
+    user: {
+      blinkers: {},
+    },
     isNewbie: true,
     language: 'en',
     components: {

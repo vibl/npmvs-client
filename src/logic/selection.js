@@ -7,14 +7,14 @@ import {append, difference, last, map, pipe, values} from 'ramda';
 const {discard} = require('../logic/vibl-fp').default;
 
 const add = async (packId) => {
-  store.set({selection: append(packId)});
+  store.trans({selection: append(packId)});
   await Promise.all(  // Promises should be executed in parallel. No need for the return values.
     values(map( source => source.getData(packId), sources))
   );
   setFocus(packId);
 };
 const remove = async (packId) => {
-  store.set({selection: discard(packId)});
+  store.trans({selection: discard(packId)});
   unsetFocus(packId);
   if( store.get().ui.displayPackId === packId ) {
     const lastSelected = last(store.get().selection);

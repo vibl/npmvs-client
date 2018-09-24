@@ -34,7 +34,7 @@ const updateReadme = async (data, packId) => {
     .replace(/https?:\/\/github.com\/([^/]+\/[^/]+).*/, 'https://raw.githubusercontent.com/$1/master/README.md');
   const readme = await http.memGet(readmeUrl);
   if( readme.data ) {
-    store.set({data:{InfoPages:{[packId]: {
+    store.trans({data:{InfoPages:{[packId]: {
       readme: readme.data,
       readmeUpdated: new Date(),
     }}}});
@@ -47,7 +47,7 @@ const getData = async (packId) => {
   if( ! resp.data ) throw new Error('Data could not be downloaded from', url);
   const data = recurse(dataPoints, ['npms'], resp.data);
   const transformer = extract(data, {packId});
-  store.set(transformer);
+  store.trans(transformer);
   await updateReadme(resp.data, packId);
 };
 export default {

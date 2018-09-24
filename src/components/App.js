@@ -8,7 +8,7 @@ import {history} from '../logic/router-utils';
 import {initRedux} from '../logic/store';
 import Head from './layout/Head';
 import MainPage from "./layout/MainPage";
-import Blinker from './generic/Blinker';
+import Blinker from './utils/Blinker';
 import theme from './styles/theme';
 import initialState from '../logic/initial-state';
 import AppStyles from './styles/AppStyles';

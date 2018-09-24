@@ -6,7 +6,7 @@ import {getSuggestions} from '../../../logic/get-suggestions';
 import {displayInfoPage, hideInfoPageAfterTimeout} from '../../infopage/infopage-display-hide';
 import {selectPackage, deselectPackage} from '../../../logic/router-utils';
 import {setFocus} from '../../../logic/focus';
-import {disableBlinkerTarget, registerBlinkerTarget} from "../../generic/Blinker";
+import {disableBlinkerTarget, registerBlinkerTarget} from "../../utils/Blinker";
 import styled from 'react-emotion';
 import selectorStyles from './selector-styles';
 import Option from './Option';

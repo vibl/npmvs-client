@@ -1,12 +1,12 @@
-import React from 'react';
+import React, {Component} from 'react';
+import {connect} from "react-redux";
 import {pure} from 'recompose';
 import styled from "react-emotion";
-import {css} from 'emotion';
 import { injectGlobal } from 'emotion';
+import shallowEqual from 'fbjs/lib/shallowEqual'
 import theme from './theme';
 import chartStyles from './focusDynamicStyles';
 import {getPackageColors} from "../../logic/utils";
-import {connect} from "react-redux";
 
 injectGlobal`
   html {
@@ -21,14 +21,21 @@ const StyledAppContainer = styled.div`
   color: #444;
   ${chartStyles}
 `;
-const AppStyles = ({focus, selection, colors, children}) => {
-  return (
-    <StyledAppContainer {...{focus, selection, colors}}>
-      {children}
-    </StyledAppContainer>
-  )
+class AppStyles extends Component {
+  shouldComponentUpdate(nextProps) {
+    return ! this.props.displayPackId && !shallowEqual(this.props, nextProps)
+  }
+  render() {
+    const {focus, selection, colors, children} = this.props;
+    return (
+      <StyledAppContainer {...{focus, selection, colors}}>
+        {children}
+      </StyledAppContainer>
+    )
+  }
 };
 const mapStateToProps = (state) => ({
+  displayPackId: state.ui.displayPackId,
   focus: state.focus,
   selection: state.selection,
   colors: getPackageColors(state.color, state.selection),

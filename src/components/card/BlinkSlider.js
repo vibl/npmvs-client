@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import styled from 'react-emotion';
 import store from '../../logic/store';
 import PopSlider from "../card/PopSlider";
-import {registerBlinkerTarget, disableBlinkerTarget} from '../generic/Blinker';
+import {registerBlinkerTarget, disableBlinkerTarget} from '../utils/Blinker';
 
 const StyledSpan = styled.span`
     span.popslider.value {

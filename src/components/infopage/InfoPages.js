@@ -8,18 +8,22 @@ import InfoPage from "./InfoPage";
 const {isBlank, toArray} = require('../../logic/vibl-fp');
 
 const displayedInfoPage = (p) => {
-   return isBlank(p.displayPackId)
-     ? null
-     :css`
+   return ! p.displayPackId ? null :
+     css`
+      display: block;
+
       .infopage.${toHtmlClass(p.displayPackId)} {
+          //opacity: 100;
         visibility: visible !important;
       }`;
 };
 
 const InfoPagesWrapper = styled.div`
+  display: none;
+
   .infopage {
     visibility: hidden;
-    z-index: 3000;
+    //opacity: 0;
    }
   ${displayedInfoPage}
 `;

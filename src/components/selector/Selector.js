@@ -8,7 +8,7 @@ import {displayInfoPage, hideInfoPageAfterTimeout} from '../infopage/infopage-di
 import {selectPackage, deselectPackage} from '../../logic/router-utils';
 import {getPackageColors} from "../../logic/utils";
 import {setFocus} from '../../logic/focus';
-import {disableBlinkerTarget, registerBlinkerTarget} from "../generic/Blinker";
+import {disableBlinkerTarget, registerBlinkerTarget} from "../utils/Blinker";
 
 const styles = {
   control: styles => ({

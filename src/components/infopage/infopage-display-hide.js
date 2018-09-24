@@ -18,7 +18,7 @@ export const hasEntered = () => {
 };
 
 export const hideInfoPage = () => {
-  store.trans({ui:{displayPackId: null}});
+  store.trans({ui:{displayPackId: false}});
   // console.log("Page hidden after timeout:", hideInfoPageTimeout);
 };
 

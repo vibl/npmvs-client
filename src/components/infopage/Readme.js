@@ -32,10 +32,10 @@ class CodeBlock extends React.PureComponent {
 }
 class Readme extends React.PureComponent {
   componentDidMount() {
-    prepareTargetElement(this.el);
+    // prepareTargetElement(this.el);
   }
   componentDidUpdate() {
-    prepareTargetElement(this.el);
+    // prepareTargetElement(this.el);
   }
   render() {
     return (

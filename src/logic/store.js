@@ -5,8 +5,13 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 
 const {transform} = require('./vibl-fp').default;
 
-const reducer = (state, {payload}) => payload ? transform(payload, state) : state;
-
+const reducer = (state, {payload}) => {
+  const newState = payload ? transform(payload, state) : state;
+  if( payload && payload.data && payload.data.CommitsForPeriod ) {
+    console.log('Reducer: old state:', state, '\npayload:', payload, '\nnew state:', newState);
+  }
+  return newState;
+};
 const persistConfig = {
   key: 'root',
   storage,

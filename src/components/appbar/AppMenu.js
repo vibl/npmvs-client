@@ -41,29 +41,39 @@ class AppMenu extends React.Component {
   state = {
     anchorEl: null,
   };
-
+  wrapperRef = React.createRef();
+  
   handleClick = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
-
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
+  initialClick = (el) => {
+    setTimeout( () => el.querySelector('#app-menu-button').click(), 5000);
 
+  };
+  simulateClick() {
+    this.wrapperRef.current.querySelector('#app-menu-button').click();
+  };
+  componentDidMount() {
+    setTimeout(this.simulateClick.bind(this), 2000);
+  }
   render() {
     const { anchorEl } = this.state;
 
     return (
-      <div>
+      <div ref={this.initialClick}>
         <Button
-          aria-owns={anchorEl ? 'simple-menu' : null}
+          id="app-menu-button"
+          aria-owns={anchorEl ? 'app-menu' : null}
           aria-haspopup="true"
           onClick={this.handleClick}
         >
           <MenuIcon/>
         </Button>
         <StyledMenu
-          id="simple-menu"
+          id="app-menu"
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={this.handleClose}

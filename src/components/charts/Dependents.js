@@ -4,13 +4,18 @@ import l from '../../logic/localiz';
 import {connectStatePure} from "../../logic/utils";
 
 const description = `
-Modules that depend on this one.
+Number of NPM packages that depend on this one.
 
-Bear in mind that any existing module is counted here, included unused and dead modules.
+Bear in mind that any existing package is counted here, 
+included unused and dead packages (which are a large majority on NPM).
+<>
+Le nombre de modules sur NPM qui dépendent de celui-ci.
+
+Gardez en tête que tous les modules sont comptés ici, y compris les modules non utilisés ou obsolètes 
+(qui sont une large majorité sur NPM).
 `;
 
-const title = 'Dependent modules<>Modules dépendants de celui-ci';
-
+const title = 'Dependent packages<>Modules dépendants de celui-ci';
 
 const Dependents = ({data}) => ! data ? null : <BasicCard {...{title: l(title), description: l(description) , data}} />;
 

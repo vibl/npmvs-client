@@ -13,6 +13,11 @@ export default {
   session: {
     isNewbie: true,
     language: 'en',
+    components: {
+      IssuesClosedInLessThanXdays: 3,
+      Contributors: 3,
+      ActivityScore: 3,
+    }
   },
   ui: {
     columnsHeight: {},

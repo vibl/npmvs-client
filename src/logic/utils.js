@@ -3,10 +3,11 @@ import {connect} from 'react-redux';
 import {createSelectorCreator} from 'reselect';
 import {pure} from 'recompose';
 import classNames from 'classnames/dedupe';
-import memoize from '../lib/memoize-immutable';
 import MixedTupleMap from 'mixedtuplemap';
 import shallowEqual from 'fbjs/lib/shallowEqual'
-import {keys, map, zipObj} from 'ramda';
+import memoize from '../lib/memoize-immutable';
+import store from './store';
+import {keys, zipObj} from 'ramda';
 const {gradient, hsl, isBlank} = require('./vibl-fp');
 
 export const mem = memoize;
@@ -32,6 +33,8 @@ export const connectState = (component, name, selectorFn) => {
     return {
       data,
       selection: state.selection,
+      state: state.session.components[name],
+      setState: (value) => store.set({session:{components:{[name]: value}}}),
     };
   };
   return connect(mapStateToProps)(component);

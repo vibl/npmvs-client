@@ -14,7 +14,7 @@ const StyledRichTip = styled(RichTip)`
     font-size: 0.7rem;
     color: #333;
     margin: 0;
-    max-width: 23rem;
+    max-width: 20rem;
     > div {
       margin: 0.6rem;
     }

@@ -9,9 +9,15 @@ import {mapObjIndexed} from 'ramda';
 const {isBlank} = require('../../logic/vibl-fp');
 
 const description = `
-When this number is high, it shows that the project is somehow active (though keep in mind that quantity does not always produce quality).
+A high number shows that the project is somehow active (though keep in mind that quantity 
+does not always produce quality).
 
 When the number is close to zero, it might be a bad sign...
+<>
+Un nombre élevé montre que le projet a une certaine activité (même s'il faut garder en tête que
+la quantité ne produit pas nécessairement de la qualité).
+
+Quand ce nombre est proche de zéro, cela pourrait être mauvais signe...
 `;
 const sliderValues = [
   ['the last week<>la dernière semaine'],
@@ -31,24 +37,18 @@ const SliderTitle = ({description, displayValue, value, onChange, sliderConfig})
   )
 };
 class CommitsForPeriod extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: 3,
-    }
-  }
-  onChange = (event, value) => {
-    this.setState({value});
+  onChange = (event, state) => {
+    this.props.setState(state);
   };
   render() {
-    const {onChange, props:{data: rawData}, state:{value}} = this;
-    console.log(rawData);
+    const {onChange, props:{data: rawData, state}} = this;
     if( isBlank(rawData) ) return null;
     const sliderConfig = {min: 0, max: 4, step: 1};
-    const data = mapObjIndexed(x => x && x[value], rawData);
+    const data = mapObjIndexed(x => x && x[state], rawData);
     return (
       <ChartCard>
-        <SliderTitle {...{description, value, displayValue: l(sliderValues[value]), onChange, sliderConfig}}/>
+        <SliderTitle {...{description: l(description), value:state,
+          displayValue: l(sliderValues[state]), onChange, sliderConfig}}/>
         <Divchart  {...{displayFn, data}}/>
       </ChartCard>
     );

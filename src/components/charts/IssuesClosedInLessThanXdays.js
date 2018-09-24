@@ -10,14 +10,24 @@ import {map, pipe, prop} from 'ramda';
 const {mapKeys} = require('../../logic/vibl-fp');
 
 const description = `
--> *(Number of issues that stayed open for duration X)* <-
+-> *(number of issues that stayed open for duration X)* <-
 
 -> divided by <-
 
--> *(Total number of issues)* <-
-<small>In open source project, issues are usually closed when they are resolved. One exception to that rule
+-> *(total number of issues)* <-
+<small>In open source project, issues are usually closed when they are resolved. One exception to that
 would be issues that are used for deliberation for long-running decisions. However, those are usually
 rare and wouldn't affect this ratio much.</small>
+<>
+-> *(nombre de tickets restés ouvert pendant la durée X)* <-
+
+-> divisé par <-
+
+-> *(nombre total de tickets)* <-
+<small>Dans les projets open source, les tickets sont généralement fermés quand ils sont résolus.
+Il y a des exceptions, comme les tickets utilisés pour la délibération dans les décisions
+prenant du temps. Mais elles sont généralement rares et n'affectent pas beaucoup ce ratio. </small>
+
 `;
 const labels = {
   1: "1 hour<>1 heure",
@@ -72,24 +82,18 @@ const SliderTitle = ({description, value, displayValue, sliderConfig, onChange})
   );
 };
 class IssuesClosedInLessThanXdays extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      exponent: 1,
-    }
-  }
-  onChange = (event, exponent) => {
-    this.setState({exponent});
+  onChange = (event, state) => {
+    this.props.setState(state);
   };
   render() {
-    const {onChange, props:{data: distribution}, state:{exponent}} = this;
+    const {onChange, props:{data: distribution, state}} = this;
     // const data = map( reg => reg.predict(exponent), packRegressions);
     if( !distribution ) return null;
-    const data = map(d => extractData(exponent, d), distribution);
+    const data = map(d => extractData(state, d), distribution);
     const sliderConfig = {min: 0, max: 9, step: 1};
     return (
       <ChartCard>
-        <SliderTitle {...{description: l(description), value: exponent, displayValue:l(labels[3**exponent]), sliderConfig, onChange}}/>
+        <SliderTitle {...{description: l(description), value: state, displayValue:l(labels[3**state]), sliderConfig, onChange}}/>
         <DivBarChart {...{displayFn, data}}/>
       </ChartCard>
     );

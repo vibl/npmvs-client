@@ -42,12 +42,14 @@ export const switchLanguage = (arg) => {
   deepForceUpdate(mainPageInstance);
   return lang;
 };
+const clean = s => s.trim().replace('\\ ', ' ');
+
 export const getTranslation = (str) => {
-  const key = str.trim();
-  return currentLanguage === 0 ? str : (dictionary[key] && dictionary[key][currentLanguage - 1] ) || str;
+  const en = clean(str);
+  return currentLanguage === 0 ? en : (dictionary[en] && dictionary[en][currentLanguage - 1] ) || en;
 };
 export const localiz = (...list) => {
-  const versions = list.map(s => s.trim());
+  const versions = list.map(clean);
   const base = versions.shift();
   dictionary[base] = versions;
 };
@@ -56,16 +58,19 @@ export const getSessionLocale = () => store.get().session.language;
 export const getFullDate = (date = new Date(), format = 'fullDateTime') => {
   return date.toLocaleString(getSessionLocale(), dateFormats[format]);
 };
+const parseTemplateString = (parts, args) => {
+  let acc = parts[0];
+  let i, max = parts.length;
+  for(i=1; i < max; i++) {
+    acc += args[i-1] + parts[i];
+  }
+  return acc;
+};
 export const l = (parts, ...args) => {
   let str;
   if( Array.isArray(parts) ) {
     if( parts.every(p => typeof p === 'string') ) {
-      let acc = parts[0];
-      let i, max = parts.length;
-      for(i=1; i < max; i++) {
-        acc += args[i-1] + parts[i];
-      }
-      str = acc;
+      str = parseTemplateString(parts, args);
     } else {
       if( React.isValidElement(parts[0]) ) {
         return parts[currentLanguage];

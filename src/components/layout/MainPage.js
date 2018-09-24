@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import AppBar from '../toolbar/AppBar';
+import AppBar from '../appbar/AppBar';
 import DashBoard from './DashBoard';
 import {updateSelectionFromHistory} from '../../logic/router-utils';
 import InfoPages from "../infopage/InfoPages";

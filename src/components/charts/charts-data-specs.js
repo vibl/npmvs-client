@@ -13,6 +13,14 @@ export default {
       datapoint: 'commits',
     },
   },
+  'data:ActivityScore:{packId}': {
+    commits: {
+      datapoint: 'commits',
+    },
+    releases: {
+      datapoint: 'releases',
+    },
+  },
   'data:ReleasesForPeriod:{packId}': {
     releases: {
       datapoint: 'releases',
@@ -33,4 +41,16 @@ export default {
       datapoint: 'dependentsCount',
     },
   },
+  'data:GitHubScore:{packId}': {
+    starsCount: {
+      datapoint: 'starsCount',
+    },
+    subscribersCount: {
+      datapoint: 'subscribersCount',
+    },
+    forksCount: {
+      datapoint: 'forksCount',
+    },
+  },
+
 };

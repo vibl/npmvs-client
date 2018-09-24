@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'react-emotion';
 import Selector from "./Selector";
 // import Selector from "../selector/Selector";
-import logo from '../../assets/img/logo.png';
 import {hideInfoPageAfterTimeoutIfEntered} from '../infopage/infopage-display-hide';
 import AppMenu from "./AppMenu";
+import Logo from './Logo';
 
 const StyledWrapper = styled.div`
     display: flex;
@@ -29,11 +29,7 @@ const handleMouseEnter = () => {
 };
 const AppBar = () => (
   <StyledWrapper onMouseEnter={handleMouseEnter}>
-    <div id="logo">
-      <a href={websiteUrl}>
-        <img src={logo}/>
-      </a>
-    </div>
+    <Logo/>
     <Selector/>
     <AppMenu/>
   </StyledWrapper>

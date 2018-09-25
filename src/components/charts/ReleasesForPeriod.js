@@ -20,18 +20,19 @@ la quantité ne produit pas nécessairement de la qualité).
 Quand ce nombre est proche de zéro, cela pourrait être mauvais signe...
 `;
 const sliderValues = [
-  ['the last month<>le dernier mois'],
-  ['the last 3 months<>les 3 derniers mois'],
-  ['the last 6 months<>les 6 derniers mois'],
-  ["the last year<>l'année passée"],
-  ["the last 2 years<>les deux dernières années"],
+  ['in the last 3 months<>depuis 3 mois'],
+  ['in the last 6 months<>depuis 6 mois'],
+  ["in the last year<>depuis 1 an"],
+  ["in the last 2 years<>depuis 2 ans"],
+  ["overall<>total"],
+
 ];
 const displayFn = x => x;
 
 const SliderTitle = ({description, displayValue, value, onChange, sliderConfig}) => {
   return (
     <ChartTitle {...{description}}>
-      {l`Number of releases in <>Nombre de releases dans`} <BlinkSlider
+      {l`Number of releases<>Nombre de releases`} <BlinkSlider
       {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '5rem'}}}/>
     </ChartTitle>
   )
@@ -53,6 +54,6 @@ class ReleasesForPeriod extends Component {
     );
   };
 }
-const selectorFn = ({releases}) => releases.map(o => o.count );
+const selectorFn = ({releases}) => releases;
 
 export default connectStatePure(ReleasesForPeriod, 'ReleasesForPeriod', selectorFn);

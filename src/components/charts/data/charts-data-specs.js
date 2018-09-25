@@ -1,3 +1,4 @@
+import {extractReleasesCount} from './extractFns';
 
 export default {
   'data:GitHubScore:{packId}': [
@@ -10,20 +11,20 @@ export default {
       datapoint: 'forks',
     },
   ],
-  /*
+  'data:DependentReposCount:{packId}': [
+    {
+      id: 'dependentReposCount',
+      datapoint: 'dependent_repos_count',
+    },
+  ],
   'data:ReleasesForPeriod:{packId}': [
     {
       id: 'releases',
       datapoint: 'versions',
+      extractFn: extractReleasesCount,
     },
   ],
-  'data:DependentsRepos:{packId}': [
-    {
-      id: 'dependentsRepoCount',
-      datapoint: 'dependent_repos_count',
-    },
-  ],
-  */
+
   // 'data:ClosedIssuesRatio:{packId}': [
   //   {
   //     id: 'issues_openCount',

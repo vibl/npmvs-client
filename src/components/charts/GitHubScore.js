@@ -4,7 +4,7 @@ import BasicCard from "../card/BasicCard";
 import {connectStatePure} from "../../logic/utils";
 
 const description = `
--> = (*stars* / 5) + (*forks*) <-
+-> = *forks* + (*stars* / 5)  <-
 *Stars* count has a lower weight because it is much influenced by other factors 
 than quality (type of project, hype, apparences and wow factor...) Besides, this number is on average 5 times higher than
 the number of *forks*.
@@ -17,7 +17,7 @@ has enough value to work on it or use it as a base
 
 The *stars*, *subscribers* and *forks* counts appear on the package information page (hover on tabs on the app bar). 
 <>
--> = (*stars* / 5) + (*forks*) <-
+-> = *forks* + (*stars* / 5) <-
 Le nombre de *stars* a un poids moins élevé car il est très influencé par d'autres facteurs que la
 qualité (type de projet, buzz, apparence et premières impressions...). Par ailleurs ce chiffre est en moyenne 5 fois plus
 grand que le nombre de forks.

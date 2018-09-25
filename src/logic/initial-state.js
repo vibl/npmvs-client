@@ -17,9 +17,7 @@ export default {
     isNewbie: true,
     language: 'en',
     components: {
-      IssuesClosedInLessThanXdays: 3,
-      Contributors: 3,
-      ActivityScore: 3,
+      ReleasesForPeriod: 2,
     }
   },
   ui: {

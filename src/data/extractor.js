@@ -30,9 +30,9 @@ const getJobs = () => {
       const spec = rawSpecs[specId];
       for(const storePath in spec) {
         const fields = spec[storePath];
-        for(const fieldId in fields) {
-          const {datapoint, extractFn} = fields[fieldId];
-          const pathTemplate =  storePath + ':' + fieldId;
+        for(const field of fields) {
+          const {id, datapoint, extractFn} = field;
+          const pathTemplate =  storePath + ':' + id;
           acc.push({datapoint, extractFn, pathTemplate});
         }
       }

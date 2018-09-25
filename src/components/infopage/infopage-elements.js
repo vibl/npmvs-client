@@ -74,14 +74,36 @@ const releasesTimeSpan = [
   'last year<>l\'année passée',
   'last 2 years<>les 2 dernières années',
 ];
+const commitsTimeSpan = [
+  'last week<>la semaine dernière',
+  'last month<>le mois dernier',
+  'last 3 months<>les 3 derniers mois',
+  'last 6 months<>les 6 derniers mois',
+  'last year<>l\'année passée',
+];
 export const displayReleasesCount =
   ({value}) =>
     <table>
       <tbody>
       { ! value ? null :
-         value.map( ({count}, i) => (
+        value.map( ({count}, i) => (
           <tr key={i}>
             <td className="label">{l(releasesTimeSpan[i])}</td>
+            <td className="value">{count}</td>
+          </tr>
+        ))
+      }
+      </tbody>
+    </table>;
+
+export const displayCommitsCount =
+  ({value}) =>
+    <table>
+      <tbody>
+      { ! value ? null :
+        value.map( ({count}, i) => (
+          <tr key={i}>
+            <td className="label">{l(commitsTimeSpan[i])}</td>
             <td className="value">{count}</td>
           </tr>
         ))
@@ -111,4 +133,3 @@ export const Markdown = (props) => (
     escapeHtml={false}
   />
 );
-export const tmp1 = null;

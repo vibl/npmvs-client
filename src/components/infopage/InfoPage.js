@@ -10,10 +10,10 @@ import StyledInfoPageWrapper from './StyledInfoPageWrapper';
 import Grid from '@material-ui/core/Grid';
 import theme from '../styles/theme';
 import Readme from './Readme';
-import {keys, omit} from 'ramda';
+import {keys, without} from 'ramda';
 const {isBlank, toArray} = require('../../logic/vibl-fp');
 
-const fields = getFieldsFromSpecs(dataSpecs);
+const {fieldsList, fieldsIndex} = getFieldsFromSpecs(dataSpecs);
 const breakpoints = theme.breakpoints.values;
 const screenSizes = keys(breakpoints);
 
@@ -51,7 +51,7 @@ const Column = ({sizes, order, className, children}) => {
 // const handleMouseEnter
 // onMouseEnter={handleMouseEnter}
 const Row = ({fieldId, field, value}) => (
-  <tr>
+  <tr className={'row ' + fieldId}>
     <td className="cell label">
       {l(field.label)}
     </td>
@@ -62,7 +62,7 @@ const Row = ({fieldId, field, value}) => (
 );
 
 const InfoPage = ({data, packId}) => {
-  const leftColumnData = omit(['readme', 'updated_on', 'readmeUpdated'], data);
+  const tableFields = without(['readme', 'updated_on', 'readmeUpdated'], fieldsList);
   return (
     <StyledInfoPageWrapper
       className={cn('infopage', packId)}
@@ -94,8 +94,9 @@ const InfoPage = ({data, packId}) => {
           {/*<DateNotice>Updated on {fields.updated_on.displayFn(data.updated_on)}</DateNotice>*/}
           <table className="main">
             <tbody>
-            { toArray(leftColumnData, (value, fieldId) => {
-                const field = fields[fieldId];
+            { tableFields.map( (fieldId) => {
+                const field = fieldsIndex[fieldId];
+                let value = data[fieldId];
                 value = field && field.displayFn ? field.displayFn(value, packId, data) : value;
                 return isBlank(value) ? null :
                   <Row {...{key: fieldId, fieldId, field, value}}/>

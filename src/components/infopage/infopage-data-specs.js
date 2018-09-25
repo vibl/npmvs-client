@@ -1,68 +1,81 @@
 import React from 'react';
-import {Author, ifDifferentLink, displayDependencies,
+import {Author, ifDifferentLink, displayCommitsCount, displayDependencies, displayReleasesCount,
   NPMUsersLinks, Link, Markdown, NPMUserLink} from './infopage-elements';
 
 export default {
-  'data:InfoPages:{packId}': {
-    version: {
+  'data:InfoPages:{packId}': [
+    {
+      id: 'version',
       label: 'Latest version<>Dernière version',
       datapoint: 'version',
     },
-    description: {
+    {
+      id: 'description',
       label: 'Description',
       datapoint: 'description',
       displayFn: str => Markdown({source: str}),
     },
-    keywords: {
+    {
+      id: 'keywords',
       label: 'Keywords<>Mots-clés',
       datapoint: 'keywords',
       displayFn: a => a && a.join(", "),
     },
-    repository: {
+    {
+      id: 'repository',
       label: 'Repository<>Dépôt',
       datapoint: 'links_repository',
       displayFn: value => Link({value}),
     },
-    homepage: {
+    {
+      id: 'homepage',
       label: 'Homepage<>Site web',
       datapoint: 'links_homepage',
       extractFn: ifDifferentLink(['links_repository', 'github_homepage', 'links_npm']),
       displayFn: value => Link({value}),
     },
-    homepageGH: {
+    {
+      id: 'homepageGH',
       label: 'Homepage<>Site web',
       datapoint: 'github_homepage',
       extractFn: ifDifferentLink(['links_repository', 'links_npm']),
       displayFn: value => Link({value}),
     },
-    npm: {
+    {
+      id: 'npm',
       label: 'NPM page<>Page sur NPM',
       datapoint: 'links_npm',
       displayFn: value => Link({value}),
     },
-    bugs: {
+    {
+      id: 'bugs',
       label: 'Bug reports<>Gestion des tickets',
       datapoint: 'links_bugs',
       displayFn: value => Link({value}),
     },
-    starsCount: {
+    {
+      id: 'starsCount',
       label: 'GitHub stars',
       datapoint: 'starsCount',
     },
-    subscribersCount: {
+    {
+      id: 'subscribersCount',
       label: 'GitHub subscribers',
       datapoint: 'subscribersCount',
     },
-    forksCount: {
+    {
+      id: 'forksCount',
       label: 'GitHub forks',
       datapoint: 'forksCount',
     },
-    author: {
+    {
+      id: 'author',
       label: 'Author<>Auteur',
       datapoint: 'author',
       displayFn: author => author && Author(author),
     },
-    publisher: {
+    {
+      id: 'publisher',
       label: 'Publisher on NPM<>Contributeur sur NPM',
       datapoint: 'publisher',
       displayFn: ({username}, _, data) =>
@@ -70,7 +83,8 @@ export default {
           ? null
           : NPMUserLink({username}),
     },
-    maintainers: {
+    {
+      id: 'maintainers',
       label: 'Maintainers<>Développeurs',
       datapoint: 'maintainers',
       displayFn: (users, _, data) =>
@@ -78,29 +92,41 @@ export default {
           ? null
           : NPMUsersLinks({users})
     },
-    license: {
+    {
+      id: 'license',
       label: 'License<>Licence',
       datapoint: 'license',
     },
-    dependencies: {
+    {
+      id: 'releases',
+      label: 'Releases<>Releases',
+      datapoint: 'releases',
+      displayFn: value => displayReleasesCount({value}),
+    },
+    {
+      id: 'commits',
+      label: 'Commits<>Commits',
+      datapoint: 'commits',
+      displayFn: value => displayCommitsCount({value}),
+    },
+
+    {
+      id: 'dependencies',
       label: 'Dependencies<>Dépendences',
       datapoint: 'dependencies',
       displayFn: value => displayDependencies({value}),
     },
-    readme: {
+    {
+      id: 'readme',
       label: 'Readme',
       datapoint: 'readme',
     },
-    updated_on: {
+    {
+      id: 'updated_on',
       label: 'Updated on',
       datapoint: 'metadata_date',
       displayFn: s => new Date(s).toLocaleString('en-GB').slice(0,10),
     },
-    // releases: {
-    //   label: 'Releases',
-    //   datapoint: 'releases',
-    //   displayFn: value => displayReleasesCount({value}),
-    // },
     // dependentsCount: {
     //   label: 'Modules that depend on this one',
     //   datapoint: 'dependentsCount',
@@ -113,5 +139,5 @@ export default {
     //   label: 'Open issues',
     //   datapoint: 'issues_openCount',
     // },
-  },
+  ],
 };

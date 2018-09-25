@@ -1,7 +1,9 @@
-import npmDownloads from './npmDownloads';
-import npms from './npms';
+import npmDownloads from './sources/npm-downloads';
+import npms from './sources/npms';
+import libioMain from './sources/libio-main';
 
 export default {
-  npmDownloads,
-  npms,
+  libioMain,
+  // npmDownloads,
+  // npms,
 }

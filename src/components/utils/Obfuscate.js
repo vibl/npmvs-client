@@ -72,7 +72,7 @@ class Obfuscate extends Component {
     
     const {humanInteraction} = this.state;
 
-    const [_, name, domain, tld] = email.match(/^([^@]+)@(.+)\.([^\.]+)$/);
+    const [_, name, domain, tld] = email.match(/^([^@]+)@(.+)\.([^.]+)$/);
     return (
       <StyledWrapper
         onClick={this.handleHumanInteraction}

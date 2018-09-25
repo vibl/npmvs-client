@@ -97,10 +97,13 @@ export const cn = (...args) => {
   return classNames(...clean);
 };
 export const getFieldsFromSpecs = (specs) => {
-  let acc = {};
-  for(const path in specs) {
-    acc = {...acc, ...specs[path]};
+  let fieldsIndex = {}, fieldsList = [];
+  for(let path in specs) {
+    for(let field of specs[path]) {
+      fieldsIndex[field.id] = field;
+      fieldsList.push(field.id);
+    }
   }
-  return acc;
+  return {fieldsList, fieldsIndex};
 };
 export const isReactComponent = (obj) => React.Component.isPrototypeOf(obj);

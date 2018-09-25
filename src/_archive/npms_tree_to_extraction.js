@@ -1,5 +1,5 @@
 const fs = require('fs');
-const npmsTree = require('./npms_datapoints');
+const npmsTree = require('../data/npms_datapoints');
 const stringify = require('../lib/js-data-file-transformer/stringify-object-literal');
 
 const mapRecurse = (parent, parentPath) => {

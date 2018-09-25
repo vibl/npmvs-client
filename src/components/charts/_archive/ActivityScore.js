@@ -1,26 +1,35 @@
 import React, {Component} from 'react';
-import l from '../../logic/localiz';
-import {connectStatePure} from '../../logic/utils';
-import ChartCard from '../card/ChartCard';
-import Divchart from './Divchart/DivchartContainer';
-import ChartTitle from '../card/ChartTitle';
-import BlinkSlider from '../card/BlinkSlider';
-import {mapObjIndexed} from 'ramda';
-const {isBlank} = require('../../logic/vibl-fp');
+import l from '../../../logic/localiz';
+import {connectStatePure} from '../../../logic/utils';
+import ChartCard from '../../card/ChartCard';
+import Divchart from '../Divchart/DivchartContainer';
+import ChartTitle from '../../card/ChartTitle';
+import BlinkSlider from '../../card/BlinkSlider';
+import {mapObjIndexed, tail} from 'ramda';
+const {isBlank} = require('../../../logic/vibl-fp');
 
 const description = `
+-> = (number of commits during the period) <-
+-> \\+ (number of releases during the period) <-
+
 A high number shows that the project is somehow active (though keep in mind that quantity 
 does not always produce quality).
 
 When the number is close to zero, it might be a bad sign...
+
+Details on commits and releases are included on the package info page (hover on tabs on the app bar).
 <>
+-> = (nombre de commits durant la période) <-
+-> \\+ (nombre de releases durant la période) <-
+
 Un nombre élevé montre que le projet a une certaine activité (même s'il faut garder en tête que
 la quantité ne produit pas nécessairement de la qualité).
 
 Quand ce nombre est proche de zéro, cela pourrait être mauvais signe...
+
+Les données sur les commits et les releases figurent dans la page d'info sur le module (survoler les onglets dans la barre d'application).
 `;
 const sliderValues = [
-  ['the last week<>la dernière semaine'],
   ['the last month<>le dernier mois'],
   ['the last 3 months<>les 3 derniers mois'],
   ['the last 6 months<>les 6 derniers mois'],
@@ -31,19 +40,19 @@ const displayFn = x => x;
 const SliderTitle = ({description, displayValue, value, onChange, sliderConfig}) => {
   return (
     <ChartTitle {...{description}}>
-      {l('Number of commits in the last<>Nombre de commits dans ')} <BlinkSlider
+      {l`Activity score in<>Indicateur d'activité dans`} <BlinkSlider
       {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '5rem'}}}/>
     </ChartTitle>
   )
 };
-class CommitsForPeriod extends Component {
+class ActivityScore extends Component {
   onChange = (event, state) => {
     this.props.setState(state);
   };
   render() {
     const {onChange, props:{data: rawData, state}} = this;
     if( isBlank(rawData) ) return null;
-    const sliderConfig = {min: 0, max: 4, step: 1};
+    const sliderConfig = {min: 0, max: 3, step: 1};
     const data = mapObjIndexed(x => x && x[state], rawData);
     return (
       <ChartCard>
@@ -54,6 +63,12 @@ class CommitsForPeriod extends Component {
     );
   };
 }
-const selectorFn = ({commits}) => commits.map( o => o.count );
+const selectorFn = ({commits, releases}) => {
+  const acc = [];
+  for(let i=1; i < commits.length; i++) {
+    acc.push(commits[i].count + releases[i-1].count  )
+  }
+  return acc;
+};
 
-export default connectStatePure(CommitsForPeriod, 'CommitsForPeriod', selectorFn);
+export default connectStatePure(ActivityScore, 'ActivityScore', selectorFn);

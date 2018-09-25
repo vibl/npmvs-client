@@ -3,5 +3,5 @@ import chartsSpecs from '../components/charts/charts-data-specs';
 
 export default {
   chartsSpecs,
-  infopageSpecs,
+  // infopageSpecs,
 }

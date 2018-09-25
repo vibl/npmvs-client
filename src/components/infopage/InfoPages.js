@@ -19,10 +19,10 @@ const displayedInfoPage = (p) => {
 };
 
 const InfoPagesWrapper = styled.div`
-  display: none;
+  display: none; // Necessary for the scrollbar not to appear.
 
   .infopage {
-    visibility: hidden;
+    visibility: hidden; // Faster than display:none (when switching tabs)
     //opacity: 0;
    }
   ${displayedInfoPage}

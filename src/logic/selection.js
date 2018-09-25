@@ -9,7 +9,12 @@ const {discard} = require('../logic/vibl-fp').default;
 const add = async (packId) => {
   store.trans({selection: append(packId)});
   await Promise.all(  // Promises should be executed in parallel. No need for the return values.
-    values(map( source => source.getData(packId), sources))
+    values(
+      map( 
+          source => source.getData(packId),
+          sources
+        )
+      )
   );
   setFocus(packId);
 };

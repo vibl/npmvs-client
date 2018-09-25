@@ -23,7 +23,7 @@ class MainPage extends PureComponent {
         <AppBar/>
         <ContWrapper>
           <DashBoard/>
-          <InfoPages/>
+          {/*<InfoPages/>*/}
         </ContWrapper>
       <Footer/>
       </div>

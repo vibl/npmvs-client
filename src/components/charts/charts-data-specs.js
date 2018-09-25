@@ -1,56 +1,49 @@
 
 export default {
-  'data:ClosedIssuesRatio:{packId}': {
-    issues_openCount: {
-      datapoint: 'issues_openCount',
+  'data:GitHubScore:{packId}': [
+    {
+      id: 'starsCount',
+      datapoint: 'stars',
     },
-    issues_count: {
-      datapoint: 'issues_count',
+    {
+      id: 'forksCount',
+      datapoint: 'forks',
     },
-  },
-  'data:CommitsForPeriod:{packId}': {
-    commits: {
-      datapoint: 'commits',
+  ],
+  /*
+  'data:ReleasesForPeriod:{packId}': [
+    {
+      id: 'releases',
+      datapoint: 'versions',
     },
-  },
-  'data:ActivityScore:{packId}': {
-    commits: {
-      datapoint: 'commits',
+  ],
+  'data:DependentsRepos:{packId}': [
+    {
+      id: 'dependentsRepoCount',
+      datapoint: 'dependent_repos_count',
     },
-    releases: {
-      datapoint: 'releases',
-    },
-  },
-  'data:ReleasesForPeriod:{packId}': {
-    releases: {
-      datapoint: 'releases',
-    },
-  },
-  'data:Contributors:{packId}': {
-    contributors: {
-      datapoint: 'contributors',
-    },
-  },
-  'data:IssuesClosedInLessThanXdays:{packId}': {
-    issues_distribution: {
-      datapoint: 'issues_distribution',
-    },
-  },
-  'data:Dependents:{packId}': {
-    dependentsCount: {
-      datapoint: 'dependentsCount',
-    },
-  },
-  'data:GitHubScore:{packId}': {
-    starsCount: {
-      datapoint: 'starsCount',
-    },
-    subscribersCount: {
-      datapoint: 'subscribersCount',
-    },
-    forksCount: {
-      datapoint: 'forksCount',
-    },
-  },
-
+  ],
+  */
+  // 'data:ClosedIssuesRatio:{packId}': [
+  //   {
+  //     id: 'issues_openCount',
+  //     datapoint: 'issues_openCount',
+  //   },
+  //   {
+  //     id: 'issues_count',
+  //     datapoint: 'issues_count',
+  //   },
+  // ],
+  // 'data:Contributors:{packId}': [
+  //   {
+  //     id: 'contributors',
+  //     datapoint: 'contributors',
+  //   },
+  // ],
+  // 'data:IssuesClosedInLessThanXdays:{packId}': [
+  //   {
+  //     id: 'issues_distribution',
+  //     datapoint: 'issues_distribution',
+  //   },
+  // ],
 };

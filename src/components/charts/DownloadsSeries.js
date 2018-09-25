@@ -16,11 +16,17 @@ import {getData} from "../../logic/utils";
 // const {multiply} = require('../../logic/vibl-fp');
 
 const description = `
-Values are adjusted for average month duration.
+Values are adjusted for average number of days in a month.
 
 In other words, this chart displays what monthly downloads would be if each month lasted 30.41 days (365/12).
 
-This is to avoid displaying variations merely due to month durations (30, 31 or 28).
+This is to avoid displaying variations merely due to month durations (30, 31 or 28 days).
+<>
+Les valeurs ont été ajustées pour un nombre moyen de jours par mois.
+
+Dit autrement, ce graphique montre ce que les téléchargements mensuels seraient si chaque mois durait 30,41 jours (365/12).
+
+Le but étant d'éviter d'afficher des variations purement dues aux durées des mois (30, 31 ou 28 jours).
 `;
 // const getVariations = (downloads) => {
 //   const averageDaily = mean(downloads);

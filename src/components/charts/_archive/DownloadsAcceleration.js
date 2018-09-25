@@ -1,11 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
-import l from '../../logic/localiz';
-import {mem} from '../../logic/utils';
-import BasicCard from "../card/BasicCard";
-import fn from '../../logic/field-fns';
-import {numberOfMonths} from '../../data/npmDownloads';
+import l from '../../../logic/localiz';
+import {mem} from '../../../logic/utils';
+import BasicCard from "../../card/BasicCard";
+import fn from '../../../logic/field-fns';
+import {numberOfMonths} from '../../../data/sources/npm-downloads';
 import { mapObjIndexed, pipe, splitEvery, sum} from "ramda";
 
 const description = `

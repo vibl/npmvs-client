@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from "react-emotion";
-import {mem, toHtmlClass} from '../../../logic/utils';
+import {mem, toHtmlClass} from '../../../util/utils';
 import {pure} from 'recompose';
 import {keys, last} from 'ramda';
 import {setFocus} from "../../../logic/focus"
-import fn from '../../../logic/field-fns';
+import fn from '../../../data/field-fns';
 
 const getStats = mem( (selection, data) => {
   let packId, result = {};

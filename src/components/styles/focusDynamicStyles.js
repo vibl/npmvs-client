@@ -1,6 +1,6 @@
 import {reverse} from "ramda";
 import {css} from 'emotion';
-import {toHtmlClass} from '../../logic/utils';
+import {toHtmlClass} from '../../util/utils';
 
 export default ({colors, selection, focus}) => {
   if( ! (focus && colors && selection) ) return null;

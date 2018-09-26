@@ -8,8 +8,8 @@ import cardsComponents from "../charts/index";
 import theme from '../styles/theme';
 import {keys} from 'ramda';
 import {connect} from "react-redux";
-import {history} from '../../logic/router-utils';
-const {isBlank} = require('../../logic/vibl-fp');
+import {history} from '../../logic/router';
+const {isBlank} = require('../../util/vibl-fp');
 
 
 const breakpoints = theme.breakpoints.values;
@@ -84,7 +84,7 @@ const DashBoard = ({data, selection}) => {
     )
 };
 const mapStateToProps = (state) => ({
-  data : state.data,
+  data : state.components,
   selection: state.selection,
 });
 export default connect(mapStateToProps)(pure(DashBoard));

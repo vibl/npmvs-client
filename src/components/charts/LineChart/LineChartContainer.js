@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import styled from 'react-emotion';
-import {mem} from '../../../logic/utils';
+import {mem} from '../../../util/utils';
 import LineChartFn from './LineChartView';
 import LineChartOverlay from './LineChartOverlay';
 import {keys, last, pipe, values} from 'ramda';
 import {setFocus} from "../../../logic/focus";
-import {toHtmlClass} from '../../../logic/utils';
-const {isBlank, notEmpty, lacksElementsOf} = require('../../../logic/vibl-fp');
+import {toHtmlClass} from '../../../util/utils';
+const {isBlank, notEmpty, lacksElementsOf} = require('../../../util/vibl-fp');
 
 const getPackIdClassNameIndex = (selection) => {
   let acc = {};

@@ -3,7 +3,7 @@ import ChartCard from './ChartCard';
 import Divchart from '../charts/Divchart/DivchartContainer';
 import Title from './ChartTitle';
 import {pure} from 'recompose';
-import l from '../../logic/localiz';
+import l from '../../util/localiz';
 
 const BasicCard = ({title, description, displayFn, data}) => {
   return (

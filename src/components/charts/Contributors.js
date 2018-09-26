@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import l from '../../logic/localiz';
-import {connectStatePure, mem} from '../../logic/utils';
+import l from '../../util/localiz';
+import {connectStatePure, mem} from '../../util/utils';
 import ChartCard from '../card/ChartCard';
 import Divchart from './Divchart/DivchartContainer';
 import ChartTitle from '../card/ChartTitle';
 import BlinkSlider from '../card/BlinkSlider';
-const {transposeKeys} = require('../../logic/vibl-fp');
+const {transposeKeys} = require('../../util/vibl-fp');
 
 const description = `
 Contributors with one or two commits are not usually much involved in maintaining the project. 

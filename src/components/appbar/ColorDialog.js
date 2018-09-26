@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import Popover from '@material-ui/core/Popover';
-import l from '../../logic/localiz';
+import l from '../../util/localiz';
 import ColorSliders from './ColorSliders';
 import colorWheel from '../../assets/img/color-wheel.png';
 
@@ -35,7 +35,7 @@ class ColorDialog extends React.Component {
           onClick={this.handleClick}
         >
           <div className="icon">
-            <img src={colorWheel}/>
+            <img src={colorWheel} alt="color-wheel"/>
           </div>
           <div className="label">
             {l`Change colors<>Changer les couleurs`}

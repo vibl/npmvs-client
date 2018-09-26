@@ -3,12 +3,12 @@ import {connect} from 'react-redux';
 import AsyncSelect from 'react-select/lib/Async';
 import { components } from 'react-select';
 import {equals} from 'ramda';
-import {getSuggestions} from '../../logic/get-suggestions';
+import {getSuggestions} from './get-suggestions';
 import {displayInfoPage, hideInfoPageAfterTimeout} from '../infopage/infopage-display-hide';
-import {selectPackage, deselectPackage} from '../../logic/router-utils';
-import {getPackageColors} from "../../logic/utils";
+import {selectPackage, deselectPackage} from '../../logic/router';
+import {getPackageColors} from "../../util/utils";
 import {setFocus} from '../../logic/focus';
-import {disableBlinkerTarget, registerBlinkerTarget} from "../utils/Blinker";
+import {disableBlinkerTarget, registerBlinkerTarget} from "../util/Blinker";
 
 const styles = {
   control: styles => ({

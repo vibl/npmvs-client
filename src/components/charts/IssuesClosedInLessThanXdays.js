@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
-import l from '../../logic/localiz';
-import {connectStatePure, mem} from '../../logic/utils';
-import fn from '../../logic/field-fns';
+import l from '../../util/localiz';
+import {connectStatePure, mem} from '../../util/utils';
+import fn from '../../data/field-fns';
 import ChartCard from '../card/ChartCard';
 import DivBarChart from './Divchart/DivchartContainer';
 import ChartTitle from '../card/ChartTitle';
 import BlinkSlider from '../card/BlinkSlider';
 import {map, pipe, prop} from 'ramda';
-const {mapKeys} = require('../../logic/vibl-fp');
+const {mapKeys} = require('../../util/vibl-fp');
 
 const description = `
 -> *(number of issues that stayed open for duration X)* <-

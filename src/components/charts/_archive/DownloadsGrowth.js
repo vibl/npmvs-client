@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
-import l from '../../../logic/localiz';
+import l from '../../../util/localiz';
 import ChartCard from '../../card/ChartCard';
 import Divchart from '../Divchart/DivchartContainer';
 import ChartTitle from '../../card/ChartTitle';
 import BlinkSlider from '../../card/BlinkSlider';
-import fn from '../../../logic/field-fns';
+import fn from '../../../data/field-fns';
 import {mapObjIndexed, pipe, splitEvery, sum} from "ramda";
 
 const description = `

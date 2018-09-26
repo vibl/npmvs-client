@@ -6,7 +6,7 @@ import { injectGlobal } from 'emotion';
 import shallowEqual from 'fbjs/lib/shallowEqual'
 import theme from './theme';
 import chartStyles from './focusDynamicStyles';
-import {getPackageColors} from "../../logic/utils";
+import {getPackageColors} from "../../util/utils";
 
 injectGlobal`
   html {

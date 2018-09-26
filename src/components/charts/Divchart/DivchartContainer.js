@@ -2,11 +2,12 @@ import React, {PureComponent} from 'react';
 import {connect} from "react-redux";
 import {pipe, reverse} from "ramda";
 import styled from 'react-emotion';
+import l from '../../../util/localiz';
 import Divchart from './DivchartView';
 import {setFocus} from '../../../logic/focus';
 import divchartStyles from './divchart-styles';
 
-const {isBlank, lacksElementsOf, switchValue} = require('../../../logic/vibl-fp');
+const {isBlank, lacksElementsOf, switchValue} = require('../../../util/vibl-fp');
 
 const StyledDivchart = styled(Divchart)`${divchartStyles}`;
 
@@ -23,15 +24,15 @@ class Container extends PureComponent {
     data = packages.map(packId => {
       let value = data[packId];
       let label = switchValue([
-        [Infinity, '(Not enough data: too recent)'],
-        [undefined, null, isNaN, '(No data collected)'],
+        [Infinity, l`(Not enough data: too recent)<>(Pas assez de données: trop récent)`],
+        [undefined, null, isNaN, l`(No data)<>(Pas de données)`],
         displayFn ? displayFn(value) : value
       ], value);
       value = switchValue([
         [Infinity, undefined, null, isNaN, 0],
       ], value);
       if( label.endsWith && label.endsWith('%') && Math.abs(value)  >= 1000 ) {
-        label = '(Not enough data)';
+        label = l`(Not enough data)<>(Pas assez de données)`;
         value = 0;
       }
       max = value > max ? value : max;

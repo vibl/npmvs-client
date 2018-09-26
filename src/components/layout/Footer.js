@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'react-emotion';
-import l from '../../logic/localiz';
-import Obfuscate from '../utils/Obfuscate';
+import l from '../../util/localiz';
+import Obfuscate from '../util/Obfuscate';
 import theme from '../styles/theme';
 
 const githubUrl = 'https://github.com/vibl/npmvs';

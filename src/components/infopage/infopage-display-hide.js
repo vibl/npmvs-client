@@ -1,4 +1,4 @@
-import store from "../../logic/store";
+import store from "../../data/store";
 
 let hideInfoPageTimeout, entered;
 
@@ -9,7 +9,7 @@ export const clearHideTimeout = () => {
 
 export const displayInfoPage = (packId) => {
   clearHideTimeout();
-  store.trans({ui:{displayPackId: packId}});
+  store.set({ui:{displayPackId: packId}});
   entered = false;
 };
 export const hasEntered = () => {
@@ -18,7 +18,7 @@ export const hasEntered = () => {
 };
 
 export const hideInfoPage = () => {
-  store.trans({ui:{displayPackId: false}});
+  store.set({ui:{displayPackId: false}});
   // console.log("Page hidden after timeout:", hideInfoPageTimeout);
 };
 

@@ -1,14 +1,14 @@
 import React from 'react';
 import {pure} from 'recompose';
-import l from '../../logic/localiz';
+import l from '../../util/localiz';
 import ChartCard from '../card/ChartCard';
 import Title from '../card/ChartTitle';
 import LineChart from "./LineChart/LineChartContainer";
 import styled from 'react-emotion';
-import fn from '../../logic/field-fns';
+import fn from '../../data/field-fns';
 import {connect} from "react-redux";
 import {mapObjIndexed} from "ramda";
-import {getData} from "../../logic/utils";
+import {getComponentData} from "../../util/utils";
 
 // import {divide, keys, map, mean, pipe, scan, slice, splitEvery,
 //   sum, tail, toPairs, transpose, values, zip, zipWith} from "ramda";

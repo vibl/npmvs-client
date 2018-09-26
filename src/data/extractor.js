@@ -1,6 +1,6 @@
 import rawSpecs from './gather-specs';
-import store from '../logic/store';
-const {assocColPath} = require('../logic/vibl-fp');
+import store from './store';
+const {assocColPath} = require('../util/vibl-fp');
 
 let jobs;
 

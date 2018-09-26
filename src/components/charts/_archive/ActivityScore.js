@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import l from '../../../logic/localiz';
-import {connectStatePure} from '../../../logic/utils';
+import l from '../../../util/localiz';
+import {connectStatePure} from '../../../util/utils';
 import ChartCard from '../../card/ChartCard';
 import Divchart from '../Divchart/DivchartContainer';
 import ChartTitle from '../../card/ChartTitle';
 import BlinkSlider from '../../card/BlinkSlider';
 import {mapObjIndexed, tail} from 'ramda';
-const {isBlank} = require('../../../logic/vibl-fp');
+const {isBlank} = require('../../../util/vibl-fp');
 
 const description = `
 -> = (number of commits during the period) <-

@@ -1,7 +1,7 @@
 import React from 'react';
-import l from '../../logic/localiz';
+import l from '../../util/localiz';
 import BasicCard from "../card/BasicCard";
-import {connectStatePure} from "../../logic/utils";
+import {connectStatePure} from "../../util/utils";
 
 const description = `
 -> = *forks* + (*stars* / 5)  <-

@@ -1,7 +1,7 @@
 import React from 'react';
 import InfoIcon from '@material-ui/icons/Info';
 import styled from 'react-emotion';
-import RichTip from '../utils/RichTip';
+import RichTip from '../util/RichTip';
 
 const Info = styled(InfoIcon)`
     display: inline;

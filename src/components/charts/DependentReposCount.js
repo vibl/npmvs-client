@@ -1,7 +1,7 @@
 import React from 'react';
 import BasicCard from "../card/BasicCard";
-import l from '../../logic/localiz';
-import {connectStatePure} from "../../logic/utils";
+import l from '../../util/localiz';
+import {connectStatePure} from "../../util/utils";
 
 const description = `
 Number of GitHub repositories that include this package on their \`packages.json\`.

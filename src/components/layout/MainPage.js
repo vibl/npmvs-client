@@ -1,12 +1,12 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
-import store from '../../logic/store';
+import store from '../../data/store';
 import AppBar from '../appbar/AppBar';
 import DashBoard from './DashBoard';
-import {updateSelectionFromHistory} from '../../logic/router-utils';
+import {updateSelectionFromHistory} from '../../logic/router';
 import InfoPages from "../infopage/InfoPages";
 import styled from 'react-emotion';
-import {localizInit} from "../../logic/localiz";
+import {localizInit} from "../../util/localiz";
 import Footer from "./Footer";
 
 const ContWrapper = styled.div`

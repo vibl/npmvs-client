@@ -4,13 +4,13 @@ import {Provider} from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import {Route, Router } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import {history} from '../logic/router-utils';
-import {initRedux} from '../logic/store';
+import {history} from '../logic/router';
+import {initRedux} from '../data/store';
 import Head from './layout/Head';
 import MainPage from "./layout/MainPage";
-import Blinker from './utils/Blinker';
+import Blinker from './util/Blinker';
 import theme from './styles/theme';
-import initialState from '../logic/initial-state';
+import initialState from '../data/initial-state';
 import AppStyles from './styles/AppStyles';
 
 const {reduxStore, persistor} = initRedux(initialState);

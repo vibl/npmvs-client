@@ -6,7 +6,7 @@ const websiteUrl = "https://npmvs.com"; //TODO: put in config.
 const Logo = () => (
   <div id="logo">
     <a href={websiteUrl}>
-      <img src={logo}/>
+      <img src={logo} alt="logo"/>
     </a>
   </div>
 );

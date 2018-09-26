@@ -2,7 +2,7 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import SyntaxHighlighter from 'react-syntax-highlighter/prism';
 import visit from 'unist-util-visit';
-import prepareTargetElement from '../../logic/google-translate';
+import prepareTargetElement from '../../util/google-translate';
 
 const absoluteGithubLinks = (tree) => {
   const visitor = (node) => {
@@ -16,7 +16,7 @@ const image = (github) => (props) => {
     src = github + '/raw/master/' + src;
   }
   return (
-    <img {...{...props, src}}/>
+    <img {...{...props, src}} alt=""/>
   )
 };
 class CodeBlock extends React.PureComponent {

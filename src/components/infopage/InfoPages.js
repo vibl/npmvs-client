@@ -3,9 +3,9 @@ import {connect} from 'react-redux';
 import {pure} from 'recompose';
 import styled from 'react-emotion';
 import {css} from 'emotion';
-import {toHtmlClass} from '../../logic/utils';
+import {toHtmlClass} from '../../util/utils';
 import InfoPage from "./InfoPage";
-const {isBlank, toArray} = require('../../logic/vibl-fp');
+const {isBlank, toArray} = require('../../util/vibl-fp');
 
 const displayedInfoPage = (p) => {
    return ! p.displayPackId ? null :

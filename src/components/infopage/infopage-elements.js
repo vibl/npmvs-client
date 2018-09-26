@@ -1,8 +1,8 @@
 import React, {Fragment} from 'react';
 import ReactMarkdown from 'react-markdown';
 import {intersperse} from 'ramda';
-import l from '../../logic/localiz';
-const {isBlank, toArray} = require('../../logic/vibl-fp');
+import l from '../../util/localiz';
+const {isBlank, toArray} = require('../../util/vibl-fp');
 
 export const ifDifferentLink = (linksNames) => ({value, data}) => {
   if( isBlank(value) ) return null;

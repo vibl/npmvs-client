@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import styled from 'react-emotion';
-import store from '../../logic/store';
+import store from '../../data/store';
 import PopSlider from "../card/PopSlider";
-import {registerBlinkerTarget, disableBlinkerTarget} from '../utils/Blinker';
+import {registerBlinkerTarget, disableBlinkerTarget} from '../util/Blinker';
 
 const StyledSpan = styled.span`
     span.popslider.value {
@@ -25,7 +25,7 @@ class BlinkSlider extends Component {
     });
   }
   handleMouseEnterSlider = () => {
-    store.trans({session:{isNewbie: false}});
+    store.set({session:{isNewbie: false}});
     disableBlinkerTarget('PopSlider');
   };
  render() {

@@ -1,8 +1,8 @@
 import React from 'react';
-import l from '../../logic/localiz';
+import l from '../../util/localiz';
 import BasicCard from "../card/BasicCard";
-import fn from '../../logic/field-fns';
-import {connectStatePure} from "../../logic/utils";
+import fn from '../../data/field-fns';
+import {connectStatePure} from "../../util/utils";
 
 const description = `
 -> *(Number of closed issues)* <-

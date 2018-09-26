@@ -2,7 +2,7 @@ import React from 'react';
 import {pure} from 'recompose';
 import classNames from 'classnames';
 import {omit} from 'ramda';
-import {toHtmlClass} from '../../../logic/utils';
+import {toHtmlClass} from '../../../util/utils';
 
 const DataRow = pure( ({label, value, packId, handleMouseEnter, absMin}) => {
   const placeholderValue = value < 0 ? absMin - Math.abs(value) : absMin;

@@ -30,6 +30,6 @@ const displayFn = fn.significanPercentDisplay;
 const ClosedIssuesRatio = ({data}) => ! data ? null :
   <BasicCard {...{title: l(title), description: l(description), displayFn, data}} />
 
-const selectorFn = ({issues_count, issues_openCount}) => (issues_count - issues_openCount) / issues_count * 100;
+const selectorFn = ({closedPercent}) => closedPercent;
 
 export default connectStatePure(ClosedIssuesRatio, selectorFn);

@@ -63,9 +63,9 @@ const DashBoard = ({data, selection}) => {
     >
       <Column sizes="12 10 6 6 4" order="2 2 1 1 1">
         { cards([
-          'GitHubScore',
-          'DependentReposCount',
-          'ReleasesForPeriod',
+          // 'GitHubScore',
+          // 'DependentReposCount',
+          // 'ReleasesForPeriod',
         ])}
       </Column>
       <Column sizes="12 10 12 12 4" order="1 1 3 3 2">
@@ -75,8 +75,8 @@ const DashBoard = ({data, selection}) => {
       </Column>
       <Column sizes="12 10 6 6 4" order="3 3 2 2 3">
         { cards([
-          // 'Contributors',
-          // 'ClosedIssuesRatio',
+          'ClosedIssuesRatio',
+          'MedianResolutionTime',
           // 'IssuesClosedInLessThanXdays',
         ])}
       </Column>

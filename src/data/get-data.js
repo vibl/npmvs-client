@@ -3,8 +3,10 @@ import {fetchFromSource} from './sources/index';
 import setRawData from './set-rawdata';
 
 const activeSources = [
+  'github-repo',
+  'isitmaintained',
   'npm-registry',
-  'github-graphql',
+  // 'github-graphql',
   'libio-main',
   'npm-downloads',
 ];

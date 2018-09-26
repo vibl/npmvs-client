@@ -24,17 +24,37 @@ export default {
       extractFn: extractReleasesCount,
     },
   ],
+  'ClosedIssuesRatio:{packId}': [
+    {
+      id: 'closedPercent',
+      datapoint: 'openPercent',
+      extractFn: ({value}) => 100 - parseInt(value),
 
-  // 'ClosedIssuesRatio:{packId}': [
-  //   {
-  //     id: 'issues_openCount',
-  //     datapoint: 'issues_openCount',
-  //   },
-  //   {
-  //     id: 'issues_count',
-  //     datapoint: 'issues_count',
-  //   },
-  // ],
+    },
+  ],
+  'MedianResolutionTime:{packId}': [
+    {
+      id: 'medianResolutionTime',
+      datapoint: 'resolution',
+      extractFn: ({value}) => {
+        const [_, str, unit] = value.match(/(\d+) ?(\w+)$/);
+        const n =  parseInt(str);
+        let days;
+        switch(unit) {
+          case 'd':
+            days = n;
+            break;
+          case 'h':
+            days = n / 24;
+          default:
+            throw new Error('Unit of medianResolutionTime was not identified:', unit);
+        }
+        return days;
+      }
+
+    },
+  ],
+
   // 'Contributors:{packId}': [
   //   {
   //     id: 'contributors',

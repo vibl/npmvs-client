@@ -108,3 +108,4 @@ export const getFieldsFromSpecs = (specs) => {
   return {fieldsList, fieldsIndex};
 };
 export const isReactComponent = (obj) => React.Component.isPrototypeOf(obj);
+

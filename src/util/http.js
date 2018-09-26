@@ -15,7 +15,7 @@ import debounce from "debounce-promise";
 // const http = axios.create(options);
 
 export const get = (...args) => {
-  console.log("API call: ", args);
+  //console.log("API call: ", args);
   return axios.get(...args);
 };
 

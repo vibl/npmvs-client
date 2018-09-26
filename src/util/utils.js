@@ -26,23 +26,24 @@ export const getComponentData = mem(
     return acc;
   }
 );
-export const connectState = (component, name, selectorFn) => {
-  const mapStateToProps = (state) => {
-    let data = state.components[name];
+export const connectState = (component, selectorFn) => {
+  const mapStateToProps = (state, props) => {
+    const id = props.chartId;
+    let data = state.components[id];
     if( selectorFn) data = getComponentData(selectorFn, data);
     return {
       data,
       selection: state.selection,
-      state: state.session.components[name],
-      setState: (value) => store.set({session:{components:{[name]: value}}}),
+      state: state.session.components[id],
+      setState: (value) => store.set({session:{components:{[id]: value}}}),
     };
   };
   return connect(mapStateToProps)(component);
 };
 // Ne marche pas en prendre car les noms sont minifiés !!!
-export const connectStatePure = (component, name, selectorFn) => {
+export const connectStatePure = (component, selectorFn) => {
   const pureComponent = pure(component);
-  return connectState(pureComponent, name, selectorFn);
+  return connectState(pureComponent, selectorFn);
 };
 const darken = (lightness) => lightness * 0.6;
 

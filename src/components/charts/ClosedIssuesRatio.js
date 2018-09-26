@@ -32,4 +32,4 @@ const ClosedIssuesRatio = ({data}) => ! data ? null :
 
 const selectorFn = ({issues_count, issues_openCount}) => (issues_count - issues_openCount) / issues_count * 100;
 
-export default connectStatePure(ClosedIssuesRatio, 'ClosedIssuesRatio', selectorFn);
+export default connectStatePure(ClosedIssuesRatio, selectorFn);

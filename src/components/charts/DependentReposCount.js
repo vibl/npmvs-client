@@ -19,4 +19,4 @@ const DependentReposCount = ({data}) => ! data ? null : <BasicCard {...{title: l
 
 const selectorFn = ({dependentReposCount}) => dependentReposCount;
 
-export default connectStatePure(DependentReposCount, 'DependentReposCount', selectorFn);
+export default connectStatePure(DependentReposCount, selectorFn);

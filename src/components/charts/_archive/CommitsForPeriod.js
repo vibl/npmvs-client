@@ -56,4 +56,4 @@ class CommitsForPeriod extends Component {
 }
 const selectorFn = ({commits}) => commits.map( o => o.count );
 
-export default connectStatePure(CommitsForPeriod, 'CommitsForPeriod', selectorFn);
+export default connectStatePure(CommitsForPeriod, selectorFn);

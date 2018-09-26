@@ -56,4 +56,4 @@ class ReleasesForPeriod extends Component {
 }
 const selectorFn = ({releases}) => releases;
 
-export default connectStatePure(ReleasesForPeriod, 'ReleasesForPeriod', selectorFn);
+export default connectStatePure(ReleasesForPeriod, selectorFn);

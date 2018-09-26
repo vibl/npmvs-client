@@ -71,4 +71,4 @@ const selectorFn = ({commits, releases}) => {
   return acc;
 };
 
-export default connectStatePure(ActivityScore, 'ActivityScore', selectorFn);
+export default connectStatePure(ActivityScore, selectorFn);

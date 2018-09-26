@@ -37,4 +37,4 @@ const GitHubScore = ({data}) => ! data ? null :
 const selectorFn = ({starsCount, forksCount }) =>
   Math.round(starsCount / 5 + forksCount / 10);
 
-export default connectStatePure(GitHubScore, 'GitHubScore', selectorFn);
+export default connectStatePure(GitHubScore, selectorFn);

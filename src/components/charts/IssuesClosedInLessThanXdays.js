@@ -102,4 +102,4 @@ class IssuesClosedInLessThanXdays extends Component {
 
 const selectorFn = ({issues_distribution}) => mapKeys( key => key/3600, issues_distribution);
 
-export default connectStatePure(IssuesClosedInLessThanXdays, 'IssuesClosedInLessThanXdays', selectorFn);
+export default connectStatePure(IssuesClosedInLessThanXdays, selectorFn);

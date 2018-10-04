@@ -39,9 +39,9 @@ const getChartData = mem(
 // Indexing month order by month id. Ex: { '2017-09':0, '2017-10':1,...}
 const getMonthIndex = mem( x => {
   if( !x ) return null;
-  x = values(x);
+  x = values(x).filter(notEmpty);
   if( !x ) return null;
-  x = x.filter(notEmpty)[0];
+  x = x[0];
   if( !x ) return null;
   x = x.map( o => o.month )
     .reduce( (acc, month, i) => { acc[month] = i + 1; return acc }, {})

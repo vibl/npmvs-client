@@ -3,7 +3,7 @@ import {Author, ifDifferentLink, displayCommitsCount, displayDependencies, displ
   NPMUsersLinks, Link, Markdown, NPMUserLink} from './infopage-elements';
 
 export default {
-  'data:InfoPages:{packId}': [
+  'InfoPages:{packId}': [
     {
       id: 'version',
       label: 'Latest version<>Dernière version',
@@ -24,33 +24,33 @@ export default {
     {
       id: 'repository',
       label: 'Repository<>Dépôt',
-      datapoint: 'links_repository',
+      datapoint: 'repositoryUrl',
       displayFn: value => Link({value}),
     },
     {
       id: 'homepage',
       label: 'Homepage<>Site web',
-      datapoint: 'links_homepage',
+      datapoint: 'links_homepageUrl',
       extractFn: ifDifferentLink(['links_repository', 'github_homepage', 'links_npm']),
       displayFn: value => Link({value}),
     },
     {
       id: 'homepageGH',
       label: 'Homepage<>Site web',
-      datapoint: 'github_homepage',
+      datapoint: 'homepage2Url',
       extractFn: ifDifferentLink(['links_repository', 'links_npm']),
       displayFn: value => Link({value}),
     },
     {
       id: 'npm',
       label: 'NPM page<>Page sur NPM',
-      datapoint: 'links_npm',
+      datapoint: 'npmUrl',
       displayFn: value => Link({value}),
     },
     {
       id: 'bugs',
       label: 'Bug reports<>Gestion des tickets',
-      datapoint: 'links_bugs',
+      datapoint: 'bugsUrl',
       displayFn: value => Link({value}),
     },
     {
@@ -67,6 +67,11 @@ export default {
       id: 'forksCount',
       label: 'GitHub forks',
       datapoint: 'forksCount',
+    },
+    {
+      id: 'dependentsCount',
+      label: 'Dependent packages',
+      datapoint: 'dependentsCount',
     },
     {
       id: 'author',
@@ -98,18 +103,11 @@ export default {
       datapoint: 'license',
     },
     {
-      id: 'releases',
-      label: 'Releases<>Releases',
-      datapoint: 'releases',
-      displayFn: value => displayReleasesCount({value}),
-    },
-    {
       id: 'commits',
       label: 'Commits<>Commits',
       datapoint: 'commits',
       displayFn: value => displayCommitsCount({value}),
     },
-
     {
       id: 'dependencies',
       label: 'Dependencies<>Dépendences',
@@ -127,17 +125,21 @@ export default {
       datapoint: 'metadata_date',
       displayFn: s => new Date(s).toLocaleString('en-GB').slice(0,10),
     },
-    // dependentsCount: {
-    //   label: 'Modules that depend on this one',
-    //   datapoint: 'dependentsCount',
-    // },
-    // issues_count: {
-    //   label: 'Total issues',
-    //   datapoint: 'issues_count',
-    // },
-    // issues_openCount: {
-    //   label: 'Open issues',
-    //   datapoint: 'issues_openCount',
-    // },
+/*
+    issues_count: {
+      label: 'Total issues',
+      datapoint: 'issues_count',
+    },
+    issues_openCount: {
+      label: 'Open issues',
+      datapoint: 'issues_openCount',
+    },
+     {
+      id: 'releases',
+      label: 'Releases<>Releases',
+      datapoint: 'releases',
+      displayFn: value => displayReleasesCount({value}),
+    },*/
+
   ],
 };

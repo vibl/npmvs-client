@@ -90,6 +90,7 @@ export const localizInit = (thisMainPage) => {
   const lang = getSessionLocale();// || getUserLanguage();
   switchLanguage(lang);
 };
+window.l = l;
 export default l;
 
 

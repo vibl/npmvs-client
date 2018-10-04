@@ -12,6 +12,7 @@ import Blinker from './util/Blinker';
 import theme from './styles/theme';
 import initialState from '../data/initial-state';
 import AppStyles from './styles/AppStyles';
+import l from '../util/localiz';
 
 const {reduxStore, persistor} = initRedux(initialState);
 

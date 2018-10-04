@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import l from '../../util/localiz';
 import {connectStatePure, mem} from '../../util/utils';
-import fn from '../../data/field-fns';
+import fn from '../../util/vibl-number';
 import ChartCard from '../card/ChartCard';
 import DivBarChart from './Divchart/DivchartContainer';
 import ChartTitle from '../card/ChartTitle';
@@ -76,7 +76,7 @@ const extractData = mem( (exponent, dist) => {
 const SliderTitle = ({description, value, displayValue, sliderConfig, onChange}) => {
   return (
     <ChartTitle {...{description}}>
-      {l`Issues that stayed open for less than<>Tickets fermés en moins de`} <BlinkSlider
+      {l`Issues resolved in less than<>Tickets résolus en moins de`} <BlinkSlider
       {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '4rem'}}}/>
     </ChartTitle>
   );

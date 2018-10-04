@@ -1,9 +1,9 @@
 import React from 'react';
-import InfoIcon from '@material-ui/icons/Info';
+import HelpIcon from '@material-ui/icons/Help';
 import styled from 'react-emotion';
 import RichTip from '../util/RichTip';
 
-const Info = styled(InfoIcon)`
+const Info = styled(HelpIcon)`
     display: inline;
     color: #ccc;
     height: 0.7rem !important;

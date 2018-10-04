@@ -5,6 +5,7 @@ import Selector from "../selector/Selector";
 import {hideInfoPageAfterTimeoutIfEntered} from '../infopage/infopage-display-hide';
 import AppMenu from "./AppMenu";
 import Logo from './Logo';
+import Search from '../search/Search';
 
 const StyledWrapper = styled.div`
     display: flex;
@@ -38,7 +39,8 @@ const handleMouseEnter = () => {
 const AppBar = () => (
   <StyledWrapper onMouseEnter={handleMouseEnter}>
     <Logo/>
-    <Selector/>
+    {/*<Selector/>*/}
+    <Search/>
     <AppMenu/>
   </StyledWrapper>
 );

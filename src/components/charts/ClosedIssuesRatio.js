@@ -1,7 +1,7 @@
 import React from 'react';
 import l from '../../util/localiz';
 import BasicCard from "../card/BasicCard";
-import fn from '../../data/field-fns';
+import fn from '../../util/vibl-number';
 import {connectStatePure} from "../../util/utils";
 
 const description = `
@@ -30,6 +30,6 @@ const displayFn = fn.significanPercentDisplay;
 const ClosedIssuesRatio = ({data}) => ! data ? null :
   <BasicCard {...{title: l(title), description: l(description), displayFn, data}} />
 
-const selectorFn = ({closedPercent}) => closedPercent;
+const selectorFn = ({openIssuesCount, totalIssuesCount}) => (1 - openIssuesCount / totalIssuesCount) * 100;
 
 export default connectStatePure(ClosedIssuesRatio, selectorFn);

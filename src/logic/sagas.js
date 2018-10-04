@@ -1,4 +1,4 @@
-import { call, put, takeEvery} from 'redux-saga/effects'
+import { put, takeEvery} from 'redux-saga/effects'
 import extract from '../data/extractor';
 const {getDotPath, transform} = require('../util/vibl-fp');
 

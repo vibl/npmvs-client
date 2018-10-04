@@ -4,7 +4,7 @@ import {pure} from 'recompose';
 import l from '../../../util/localiz';
 import {mem} from '../../../util/utils';
 import BasicCard from "../../card/BasicCard";
-import fn from '../../../data/field-fns';
+import fn from '../../../util/vibl-number';
 import {numberOfMonths} from '../../../data/sources/source_npm-downloads';
 import { mapObjIndexed, pipe, splitEvery, sum} from "ramda";
 

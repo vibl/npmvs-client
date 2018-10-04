@@ -1,70 +1,83 @@
-import {extractReleasesCount} from './extractFns';
 
 export default {
+  'DownloadsSeries:{packId}': [
+    {
+      id: 'downloads',
+      datapoint: 'downloads',
+      extractFn: ({data}) => data.downloads.map(a => ({month: a[0], value: a[1]})),
+    }
+  ],
   'GitHubScore:{packId}': [
     {
       id: 'starsCount',
-      datapoint: 'stars',
+      datapoint: 'starsCount',
     },
     {
       id: 'forksCount',
-      datapoint: 'forks',
+      datapoint: 'forksCount',
+    },
+    {
+      id: 'subscribersCount',
+      datapoint: 'subscribersCount',
     },
   ],
   'DependentReposCount:{packId}': [
     {
       id: 'dependentReposCount',
-      datapoint: 'dependent_repos_count',
+      datapoint: 'dependentReposCount',
     },
   ],
   'ReleasesForPeriod:{packId}': [
     {
       id: 'releases',
-      datapoint: 'versions',
-      extractFn: extractReleasesCount,
+      datapoint: 'releasesForPeriod',
     },
   ],
   'ClosedIssuesRatio:{packId}': [
     {
-      id: 'closedPercent',
-      datapoint: 'openPercent',
-      extractFn: ({value}) => 100 - parseInt(value),
-
+      id: 'openIssuesCount',
+      datapoint: 'openIssuesCount',
     },
-  ],
-  'MedianResolutionTime:{packId}': [
     {
-      id: 'medianResolutionTime',
-      datapoint: 'resolution',
-      extractFn: ({value}) => {
-        const [_, str, unit] = value.match(/(\d+) ?(\w+)$/);
-        const n =  parseInt(str);
-        let days;
-        switch(unit) {
-          case 'd':
-            days = n;
-            break;
-          case 'h':
-            days = n / 24;
-          default:
-            throw new Error('Unit of medianResolutionTime was not identified:', unit);
-        }
-        return days;
-      }
-
+      id: 'totalIssuesCount',
+      datapoint: 'totalIssuesCount',
+    },
+  ],
+  'IssuesClosedInLessThanXdays:{packId}': [
+    {
+      id: 'issues_distribution',
+      datapoint: 'issuesDistribution',
+    },
+  ],
+  'Contributors:{packId}': [
+    {
+      id: 'contributors',
+      datapoint: 'contributors',
     },
   ],
 
-  // 'Contributors:{packId}': [
-  //   {
-  //     id: 'contributors',
-  //     datapoint: 'contributors',
-  //   },
-  // ],
-  // 'IssuesClosedInLessThanXdays:{packId}': [
-  //   {
-  //     id: 'issues_distribution',
-  //     datapoint: 'issues_distribution',
-  //   },
-  // ],
+  /*
+    'MedianResolutionTime:{packId}': [
+      {
+        id: 'medianResolutionTime',
+        datapoint: 'resolution',
+        extractFn: ({value}) => {
+          const [_, str, unit] = value.match(/(\d+) ?(\w+)$/);
+          const n =  parseInt(str);
+          let days;
+          switch(unit) {
+            case 'd':
+              days = n;
+              break;
+            case 'h':
+              days = n / 24;
+            default:
+              throw new Error('Unit of medianResolutionTime was not identified:', unit);
+          }
+          return days;
+        }
+
+      },
+    ],
+   */
 };

@@ -5,7 +5,7 @@ import styled from 'react-emotion';
 import {css} from 'emotion';
 import {toHtmlClass} from '../../util/utils';
 import InfoPage from "./InfoPage";
-const {isBlank, toArray} = require('../../util/vibl-fp');
+const {toArray} = require('../../util/vibl-fp');
 
 const displayedInfoPage = (p) => {
    return ! p.displayPackId ? null :
@@ -40,7 +40,7 @@ const InfoPages = ({infoPages, displayPackId}) => {
   )
 };
 const mapStateToProps = (state) => ({
-  infoPages: state.data.InfoPages,
+  infoPages: state.components && state.components.InfoPages,
   displayPackId: state.ui.displayPackId,
 });
 export default connect(mapStateToProps)(pure(InfoPages));

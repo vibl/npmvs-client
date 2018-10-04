@@ -4,7 +4,7 @@ import {mem, toHtmlClass} from '../../../util/utils';
 import {pure} from 'recompose';
 import {keys, last} from 'ramda';
 import {setFocus} from "../../../logic/focus"
-import fn from '../../../data/field-fns';
+import fn from '../../../util/vibl-number';
 
 const getStats = mem( (selection, data) => {
   let packId, result = {};
@@ -75,7 +75,10 @@ const getMonthTitle = (month) => {
 };
 const LineChartOverlay = ({focusedMonth, data, selection, mousePosition, show}) => {
   const stats = getStats(selection, data);
-  const month = focusedMonth || last(keys(stats));
+  const months = keys(stats);
+  const month = focusedMonth
+    ? ( focusedMonth < months[0] ? months[0] : focusedMonth )
+    : last(months);
   return (
     <AbsoluteContainer id="line-chart-overlay" {...{mousePosition, show}}>
       <Month>{getMonthTitle(month)}</Month>

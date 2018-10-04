@@ -1,14 +1,14 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {pure} from 'recompose';
 import l from '../../util/localiz';
 import ChartCard from '../card/ChartCard';
-import Title from '../card/ChartTitle';
+import ChartTitle from '../card/ChartTitle';
+import BlinkSlider from '../card/BlinkSlider';
 import LineChart from "./LineChart/LineChartContainer";
 import styled from 'react-emotion';
-import fn from '../../data/field-fns';
 import {connect} from "react-redux";
-import {mapObjIndexed} from "ramda";
-import {getComponentData} from "../../util/utils";
+import {map, mapObjIndexed} from "ramda";
+import {connectStatePure, getComponentData, mem} from "../../util/utils";
 
 // import {divide, keys, map, mean, pipe, scan, slice, splitEvery,
 //   sum, tail, toPairs, transpose, values, zip, zipWith} from "ramda";
@@ -28,6 +28,14 @@ Dit autrement, ce graphique montre ce que les téléchargements mensuels seraien
 
 Le but étant d'éviter d'afficher des variations purement dues aux durées des mois (30, 31 ou 28 jours).
 `;
+const sliderValues = [
+  {months: 6, label: '6 months<>6 mois'},
+  {months: 12, label: '12 months<>12 mois'},
+  {months: 18, label: '18 months<>18 mois'},
+  {months: 24, label: '2 years<>2 ans'},
+  {months: 36, label: '3 years<>3 ans'},
+  {months: 48, label: '4 years<>4 ans'},
+];
 // const getVariations = (downloads) => {
 //   const averageDaily = mean(downloads);
 //   return map(val => val / averageDaily, downloads);
@@ -71,10 +79,7 @@ Le but étant d'éviter d'afficher des variations purement dues aux durées des 
 //   x = x.map( (val, i) => [i, val]);
 //   return regression.polynomial(x, { order: 9 });
 // };
-export const config = {
-  title: 'Monthly downloads in the last 18 months<>Téléchargements mensuels dans les derniers 18 mois',
-  description,
-};
+
 /*
   y = ax + b
   [1, 1000]
@@ -98,6 +103,14 @@ export const config = {
   https://github.com/d3/d3-shape#curveBasis to filter noise)
   Use a zooming interface to allow users to see a 6 month or 2 years spans.
  */
+const SliderTitle = ({description, value, displayValue, sliderConfig, onChange}) => {
+  return (
+    <ChartTitle {...{description}}>
+      {l`Monthly downloads in the last <>Téléchargements mensuels depuis`} <BlinkSlider
+      {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '4rem'}}}/>
+    </ChartTitle>
+  );
+};
 const LineChartCard = styled(ChartCard)`
     display: flex;
     flex-direction: column;
@@ -105,19 +118,24 @@ const LineChartCard = styled(ChartCard)`
     height: calc(100% - 8px);
     min-height: 12.5rem;
 `;
-const DownloadSeries = ({data: rawData}) => {
-  const {title, description} = config;
-  if( !rawData ) return null;
-  const data = mapObjIndexed(fn.monthlyAggregate, rawData);
-  return (
-    <LineChartCard>
-      <Title {...{description: l(description)}}>{l(title)}</Title>
-      <LineChart {...{data}}/>
-    </LineChartCard>
-  );
+
+const limitSize = (span, data) => map(d => d.downloads.slice(-span), data);
+
+class DownloadsSeries extends Component {
+  onChange = (event, state) => {
+    this.props.setState(state);
+  };
+  render() {
+    const {onChange, props:{data: downloads, state}} = this;
+    if( !downloads ) return null;
+    const data = limitSize(sliderValues[state].months, downloads);
+    const sliderConfig = {min: 0, max: 5, step: 1};
+    return (
+      <LineChartCard>
+        <SliderTitle {...{description: l(description), value: state, displayValue:l(sliderValues[state].label), sliderConfig, onChange}}/>
+        <LineChart {...{data}}/>
+      </LineChartCard>
+    );
+  }
 };
-const mapStateToProps = (state) => ({
-  selection: state.selection,
-  data: state.data.downloads,
-});
-export default connect(mapStateToProps)(pure(DownloadSeries));
+export default connectStatePure(DownloadsSeries);

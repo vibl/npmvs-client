@@ -1,7 +1,7 @@
 import React from 'react';
 import l from '../../util/localiz';
 import BasicCard from "../card/BasicCard";
-import fn from '../../data/field-fns';
+import fn from '../../util/vibl-number';
 import {connectStatePure} from "../../util/utils";
 
 const description = `

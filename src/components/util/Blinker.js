@@ -4,7 +4,7 @@ import styled from 'react-emotion';
 import store from '../../data/store';
 import {mem} from '../../util/utils';
 import {append, dissoc, not} from 'ramda';
-const {sleep} = require('../../util/vibl-utils');
+const {sleep} = require('../../util/vibl-promise');
 const {isBlank, transform} = require('../../util/vibl-fp');
 
 const patterns = {

@@ -6,7 +6,7 @@ import ChartCard from '../../card/ChartCard';
 import Divchart from '../Divchart/DivchartContainer';
 import ChartTitle from '../../card/ChartTitle';
 import BlinkSlider from '../../card/BlinkSlider';
-import fn from '../../../data/field-fns';
+import fn from '../../../util/vibl-number';
 import {mapObjIndexed, pipe, splitEvery, sum} from "ramda";
 
 const description = `

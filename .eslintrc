@@ -3,6 +3,8 @@
     "no-restricted-globals": "off",
     "radix": "off",
     "no-unused-vars": "off",
-    "no-loop-func": "off"
+    "no-loop-func": "off",
+    "no-undef": "off"
+
   }
 }

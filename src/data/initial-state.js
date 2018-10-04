@@ -15,6 +15,9 @@ export default {
     language: 'en',
     components: {
       ReleasesForPeriod: 2,
+      IssuesClosedInLessThanXdays: 2,
+      Contributors: 2,
+      DownloadsSeries: 2,
     }
   },
   ui: {

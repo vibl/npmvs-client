@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react';
 import {Curve, Point, VictoryAxis, VictoryLine, VictoryChart,
   VictoryClipContainer, VictoryScatter, VictoryVoronoiContainer} from 'victory';
 import theme from './line-chart-theme';
-import {monitorShouldComponentUpdateWithState, toHtmlClass} from '../../../util/utils';
+import {toHtmlClass} from '../../../util/utils';
 
 const VoronoiContainer = ({setFocusedMonth}) => (
   <VictoryVoronoiContainer

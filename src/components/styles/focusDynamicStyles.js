@@ -5,11 +5,11 @@ import {toHtmlClass} from '../../util/utils';
 export default ({colors, selection, focus}) => {
   if( ! (focus && colors && selection) ) return null;
   const packages = reverse(selection);
-  const styleMapper = (packId, i) => {
-    const {baseColor, colorDarker, lightGradient} = colors[packId];
-    const hasFocus = focus === packId;
+  const styleMapper = (packName, i) => {
+    const {baseColor, colorDarker, lightGradient} = colors[packName];
+    const hasFocus = focus === packName;
     const switchColor = hasFocus ? colorDarker : baseColor;
-    const packIdClass = toHtmlClass(packId);
+    const packIdClass = toHtmlClass(packName);
     return css`
       .VictoryContainer > svg {
         overflow: visible;

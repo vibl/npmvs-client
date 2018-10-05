@@ -11,7 +11,7 @@ const endpointUrl = 'https://api.npmjs.org/downloads/range/';
 // const lastFullMonth = getLastFullMonth();
 const params = '2017-03-01:2018-08-31/';
 
-export default async (packId) => {
-  const url = endpointUrl + params + encodeURIComponent(packId);
+export default async (packName) => {
+  const url = endpointUrl + params + encodeURIComponent(packName);
   return http.memGetData(url);
 };

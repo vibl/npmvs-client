@@ -9,6 +9,6 @@ context.keys().forEach( file =>
   file !== './index.js' ? modules[moduleName(file)] = context(file).default : null
 );
 
-export const fetchFromSource = (sourceName, packId) => modules[`source_${sourceName}`](packId);
+export const fetchFromSource = (sourceName, packName) => modules[`source_${sourceName}`](packName);
 
 export default modules;

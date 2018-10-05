@@ -5,7 +5,7 @@ import styled from "react-emotion";
 import { injectGlobal } from 'emotion';
 import shallowEqual from 'fbjs/lib/shallowEqual'
 import theme from './theme';
-import chartStyles from './focusDynamicStyles';
+import focusDynamicStyles from './focusDynamicStyles';
 import {getPackageColors} from "../../util/utils";
 
 injectGlobal`
@@ -18,11 +18,11 @@ injectGlobal`
 const StyledAppContainer = styled.div`
   background-color: #f7f1f1;
   color: #444;
-  ${chartStyles}
+  ${focusDynamicStyles}
 `;
 class AppStyles extends Component {
   shouldComponentUpdate(nextProps) {
-    return ! this.props.displayPackId && !shallowEqual(this.props, nextProps)
+    return this.props.focus && !shallowEqual(this.props, nextProps)
   }
   render() {
     const {focus, selection, colors, children} = this.props;
@@ -34,8 +34,7 @@ class AppStyles extends Component {
   }
 };
 const mapStateToProps = (state) => ({
-  displayPackId: state.ui.displayPackId,
-  focus: state.focus,
+  focus: state.ui.focus,
   selection: state.selection,
   colors: getPackageColors(state.color, state.selection),
 });

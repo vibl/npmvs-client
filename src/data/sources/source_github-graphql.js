@@ -19,8 +19,8 @@ const issuesTotalCountQuery = `{
     }
   }
 }`;
-export default async (packId) => {
-  const repoFullName = await store.detect(`rawdata.${packId}.repoFullName`);
+export default async (packName) => {
+  const repoFullName = await store.detect(`rawdata.${packName}.repoFullName`);
   const [owner, name] = repoFullName.split('/');
   const totalIssuesCount = await graphql.request(issuesTotalCountQuery, {owner, name});
   return {totalIssuesCount};

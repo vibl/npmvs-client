@@ -8,8 +8,8 @@ const parseSvg = (str) => {
   const match = str.match(/>(\d+[^<]*)<\/text>/);
   return match ? match[1] : '';
 };
-export default async (packId) => {
-  const repoFullName = await store.detect(`rawdata.${packId}.repoFullName`);
+export default async (packName) => {
+  const repoFullName = await store.detect(`rawdata.${packName}.repoFullName`);
   const urlEnd = `${repoFullName}.svg`;
   const urls = [
     enpointUrl + 'resolution/' + urlEnd,

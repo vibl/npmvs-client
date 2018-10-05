@@ -12,8 +12,8 @@ const {isBlank, lacksElementsOf, switchValue} = require('../../../util/vibl-fp')
 const StyledDivchart = styled(Divchart)`${divchartStyles}`;
 
 class Container extends PureComponent {
-  handleMouseEnter = (packId) => {
-    setFocus(packId);
+  handleMouseEnter = (packName) => {
+    setFocus(packName);
   };
   render() {
     let {data} = this.props;
@@ -21,8 +21,8 @@ class Container extends PureComponent {
     if( isBlank(selection) || isBlank(data) ) return null;
     const packages = this.packages = reverse(selection);
     let max = 0, min = 0, absMin;
-    data = packages.map(packId => {
-      let value = data[packId];
+    data = packages.map(packName => {
+      let value = data[packName];
       let label = switchValue([
         [Infinity, l`(Not enough data: too recent)<>(Pas assez de données: trop récent)`],
         [undefined, null, isNaN, l`(No data)<>(Pas de données)`],
@@ -37,7 +37,7 @@ class Container extends PureComponent {
       }
       max = value > max ? value : max;
       min = value < min ? value : min;
-      return {label, packId, value};
+      return {label, packName, value};
     });
     if( max > 100 ) data = data.map( o => ({...o, value: o.value/max * 100}));
     if( min < 0 ) {

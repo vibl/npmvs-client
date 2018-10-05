@@ -1,46 +1,51 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
 import styled from 'react-emotion';
 import {css} from 'emotion';
 import {toHtmlClass} from '../../util/utils';
 import InfoPage from "./InfoPage";
+import {register} from '../util/popup-display-hide';
 const {toArray} = require('../../util/vibl-fp');
 
 const displayedInfoPage = (p) => {
-   return ! p.displayPackId ? null :
+  const {focus, visible} = p;
+   return ! focus ? null :
      css`
       display: block;
 
-      .infopage.${toHtmlClass(p.displayPackId)} {
-          //opacity: 100;
-        visibility: visible !important;
+      .infopage.${toHtmlClass(focus)} {
+        visibility: ${visible ? 'visible' : 'hidden' } !important;
       }`;
 };
 
 const InfoPagesWrapper = styled.div`
-  display: none; // Necessary for the scrollbar not to appear.
-
   .infopage {
-    visibility: hidden; // Faster than display:none (when switching tabs)
-    //opacity: 0;
-   }
+      visibility: hidden; 
+  }
   ${displayedInfoPage}
 `;
-const InfoPages = ({infoPages, displayPackId}) => {
-  return ! infoPages ? null : (
-     <InfoPagesWrapper {...{displayPackId}}>
-       { toArray(infoPages, (data, packId) => (
-         <InfoPage
-           key={packId}
-           {...{packId, data}}
-         />
-       ))}
-     </InfoPagesWrapper>
-  )
-};
+class InfoPages extends PureComponent {
+  componentDidMount() {
+    register('InfoPage');
+  }
+  render() {
+    const {infoPages, focus, visible} = this.props;
+    return ! infoPages ? null : (
+      <InfoPagesWrapper {...{focus, visible}}>
+        { toArray(infoPages, (data, packName) => (
+          <InfoPage
+            key={packName}
+            {...{packName, data}}
+          />
+        ))}
+      </InfoPagesWrapper>
+    )
+  }
+}
 const mapStateToProps = (state) => ({
   infoPages: state.components && state.components.InfoPages,
-  displayPackId: state.ui.displayPackId,
+  focus: state.ui.focus,
+  visible: state.ui.displayHide.InfoPage && state.ui.displayHide.InfoPage.visible,
 });
-export default connect(mapStateToProps)(pure(InfoPages));
+export default connect(mapStateToProps)(InfoPages);

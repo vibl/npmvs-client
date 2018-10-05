@@ -11,9 +11,9 @@ const {isBlank, notEmpty, lacksElementsOf} = require('../../../util/vibl-fp');
 
 const getPackIdClassNameIndex = (selection) => {
   let acc = {};
-  for(const packId of selection) {
-    const className = toHtmlClass(packId);
-    acc[className] = packId;
+  for(const packName of selection) {
+    const className = toHtmlClass(packName);
+    acc[className] = packName;
   }
   return acc;
 };
@@ -28,10 +28,10 @@ const StyleWrapper = styled.div`
 }`;
 const getChartData = mem(
   (selection, data) =>
-  selection.map( (packId) => {
-    return data[packId] && ({
-      packId,
-      data: data[packId].map(o => ({...o, packId})),
+  selection.map( (packName) => {
+    return data[packName] && ({
+      packName,
+      data: data[packName].map(o => ({...o, packName})),
     })
   })
     .filter(notEmpty)
@@ -63,11 +63,11 @@ class LineChartContainer extends Component {
   handleMouseEnterLine = (event) => {
     let node = event.currentTarget;
     const packIdClassName = node.className.baseVal.split(' ')[1];
-    const packId = this.packIdClassNameIndex[packIdClassName];
+    const packName = this.packIdClassNameIndex[packIdClassName];
     this.setState({
       mousePosition: [event.pageX, event.pageY],
     });
-    setFocus(packId);
+    setFocus(packName);
   };
   handleMouseEnterChart = (event) => {
     this.setState({
@@ -113,7 +113,7 @@ class LineChartContainer extends Component {
   }
 }
 const mapStateToProps = (state) => ({
-  focus: state.focus,
+  focus: state.ui.focus,
   selection: state.selection,
 });
 export default connect(mapStateToProps)(LineChartContainer);

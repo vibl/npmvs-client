@@ -4,12 +4,12 @@ import classNames from 'classnames';
 import {omit} from 'ramda';
 import {toHtmlClass} from '../../../util/utils';
 
-const DataRow = pure( ({label, value, packId, handleMouseEnter, absMin}) => {
+const DataRow = pure( ({label, value, packName, handleMouseEnter, absMin}) => {
   const placeholderValue = value < 0 ? absMin - Math.abs(value) : absMin;
   return (
       <div
-        className={classNames('data row', toHtmlClass(packId))}
-        onMouseEnter={() => handleMouseEnter(packId)}
+        className={classNames('data row', toHtmlClass(packName))}
+        onMouseEnter={() => handleMouseEnter(packName)}
       >
         { absMin && <div
           className="negative placeholder"
@@ -29,16 +29,16 @@ const DivchartView = (props) => {
   return (
       <div className={classNames(className, 'divchart')}>
         <div className='label column'>
-          { data.map( ({packId}) =>
+          { data.map( ({packName}) =>
             <div
-              key={packId}
-              className={classNames('label row', toHtmlClass(packId))}
-              onMouseEnter={() => handleMouseEnter(packId)}
-            >{packId}</div>
+              key={packName}
+              className={classNames('label row', toHtmlClass(packName))}
+              onMouseEnter={() => handleMouseEnter(packName)}
+            >{packName}</div>
           )}
         </div>
         <div className='data column'>
-          { data.map( p => <DataRow key={p.packId} {...omit('data', props)} {...p}/> )}
+          { data.map( p => <DataRow key={p.packName} {...omit('data', props)} {...p}/> )}
         </div>
       </div>
   )

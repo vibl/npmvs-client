@@ -24,10 +24,10 @@ const recurse = (parent, parentPath, data) => {
   }
   return acc;
 };
-export default ({sourceName, packId, rawdata}) => {
+export default ({sourceName, packName, rawdata}) => {
   const data =
     datapoints(sourceName)
      ? recurse(datapoints(sourceName), [sourceName], rawdata)
      : rawdata;
-  store.set({rawdata:{[packId]: data}});
+  store.set({rawdata:{[packName]: data}});
 }

@@ -1,15 +1,17 @@
-import Card from "@material-ui/core/Card/index";
+import Card from "@material-ui/core/Card";
 import styled from "react-emotion";
 import theme from "../styles/theme";
 
 const mainColor = theme.palette.primary.main;
 
 const StyledInfoPageWrapper = styled(Card)`
-    position: absolute;
-    top: -0.5rem;
-    left: 0.3rem;
-    width: calc(100% - 0.6rem);
     font-size: 0.9rem;
+    height: calc(100% - 3rem - 0.3rem);
+    left: 0.3rem;
+    overflow-y: scroll;
+    position: fixed;
+    top: 3rem;
+    width: calc(100% - 0.6rem);
 
     a {
       color: ${mainColor};

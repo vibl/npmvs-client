@@ -8,13 +8,13 @@ import extract from '../extractor';
 const enpointUrl = 'https://api.npms.io/v2/package/';
 // const enpointUrl = 'http://localhost:3333/package/';
 
-const getData = async (packId) => {
-  const url = enpointUrl + encodeURIComponent(packId);
+const getData = async (packName) => {
+  const url = enpointUrl + encodeURIComponent(packName);
   const resp = await http.memGet(url);
   if( ! resp.data ) throw new Error('Data could not be downloaded from', url);
   const data = getDatapoints(datapointsSpec, 'npms', resp.data);
-  const transformer = extract(data, {packId});
+  const transformer = extract(data, {packName});
   store.set(transformer);
-  await updateReadme(resp.data, packId);
+  await updateReadme(resp.data, packName);
 };
 export default getData;

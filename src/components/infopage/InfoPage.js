@@ -5,7 +5,7 @@ import {css} from 'emotion';
 import l, {getFullDate} from '../../util/localiz';
 import {cn, getFieldsFromSpecs} from "../../util/utils";
 import dataSpecs from './infopage-data-specs';
-import {hasEntered} from './infopage-display-hide';
+import {clearHideTimeout, hideAfterTimeout} from '../util/popup-display-hide';
 import StyledInfoPageWrapper from './StyledInfoPageWrapper';
 import Grid from '@material-ui/core/Grid';
 import theme from '../styles/theme';
@@ -60,13 +60,19 @@ const Row = ({fieldId, field, value}) => (
     </td>
   </tr>
 );
-
-const InfoPage = ({data, packId}) => {
+const handleMouseLeave = () => {
+  hideAfterTimeout('InfoPage');
+};
+const handleMouseEnter = () => {
+  clearHideTimeout('InfoPage');
+};
+const InfoPage = ({data, packName}) => {
   const tableFields = without(['readme', 'updated_on', 'readmeUpdated'], fieldsList);
   return (
     <StyledInfoPageWrapper
-      className={cn('infopage', packId)}
-      onMouseOver={hasEntered}
+      className={cn('infopage', packName)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <StyledGrid
         container
@@ -97,7 +103,7 @@ const InfoPage = ({data, packId}) => {
             { tableFields.map( (fieldId) => {
                 const field = fieldsIndex[fieldId];
                 let value = data[fieldId];
-                value = field && field.displayFn ? field.displayFn(value, packId, data) : value;
+                value = field && field.displayFn ? field.displayFn(value, packName, data) : value;
                 return isBlank(value) ? null :
                   <Row {...{key: fieldId, fieldId, field, value}}/>
             })}

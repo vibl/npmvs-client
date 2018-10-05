@@ -4,8 +4,8 @@ import store from '../store';
 const endpointUrl = 'https://api.github.com/repos/';
 const apiToken = '389dfd76a9f1d65d99cf38f8f7d12ed0e97f3066';
 
-export default async (packId) => {
-  const repoUrl = await store.detect(`rawdata.${packId}.repository_url`);
+export default async (packName) => {
+  const repoUrl = await store.detect(`rawdata.${packName}.repository_url`);
   const match = repoUrl.match(/github\.com\/([^/]+\/[^/.#]+)/);
   const presumedFullName = match ? match[1] : null;
   if( ! presumedFullName ) return {};

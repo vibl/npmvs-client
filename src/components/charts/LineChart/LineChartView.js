@@ -17,18 +17,18 @@ const VoronoiContainer = ({setFocusedMonth}) => (
 );
 const Scatter = ({pack, handleMouseEnterLine}) => (
   <VictoryScatter
-    key={pack.packId}
+    key={pack.packName}
     data={pack.data}
     x="month"
     y="value"
-    dataComponent={<Point className={"scatter " + toHtmlClass(pack.packId)} events={{onMouseEnter:handleMouseEnterLine}}/>}
+    dataComponent={<Point className={"scatter " + toHtmlClass(pack.packName)} events={{onMouseEnter:handleMouseEnterLine}}/>}
   />
 );
 
-const Line = ({pack: {packId, data}, handleMouseEnterLine}) => {
+const Line = ({pack: {packName, data}, handleMouseEnterLine}) => {
   const dataComponent =
     <Curve
-      className={"line " + toHtmlClass(packId)}
+      className={"line " + toHtmlClass(packName)}
       events={{onMouseEnter:handleMouseEnterLine}}
     />;
   const groupComponent =
@@ -37,7 +37,7 @@ const Line = ({pack: {packId, data}, handleMouseEnterLine}) => {
     />;
   return (
     <VictoryLine
-      key={packId}
+      key={packName}
       data={data}
       x="month"
       y="value"
@@ -50,12 +50,12 @@ const Line = ({pack: {packId, data}, handleMouseEnterLine}) => {
 // const LineBasis = ({pack, handleMouseEnterLine}) => {
 //   return (
 //     <VictoryLine
-//       key={pack.packId}
+//       key={pack.packName}
 //       data={pack.data}
 //       x="month"
 //       y="value"
 //       interpolation="basis"
-//       dataComponent={<Curve className={"line " + toHtmlClass(pack.packId)} events={{onMouseEnter:handleMouseEnterLine}}/>}
+//       dataComponent={<Curve className={"line " + toHtmlClass(pack.packName)} events={{onMouseEnter:handleMouseEnterLine}}/>}
 //       groupComponent={<VictoryClipContainer clipPadding={{top: 30, bottom: 30, left: 0, right: 0}}/>}// Needed in order to avoid curves to be clipped at the top.
 //     />
 //

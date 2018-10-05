@@ -3,7 +3,7 @@ import {Author, ifDifferentLink, displayCommitsCount, displayDependencies, displ
   NPMUsersLinks, Link, Markdown, NPMUserLink} from './infopage-elements';
 
 export default {
-  'InfoPages:{packId}': [
+  'InfoPages:{packName}': [
     {
       id: 'version',
       label: 'Latest version<>Dernière version',

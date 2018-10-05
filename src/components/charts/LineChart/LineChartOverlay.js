@@ -7,12 +7,12 @@ import {setFocus} from "../../../logic/focus"
 import fn from '../../../util/vibl-number';
 
 const getStats = mem( (selection, data) => {
-  let packId, result = {};
-  for(packId of selection) {
-    if( ! data[packId] ) continue;
-    for(const {month, value} of data[packId]) {
+  let packName, result = {};
+  for(packName of selection) {
+    if( ! data[packName] ) continue;
+    for(const {month, value} of data[packName]) {
       if( ! result[month] ) result[month] = [];
-      result[month].push({packId, value});
+      result[month].push({packName, value});
     }
   }
   return result;
@@ -56,17 +56,17 @@ const ColValue = styled.td`
    text-align: right;
 `;
 const handleMouseEnter = (event) => {
-  const packId = event.currentTarget.attributes['data-packid'].value;
-  setFocus(packId);
+  const packName = event.currentTarget.attributes['data-packid'].value;
+  setFocus(packName);
 };
-const StatRow = ({packId, value}) => (
+const StatRow = ({packName, value}) => (
   <Row
-    className={`overlay ${toHtmlClass(packId)}`}
-    key={packId}
+    className={`overlay ${toHtmlClass(packName)}`}
+    key={packName}
     onMouseEnter={handleMouseEnter}
-    data-packid={packId}
+    data-packid={packName}
   >
-    <ColPack>{packId}</ColPack><ColValue>{fn.thousands(value)}</ColValue>
+    <ColPack>{packName}</ColPack><ColValue>{fn.thousands(value)}</ColValue>
   </Row>
 );
 const getMonthTitle = (month) => {

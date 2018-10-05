@@ -5,6 +5,7 @@ import {pure} from 'recompose';
 import classNames from 'classnames/dedupe';
 import MixedTupleMap from 'mixedtuplemap';
 import shallowEqual from 'fbjs/lib/shallowEqual'
+import Color from 'color';
 import memoize from './memoize-immutable';
 import store from '../data/store';
 import {keys, zipObj} from 'ramda';
@@ -17,11 +18,11 @@ export const getComponentData = mem(
   (extractFn, ...datapoints) => {
     if( datapoints.some(isBlank) ) return null;
     const packIds = keys(datapoints[0]);
-    let packData, packId, acc = {};
-    for( packId of packIds ) {
-      packData = datapoints.map(o => o[packId]);
+    let packData, packName, acc = {};
+    for( packName of packIds ) {
+      packData = datapoints.map(o => o[packName]);
       if( packData.some(isBlank) ) return null;
-      acc[packId] = extractFn(...packData);
+      acc[packName] = extractFn(...packData);
     }
     return acc;
   }
@@ -58,6 +59,12 @@ export const getPackageColors = mem( (colorObj, selection) => {
   }));
   }
 );
+export const linearGradient = (color, lighten1 = 0, lighten2 = 0) => {
+  color = typeof color === 'string' ? Color(color) : color;
+  const color1 = color.lighten(lighten1).hsl().string();
+  const color2 = color.lighten(lighten2).hsl().string();
+  return `linear-gradient(${color1},${color2})`;
+};
 export const toHtmlClass = str => str && str.replace ? str.replace(/[^\w\d\-_]/g, '_') : '';
 
 export const createSelector = createSelectorCreator(mem);

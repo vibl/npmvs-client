@@ -1,20 +1,22 @@
 import React from 'react';
 import styled from 'react-emotion';
-import Selector from "../selector/Selector";
 // import Selector from "../selector/Selector";
-import {hideInfoPageAfterTimeoutIfEntered} from '../infopage/infopage-display-hide';
 import AppMenu from "./AppMenu";
 import Logo from './Logo';
 import Search from '../search/Search';
+import Selection from '../selection/Selection';
 
 const StyledWrapper = styled.div`
     display: flex;
     position: relative; // Allow child elements to be positionned as absolute.
-    align-content: center;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
-    height: 2.7rem;
+    flex-wrap: wrap;
   
     #logo {
+      margin-top: 0.6rem;
+      
       img {
         height: 3rem;
         width: 9rem;
@@ -33,13 +35,12 @@ const StyledWrapper = styled.div`
       }
     }
 `;
-const handleMouseEnter = () => {
-  hideInfoPageAfterTimeoutIfEntered(100);
-};
+
 const AppBar = () => (
-  <StyledWrapper onMouseEnter={handleMouseEnter}>
+  <StyledWrapper>
     <Logo/>
     {/*<Selector/>*/}
+    <Selection/>
     <Search/>
     <AppMenu/>
   </StyledWrapper>

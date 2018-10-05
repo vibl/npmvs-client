@@ -38,9 +38,9 @@ export default () => css`
 //   },
 //   multiValue: (base, state) => {
 //     const { data, selectProps: {focus, packageColors} } = state;
-//     const packId = data.value;
-//     const hasFocus = focus === packId;
-//     const packColor = packageColors[packId];
+//     const packName = data.value;
+//     const hasFocus = focus === packName;
+//     const packColor = packageColors[packName];
 //     if( !packColor ) return null;
 //     const {lightGradient, colorDarker, baseColor} = packColor;
 //     return {

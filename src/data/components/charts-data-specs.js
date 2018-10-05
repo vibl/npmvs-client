@@ -1,13 +1,13 @@
 
 export default {
-  'DownloadsSeries:{packId}': [
+  'DownloadsSeries:{packName}': [
     {
       id: 'downloads',
       datapoint: 'downloads',
       extractFn: ({data}) => data.downloads.map(a => ({month: a[0], value: a[1]})),
     }
   ],
-  'GitHubScore:{packId}': [
+  'GitHubScore:{packName}': [
     {
       id: 'starsCount',
       datapoint: 'starsCount',
@@ -21,19 +21,19 @@ export default {
       datapoint: 'subscribersCount',
     },
   ],
-  'DependentReposCount:{packId}': [
+  'DependentReposCount:{packName}': [
     {
       id: 'dependentReposCount',
       datapoint: 'dependentReposCount',
     },
   ],
-  'ReleasesForPeriod:{packId}': [
+  'ReleasesForPeriod:{packName}': [
     {
       id: 'releases',
       datapoint: 'releasesForPeriod',
     },
   ],
-  'ClosedIssuesRatio:{packId}': [
+  'ClosedIssuesRatio:{packName}': [
     {
       id: 'openIssuesCount',
       datapoint: 'openIssuesCount',
@@ -43,13 +43,13 @@ export default {
       datapoint: 'totalIssuesCount',
     },
   ],
-  'IssuesClosedInLessThanXdays:{packId}': [
+  'IssuesClosedInLessThanXdays:{packName}': [
     {
       id: 'issues_distribution',
       datapoint: 'issuesDistribution',
     },
   ],
-  'Contributors:{packId}': [
+  'Contributors:{packName}': [
     {
       id: 'contributors',
       datapoint: 'contributors',
@@ -57,7 +57,7 @@ export default {
   ],
 
   /*
-    'MedianResolutionTime:{packId}': [
+    'MedianResolutionTime:{packName}': [
       {
         id: 'medianResolutionTime',
         datapoint: 'resolution',

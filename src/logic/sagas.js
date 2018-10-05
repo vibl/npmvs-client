@@ -8,9 +8,9 @@ function* worker({payload}) {
   try {
     const transformation = transform(payload, {}); // Expand dotpath keys.
     const rawData = getDotPath('rawdata', transformation);
-      for(let packId in rawData) {
-        const packData = rawData[packId];
-        const componentData = extract(packData, {packId});
+      for(let packName in rawData) {
+        const packData = rawData[packName];
+        const componentData = extract(packData, {packName});
         yield set({components: componentData});
     }
   } catch (e) {

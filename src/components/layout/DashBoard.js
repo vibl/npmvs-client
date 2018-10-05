@@ -54,7 +54,7 @@ const cards =
       });
 const DashBoard = ({data, selection}) => {
   return isBlank(data) || isBlank(selection)
-    ? <Button onClick={() => history.push('recharts-vs-victory-vs-react-vis')}>Charger des données de test</Button>
+    ? <Button onClick={() => history.push('recharts,victory,react-vis')}>Charger des données de test</Button>
     : (
     <StyledGrid
       container

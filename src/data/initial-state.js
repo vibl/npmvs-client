@@ -1,6 +1,5 @@
 export default {
   selection: [],
-  focus: undefined,
   color: {
     hues: [0, 120, 240, 60, 330, 180, 90, 270, 30, 150, 300, 210],
     hue: 70,
@@ -22,6 +21,7 @@ export default {
   },
   ui: {
     columnsHeight: {},
-    displayPackId: '',
+    displayHide: {},
+    focus: undefined,
   },
 };

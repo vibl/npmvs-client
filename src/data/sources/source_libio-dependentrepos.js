@@ -1,1 +1,1 @@
-export default (packId) => {};
+export default (packName) => {};

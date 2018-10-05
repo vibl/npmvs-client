@@ -1,4 +1,6 @@
 import styled from 'react-emotion';
+import Card from "@material-ui/core/Card";
+import {linearGradient} from "../../util/utils";
 
 export const NoResults = styled.div`
     background: white;
@@ -11,18 +13,21 @@ export const NoResults = styled.div`
       padding: 0;
     }
 `;
-export const StyledContainer = styled.div`
-    background-color: white;
-    width: 100%;
-    position: absolute;
-    left: 0;
-    top: 2.2rem;
+export const StyledContainer = styled(Card)`
+    background-color: white;   
+    border: 1px solid #c59e53;
+    height: calc(100% - 3rem - 0.3rem);
+    left: 0.3rem;
+    overflow-y: scroll;
+    position: fixed;
+    top: 3rem;
+    width: calc(100% - 0.6rem);
     z-index: 1000;
-    
+
     table.results {
       border-collapse: collapse;
       width: 100%;
-  
+      
       tr.hit {
         color: #880022;
         font-size: 0.9rem;
@@ -33,8 +38,12 @@ export const StyledContainer = styled.div`
         &:nth-child(odd) {
           background-color: hsl(45, 100%, 95%);
         }
-        &:hover {
+        &:hover, &.hover {
           background: wheat;
+          
+          & > td.name > .button {
+             visibility: visible !important;
+          }
         }
         td {
           padding: 0;
@@ -54,8 +63,31 @@ export const StyledContainer = styled.div`
           }
         }
         td.name {
-          padding: 0 1rem 0 0.4rem;
+          padding: 0 2rem 0 0.4rem;
           white-space: nowrap;
+          
+          > .button {
+            background: ${linearGradient('#AAA', 0.1, -0.3)};
+            border-radius: 0.25rem;
+            border: 1px solid #AAA;
+            box-shadow: 0 0 2px 0 #AAA;
+            color: #444;
+            cursor: default;
+            font-size: 1rem;
+            line-height: 2.1rem;
+            margin-top: -1.6rem;
+            padding: 0 0.3rem;
+            position: absolute;
+            text-align: center;
+            text-shadow: hsl(0, 100%, 100%, 0.4) 0 0.08rem 0, hsl(0, 100%, 0%, 1) 0px -0.08rem 0px;
+            vertical-align: middle;
+            visibility: hidden;
+            
+            &:hover {
+              box-shadow: 0 0 3px 3px #444, inset -1px -1px 1px 0px #444;
+            } 
+          }
+
         }
         td.downloads.number {
           padding: 0 1rem;
@@ -77,12 +109,13 @@ export const StyledContainer = styled.div`
         }
         td.keywords {
 
-          & > .ais-Highlight {
-            display: flex;
-            max-height: 3rem;
-            min-width: 10rem;
-            flex-wrap: wrap;
+          & > span.ais-Highlight {
             align-items: center;
+            display: flex;
+            flex-wrap: wrap;
+            max-height: 3.3rem;
+            min-width: 10rem;
+            overflow-y: hidden;
 
             & > span {
               border: 1px solid #c16f83 !important;
@@ -91,7 +124,7 @@ export const StyledContainer = styled.div`
               cursor: default;
               background: linear-gradient(white, #ffe6ba);
               display: block;
-              margin: 0 0.06rem 0.3rem;              
+              margin: 0.3rem 0.06rem 0;            
               
               &:hover {
                 background: #802 !important;

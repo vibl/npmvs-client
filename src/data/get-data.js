@@ -12,9 +12,9 @@ const activeSources = [
   // 'npm-downloads',
 ];
 
-export const fetchDataForPackage = async (packId) => {
-  fetchFromSource('npmvs', packId);
+export const fetchDataForPackage = async (packName) => {
+  fetchFromSource('npmvs', packName);
   const getData = (sourceName) =>
-    fetchFromSource(sourceName, packId).then( rawdata => setRawData({sourceName, packId, rawdata}));
+    fetchFromSource(sourceName, packName).then( rawdata => setRawData({sourceName, packName, rawdata}));
   pMap(activeSources, getData);
 };

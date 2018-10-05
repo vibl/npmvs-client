@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import { components } from 'react-select';
 import AsyncSelect from 'react-select/lib/Async';
 import {getSuggestions} from '../get-suggestions';
-import {displayInfoPage, hideInfoPageAfterTimeout} from '../../infopage/infopage-display-hide';
+import {display} from '../../util/popup-display-hide';
 import {selectPackage, deselectPackage} from '../../../logic/router';
 import {setFocus} from '../../../logic/focus';
 import {disableBlinkerTarget, registerBlinkerTarget} from "../../util/Blinker";
@@ -54,10 +54,10 @@ class PackageSelector extends React.Component {
     this.updateSelection();
   }
   handleMouseEnterButton = (evt) => {
-    const packId = evt.target.innerText.trim();
-    if( packId ) {
-      displayInfoPage(packId);
-      setFocus(packId);
+    const packName = evt.target.innerText.trim();
+    if( packName ) {
+      display('InfoPage', packName);
+      setFocus(packName);
     }
     disableBlinkerTarget('SelectorButtons');
   };

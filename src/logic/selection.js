@@ -2,26 +2,26 @@ import store from "../data/store";
 import {selectionFromUrlPath} from './router';
 import {fetchDataForPackage} from '../data/get-data';
 import {setFocus, unsetFocus} from "../logic/focus";
-import {displayInfoPage, hideInfoPage} from '../components/infopage/infopage-display-hide';
+import {display, hide} from '../components/util/popup-display-hide';
 import {append, difference, last, map, pipe, values} from 'ramda';
 const {discard} = require('../util/vibl-fp').default;
 
-const add = async (packId) => {
-  store.set({selection: append(packId)});
-  await fetchDataForPackage(packId);
-  setFocus(packId);
+const add = async (packName) => {
+  store.set({selection: append(packName)});
+  await fetchDataForPackage(packName);
+  setFocus(packName);
 };
-const remove = async (packId) => {
-  store.set({selection: discard(packId)});
-  unsetFocus(packId);
-  if( store.get().ui.displayPackId === packId ) {
+const remove = async (packName) => {
+  store.set({selection: discard(packName)});
+  if( store.get().ui.focus === packName ) {
     const lastSelected = last(store.get().selection);
     if( lastSelected ) {
-      displayInfoPage(lastSelected);
+      display('InfoPage', lastSelected);
     } else {
-      hideInfoPage();
+      hide('InfoPage');
     }
   }
+  unsetFocus(packName);
 };
 export const setSelection = (newSelection) => {
   const currentSelection = store.get().selection;

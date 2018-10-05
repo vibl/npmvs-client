@@ -1,6 +1,6 @@
 import React from 'react';
 import l from '../../util/localiz';
-import {clearHideTimeout} from '../infopage/infopage-display-hide';
+import {clearHideTimeout} from '../util/popup-display-hide';
 import {switchLanguage} from "../../util/localiz";
 import flags from '../../assets/img/flags-square-faded.jpg';
 import {ReactComponent as FlagFr} from '../../assets/img/flag-fr-4x3.svg';

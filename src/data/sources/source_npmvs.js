@@ -3,8 +3,8 @@ import store from "../store";
 
 const enpointUrl = 'http://api.npmvs.com/package/';
 
-export default async (packId) => {
-  const url = enpointUrl + encodeURIComponent(packId);
+export default async (packName) => {
+  const url = enpointUrl + encodeURIComponent(packName);
   const data = await http.memGetData(url);
-  store.set({rawdata:{[packId]: data}});
+  store.set({rawdata:{[packName]: data}});
 };

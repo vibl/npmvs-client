@@ -4,7 +4,7 @@ import AsyncSelect from 'react-select/lib/Async';
 import { components } from 'react-select';
 import {equals} from 'ramda';
 import {getSuggestions} from './get-suggestions';
-import {displayInfoPage, hideInfoPageAfterTimeout} from '../infopage/infopage-display-hide';
+import {display, hideAfterTimeout} from '../util/popup-display-hide';
 import {selectPackage, deselectPackage} from '../../logic/router';
 import {getPackageColors} from "../../util/utils";
 import {setFocus} from '../../logic/focus';
@@ -41,9 +41,9 @@ const styles = {
   },
   multiValue: (styles, state) => {
     const { data, selectProps: {focus, packageColors} } = state;
-    const packId = data.value;
-    const hasFocus = focus === packId;
-    const packColor = packageColors[packId];
+    const packName = data.value;
+    const hasFocus = focus === packName;
+    const packColor = packageColors[packName];
     if( !packColor ) return null;
     const {lightGradient, colorDarker, baseColor} = packColor;
     return {
@@ -99,15 +99,15 @@ class PackageSelector extends React.Component {
     this.updateSelection();
   }
   handleMouseEnterButton = (evt) => {
-    const packId = evt.target.innerText.trim();
-    if( packId ) {
-      displayInfoPage(packId);
-      setFocus(packId);
+    const packName = evt.target.innerText.trim();
+    if( packName ) {
+      display('InfoPage', packName);
+      setFocus(packName);
     }
     disableBlinkerTarget('SelectorButtons');
   };
   handleMouseLeaveButton = () => {
-    hideInfoPageAfterTimeout(500);
+    hideAfterTimeout('InfoPage', 500);
   };
   updateSelection() {
     const {selection} = this.props;
@@ -150,7 +150,7 @@ class PackageSelector extends React.Component {
   }
 }
 const mapStateToProps = (state) => ({
-  focus: state.focus,
+  focus: state.ui.focus,
   selection: state.selection,
   packageColors: getPackageColors(state.color, state.selection),
 });

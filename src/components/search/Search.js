@@ -3,16 +3,19 @@ import {Configure, InstantSearch, connectRefinementList} from 'react-instantsear
 import {clamp} from 'ramda';
 import SearchBox from './SearchBox';
 import Results from './Results';
-import { algolia } from '../../data/secrets';
+import secrets from '../../data/secrets';
 import setNativeValue from "../util/setNativeValue";
 import {registerPopup, displayPopup, hidePopupAfterTimeout} from '../util/popup-display-hide';
 import {selectPackage} from '../../logic/router';
 
+
+const hitsPerPage = 20;
 const choiceKeys = {
   13: 0,
   38: -1,
   40: +1,
 };
+const {appId, apiKey, indexName} = secrets.algolia;
 const equals = (arr1, arr2) =>
   arr1.length === arr2.length && arr1.reduce((a, b, i) => a && arr2[i], true);
 
@@ -89,13 +92,11 @@ class Search extends Component {
         onKeyUp={this.handleKeyUp}
       >
         <InstantSearch
-          appId={algolia.appId}
-          apiKey={algolia.apiKey}
-          indexName={algolia.indexName}
+          {...{appId, apiKey, indexName}}
           onSearchStateChange={this.handleSearchStateChange}
         >
           <Configure
-            hitsPerPage={12}
+            hitsPerPage={hitsPerPage}
             facets={['keywords']}
             attributesToRetrieve={[
               'name',

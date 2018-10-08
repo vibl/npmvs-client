@@ -25,7 +25,7 @@ class BlinkSlider extends Component {
     });
   }
   handleMouseEnterSlider = () => {
-    store.set({session:{isNewbie: false}});
+    store.set({'session:isNewbie': false});
     disableBlinkerTarget('PopSlider');
   };
  render() {

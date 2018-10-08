@@ -6,7 +6,7 @@ const initialValues =  {
   timeout: 0,
 };
 
-const set = (popName, spec) => store.set({[`ui.displayHide.${popName}`]: spec});
+const set = (popName, spec) => store.set({[`ui:displayHide:${popName}`]: spec});
 
 const get = (popName) => {
   const state = store.get().ui.displayHide[popName];

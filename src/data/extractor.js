@@ -1,6 +1,6 @@
 import rawSpecs from './gather-specs';
 import store from './store';
-const {assocColPath} = require('../util/vibl-fp');
+const {assocColpath} = require('../util/vibl-fp');
 
 let jobs;
 
@@ -57,7 +57,7 @@ const extract = (data, params) => {
     let value = data[datapoint];
     const path = getPath(pathTemplate, params);
     if( extractFn ) value = extractFn({value, params, path, state, data});
-    acc = assocColPath(path, value, acc);
+    acc = assocColpath(path, value, acc);
   }
   return acc;
 };

@@ -29,5 +29,5 @@ export default ({sourceName, packName, rawdata}) => {
     datapoints(sourceName)
      ? recurse(datapoints(sourceName), [sourceName], rawdata)
      : rawdata;
-  store.set({rawdata:{[packName]: data}});
+  store.set({[`rawdata:${packName}`]: data});
 }

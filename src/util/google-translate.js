@@ -36,7 +36,7 @@ export const prepareTargetElement = (readme) => {
   readme.appendChild(wrapper);
 };
 const loadGoogleTranslate = () => {
-  loadJS(scriptSrc, () => setTimeout(googleSectionalElementInit, 2000));
+  loadJS(scriptSrc, () => setTimeout(googleSectionalElementInit, 3000));
 };
 
 export default loadGoogleTranslate;

@@ -24,9 +24,9 @@ const BlinkerWrapper = styled.div`
     return acc;
 }}
 `;
-const storeTarget = (target) =>  store.set({[`session.user.blinkers.${target.id}`]: target});
+const storeTarget = (target) =>  store.set({[`session:user:blinkers:${target.id}`]: target});
 
-const transTarget = (id, transformation) =>store.set({[`session.user.blinkers.${id}`]:transformation});
+const transTarget = (id, transformation) =>store.set({[`session:user:blinkers:${id}`]:transformation});
 
 const getTarget = (id) => store.get().session.user.blinkers && store.get().session.user.blinkers[id];
 

@@ -6,7 +6,7 @@ const endpointUrl = 'https://api.github.com/repos/';
 const apiToken = secrets.apiAccessTokens.github;
 
 export default async (packName) => {
-  const repoUrl = await store.detect(`rawdata.${packName}.repository_url`);
+  const repoUrl = await store.detect(`rawdata:${packName}:repository_url`);
   const match = repoUrl.match(/github\.com\/([^/]+\/[^/.#]+)/);
   const presumedFullName = match ? match[1] : null;
   if( ! presumedFullName ) return {};

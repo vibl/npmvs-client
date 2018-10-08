@@ -5,6 +5,7 @@ import {deselectPackage} from '../../logic/router';
 import {linearGradient} from "../../util/utils";
 import {setFocus} from "../../logic/focus";
 import {displayPopup, hidePopupAfterTimeout} from "../util/popup-display-hide";
+import {disableBlinkerTarget} from "../util/Blinker";
 
 class PackageItem extends PureComponent {
 
@@ -12,8 +13,10 @@ class PackageItem extends PureComponent {
     deselectPackage(this.props.packName);
 
   handleMouseEnter = () => {
+    disableBlinkerTarget('Selection');
     setFocus(this.props.packName);
     displayPopup('InfoPage');
+
   };
   handleMouseLeave = () =>
     hidePopupAfterTimeout('InfoPage', 300);

@@ -38,7 +38,7 @@ const Footer = () => (
       {l`Created by Vianney Stroebel, full stack React/Node.js developer.
        <>Créé par Vianney Stroebel, développeur full stack React/Node.js.`}&nbsp;
       {l`Contact me at<>Contactez-moi à`}&nbsp;
-      <Obfuscate email="offer@stroebel.fr"/>&nbsp;
+      <Obfuscate email="joboffer@stroebel.fr"/>&nbsp;
       {l`for projects or jobs in Paris (France) or remote.
        <>pour vos projets ou pour des missions à Paris ou à distance.`}
     </p>

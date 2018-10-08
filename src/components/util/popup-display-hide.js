@@ -1,21 +1,22 @@
 import store from '../../data/store';
 
+const initialValues =  {
+  visible: false,
+  entered: false,
+  timeout: 0,
+};
+
 const set = (popName, spec) => store.set({[`ui.displayHide.${popName}`]: spec});
 
 const get = (popName) => {
-  if( ! store.get().ui.displayHide ) return;
-  return store.get().ui.displayHide[popName];
+  const state = store.get().ui.displayHide[popName];
+  return state || initialValues;
 };
+export const registerPopup = (popName) => {
 
-export const register = (popName) => {
-  const initialValues =  {
-    visible: false,
-    entered: false,
-    timeout: 0,
-  };
   set(popName, initialValues);
 };
-export const unregister = (popName) => set(popName, null);
+export const unregisterPopup = (popName) => set(popName, null);
 
 export const clearHideTimeout = (popName) => {
   const timeout = get(popName).timeout;
@@ -28,7 +29,7 @@ export const clearHideTimeout = (popName) => {
     console.log(err);
   }
 };
-export const display = (popName, ...args) => {
+export const displayPopup = (popName) => {
   clearHideTimeout(popName);
   set(popName, {visible: true, entered: false});
 };
@@ -36,24 +37,24 @@ export const hasEntered = (popName) => {
   clearHideTimeout(popName);
   set(popName, {visible: true, entered: true});
 };
-export const hide = (popName, ...args) => {
+export const hidePopup = (popName) => {
   if( get(popName).visible ) {
     set(popName, {visible: false});
   }
 };
-export const hideIfEntered = (popName, ...args) => {
+export const hidePopupIfEntered = (popName) => {
   if( get(popName).entered ) {
-    hide(popName, ...args);
+    hidePopup(popName);
   }
 };
-export const hideAfterTimeout = (popName, timeoutMs, ...args) => {
+export const hidePopupAfterTimeout = (popName, timeoutMs) => {
   if( get(popName).visible ) {
-    const timeout = setTimeout(() => hide(popName, ...args), timeoutMs);
+    const timeout = setTimeout(() => hidePopup(popName), timeoutMs);
     set(popName, {timeout});
   }
 };
-export const hideAfterTimeoutIfEntered = (popName, timeoutMs, ...args) => {
+export const hidePopupAfterTimeoutIfEntered = (popName, timeoutMs) => {
   if( get(popName).entered ) {
-    hideAfterTimeout(popName, timeoutMs, ...args);
+    hidePopupAfterTimeout(popName, timeoutMs);
   }
 };

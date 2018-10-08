@@ -5,7 +5,7 @@ import styled from 'react-emotion';
 import {css} from 'emotion';
 import {toHtmlClass} from '../../util/utils';
 import InfoPage from "./InfoPage";
-import {register} from '../util/popup-display-hide';
+import {registerPopup} from '../util/popup-display-hide';
 const {toArray} = require('../../util/vibl-fp');
 
 const displayedInfoPage = (p) => {
@@ -27,7 +27,7 @@ const InfoPagesWrapper = styled.div`
 `;
 class InfoPages extends PureComponent {
   componentDidMount() {
-    register('InfoPage');
+    registerPopup('InfoPage');
   }
   render() {
     const {infoPages, focus, visible} = this.props;

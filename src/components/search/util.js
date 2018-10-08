@@ -190,7 +190,7 @@ export const get = ({ url, type, headers, ...rest }) =>
     .catch(err => {
       // in case it's a useless response by GitHub, tell the caller to retry
       if (err.status === 202 || err.status === 204) {
-        throw 'retry';
+        throw new Error('retry');
       } else {
         console.warn(err);
       }

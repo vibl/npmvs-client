@@ -21,22 +21,8 @@ class WrappedSearchBox extends Component {
     const width = measureInputContentWidth(inputEl);
     if( this.state.width !== width ) this.setState({width});
   }
-
   handleChange = (event) => {
     this.measureWidth(event.target);
-    // const inputEl = event.target;
-    // const value = inputEl.value;
-    //
-    // const inputStyle = getComputedStyle(inputEl);
-    //
-    // let wrapperDiv = document.createElement("div");
-    // wrapperDiv.style.position = "absolute";
-    // wrapperDiv.innerHTML = html(
-    //   inputStyle['font-size'],
-    //   inputStyle['font-family'].replace(/\"/g, "'")
-    // this.hiddenSizerRef.tex
-    // const width = Math.max((value.length / 2.68 + 1), 12) + 'rem';
-    // this.setState({width});
   };
   render() {
     return (

@@ -5,6 +5,7 @@ import AppMenu from "./AppMenu";
 import Logo from './Logo';
 import Search from '../search/Search';
 import Selection from '../selection/Selection';
+import ColorDialog from '../color-dialog/ColorDialog';
 
 const StyledWrapper = styled.div`
     display: flex;
@@ -42,6 +43,7 @@ const AppBar = () => (
     {/*<Selector/>*/}
     <Selection/>
     <Search/>
+    <ColorDialog/>
     <AppMenu/>
   </StyledWrapper>
 );

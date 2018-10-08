@@ -3,9 +3,9 @@ import {Configure, InstantSearch, connectRefinementList} from 'react-instantsear
 import {clamp} from 'ramda';
 import SearchBox from './SearchBox';
 import Results from './Results';
-import { algolia } from './config';
+import { algolia } from '../../data/secrets';
 import setNativeValue from "../util/setNativeValue";
-import {register, display, hideAfterTimeout} from '../util/popup-display-hide';
+import {registerPopup, displayPopup, hidePopupAfterTimeout} from '../util/popup-display-hide';
 import {selectPackage} from '../../logic/router';
 
 const choiceKeys = {
@@ -13,25 +13,22 @@ const choiceKeys = {
   38: -1,
   40: +1,
 };
-
 const equals = (arr1, arr2) =>
   arr1.length === arr2.length && arr1.reduce((a, b, i) => a && arr2[i], true);
 
-// package overview page
-// home page (/:lang/)
 const shouldFocus = path =>
   path.includes('/packages') ||
-  path.replace(/\/[a-zA-Z\-]+\/?/, '').length === 0;
+  path.replace(/\/[a-zA-Z-]+\/?/, '').length === 0;
 
 class Search extends Component {
   wrapperRef = React.createRef();
   cursor = -1;
 
   handleSearchBoxMouseEnter = () =>
-    display('SearchResults');
+    displayPopup('SearchResults');
 
   handleMouseLeave = () =>
-    hideAfterTimeout('SearchResults', 110);
+    hidePopupAfterTimeout('SearchResults', 110);
 
   setInputValue = (value, dispatchEvent = false) => {
     if( ! this.wrapperRef.current ) return;
@@ -80,7 +77,7 @@ class Search extends Component {
     this.cursor = -1;
   };
   componentDidMount() {
-    register('SearchResults');
+    registerPopup('SearchResults');
   }
 
   render() {
@@ -104,6 +101,7 @@ class Search extends Component {
               'name',
               'description',
               'keywords',
+              'repository',
               'owner',
               'downloadsLast30Days',
             ]}
@@ -112,7 +110,7 @@ class Search extends Component {
             <SearchBox
               autoFocus={shouldFocus(window.location.pathname)}
               translations={{
-                placeholder: l`Search NPM packages here<>Rechercher les modules NPM ici`,
+                placeholder: l`Search NPM packages<>Rechercher des modules NPM`,
               }}
               onSubmit={this.handleSubmit}
             />

@@ -4,7 +4,7 @@ import Color from 'color';
 import {deselectPackage} from '../../logic/router';
 import {linearGradient} from "../../util/utils";
 import {setFocus} from "../../logic/focus";
-import {display, hideAfterTimeout} from "../util/popup-display-hide";
+import {displayPopup, hidePopupAfterTimeout} from "../util/popup-display-hide";
 
 class PackageItem extends PureComponent {
 
@@ -13,10 +13,10 @@ class PackageItem extends PureComponent {
 
   handleMouseEnter = () => {
     setFocus(this.props.packName);
-    display('InfoPage', this.props.packName);
+    displayPopup('InfoPage');
   };
   handleMouseLeave = () =>
-    hideAfterTimeout('InfoPage', 300);
+    hidePopupAfterTimeout('InfoPage', 300);
 
   render() {
     const {packName, color, hasFocus} = this.props;

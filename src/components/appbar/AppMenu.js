@@ -1,12 +1,14 @@
 import React from 'react';
+import styled from "react-emotion";
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {disableBlinkerTarget, registerBlinkerTarget} from "../util/Blinker";
-import ColorDialog from './ColorDialog';
+import ColorDialogMenuEntry from '../color-dialog/ColorDialogMenuEntry';
 import SwitchLocale from './SwitchLocale';
-import styled from "react-emotion";
+import {registerPopup} from '../util/popup-display-hide';
+
 
 const StyledMenu = styled(Menu)`
   font-size: 0.8rem;
@@ -45,6 +47,7 @@ class AppMenu extends React.Component {
     anchorEl: null,
   };
   componentDidMount() {
+    registerPopup('ColorDialog');
     registerBlinkerTarget({
       id: 'AppMenuButton',
       selector: '#app-menu-button span:first-child',
@@ -77,7 +80,7 @@ class AppMenu extends React.Component {
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.handleClose}><ColorDialog/></MenuItem>
+          <MenuItem onClick={this.handleClose}><ColorDialogMenuEntry/></MenuItem>
           <MenuItem onClick={this.handleClose}><SwitchLocale/></MenuItem>
         </StyledMenu>
       </div>

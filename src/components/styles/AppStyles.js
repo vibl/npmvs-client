@@ -5,6 +5,8 @@ import styled from "react-emotion";
 import { injectGlobal } from 'emotion';
 import shallowEqual from 'fbjs/lib/shallowEqual'
 import theme from './theme';
+import Blinker from '../util/Blinker';
+import MaterialUI from './MaterialUI';
 import focusDynamicStyles from './focusDynamicStyles';
 import {getPackageColors} from "../../util/utils";
 
@@ -22,14 +24,18 @@ const StyledAppContainer = styled.div`
 `;
 class AppStyles extends Component {
   shouldComponentUpdate(nextProps) {
-    return this.props.focus && !shallowEqual(this.props, nextProps)
+    return this.props.focus !== undefined && !shallowEqual(this.props, nextProps)
   }
   render() {
     const {focus, selection, colors, children} = this.props;
     return (
-      <StyledAppContainer {...{focus, selection, colors}}>
-        {children}
-      </StyledAppContainer>
+      <MaterialUI>
+        <Blinker>
+          <StyledAppContainer {...{focus, selection, colors}}>
+            {children}
+          </StyledAppContainer>
+        </Blinker>
+      </MaterialUI>
     )
   }
 };

@@ -20,7 +20,7 @@ export const StyledContainer = styled(Card)`
     left: 0.3rem;
     overflow-y: scroll;
     position: fixed;
-    top: 3rem;
+    top: 3.6rem;
     width: calc(100% - 0.6rem);
     z-index: 1000;
 
@@ -63,6 +63,7 @@ export const StyledContainer = styled(Card)`
           }
         }
         td.name {
+          font-size: 1rem;
           padding: 0 2rem 0 0.4rem;
           white-space: nowrap;
           
@@ -86,6 +87,14 @@ export const StyledContainer = styled(Card)`
             &:hover {
               box-shadow: 0 0 3px 3px #444, inset -1px -1px 1px 0px #444;
             } 
+            
+            a.url {
+              color: #802;
+              font-size: 0.9rem;
+              text-decoration: none;
+              text-shadow: none;
+              padding: 0 0.4rem;
+            }
           }
 
         }
@@ -136,15 +145,18 @@ export const StyledContainer = styled(Card)`
 
         .tooltip-target {
           position: relative;
-          display: inline-block;
         }
-        td:hover > .tooltip-target > .tooltip {
+        *:hover > .tooltip-target .tooltip, 
+        .tooltip-target:hover .tooltip {
+          display: block;
           opacity: 1;
+          transition: opacity 0.5s linear;
         }
         .tooltip {
           background-color: white;
           border-radius: 0.25rem;
           color: #802;
+          display: none;
           font-size: 0.8rem;
           left: calc(100% + 0.5rem);
           opacity: 0;
@@ -152,6 +164,7 @@ export const StyledContainer = styled(Card)`
           position: absolute;
           text-align: center;
           top: -0.35rem;
+          transition: display 0s 1s, opacity 0.5s linear;
           vertical-align: middle;
           white-space: nowrap;
           z-index: 5000;

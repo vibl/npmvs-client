@@ -1,5 +1,5 @@
 import { createBrowserHistory } from 'history';
-import {append, match} from 'ramda';
+import {append, match, uniq} from 'ramda';
 import {updateSelection} from "./selection";
 const {discard} = require('../util/vibl-fp').default;
 
@@ -14,10 +14,11 @@ export const selectionFromUrlPath = (urlPath) => {
   return  ary.length === 1 && ary[0] === '' ? [] : ary;
 };
 export const updateHistory = (operation, packName) => {
-  const selectedAry = selectionFromUrlPath(history.location.pathname);
-  let newSelectedAry = operation(packName, selectedAry);
-  newSelectedAry.sort(); // Always sorted alphabetically. Good for SEO and CDN caching.
-  const locationPath = newSelectedAry.map(encodeURIComponent).join(stringSeparator);
+  let x = selectionFromUrlPath(history.location.pathname);
+  x = operation(packName, x);
+  x.sort(); // Always sorted alphabetically. Good for SEO and CDN caching.
+  x = uniq(x);
+  const locationPath = x.map(encodeURIComponent).join(stringSeparator);
   return history.push(locationPath);
 };
 export const selectPackage = (packName) => updateHistory(append, packName);

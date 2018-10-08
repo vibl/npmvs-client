@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {createSelectorCreator} from 'reselect';
 import {pure} from 'recompose';
 import classNames from 'classnames/dedupe';
 import MixedTupleMap from 'mixedtuplemap';
@@ -66,8 +65,6 @@ export const linearGradient = (color, lighten1 = 0, lighten2 = 0) => {
   return `linear-gradient(${color1},${color2})`;
 };
 export const toHtmlClass = str => str && str.replace ? str.replace(/[^\w\d\-_]/g, '_') : '';
-
-export const createSelector = createSelectorCreator(mem);
 
 export function monitorShouldComponentUpdateOnlyProps(nextProps, nextState) {
   if (!shallowEqual(this.props, nextProps)) {

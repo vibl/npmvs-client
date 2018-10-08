@@ -5,7 +5,7 @@ import {css} from 'emotion';
 import l, {getFullDate} from '../../util/localiz';
 import {cn, getFieldsFromSpecs} from "../../util/utils";
 import dataSpecs from './infopage-data-specs';
-import {clearHideTimeout, hideAfterTimeout} from '../util/popup-display-hide';
+import {clearHideTimeout, hidePopupAfterTimeout} from '../util/popup-display-hide';
 import StyledInfoPageWrapper from './StyledInfoPageWrapper';
 import Grid from '@material-ui/core/Grid';
 import theme from '../styles/theme';
@@ -61,7 +61,7 @@ const Row = ({fieldId, field, value}) => (
   </tr>
 );
 const handleMouseLeave = () => {
-  hideAfterTimeout('InfoPage');
+  hidePopupAfterTimeout('InfoPage');
 };
 const handleMouseEnter = () => {
   clearHideTimeout('InfoPage');

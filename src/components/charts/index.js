@@ -1,3 +1,4 @@
+//TODO: rewrite with module 'require-directory';
 const context = require.context('./', false, /\/[A-Z]\w*\.js$/);
 
 const components = {};

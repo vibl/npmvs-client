@@ -13,7 +13,7 @@ Le nombre de dépôts sur GitHub qui contiennent ce module dans leur \`packages.
 Notez que cela inclut de nombreux dépôts "jetables", obsolètes ou non utilisés (et pas seulement des modules NPM).
 `;
 
-const title = 'Dependent repositories on GitHub<>Projets sur GitHub dépendants de celui-ci';
+const title = 'Dependent repositories on GitHub<>Projets sur GitHub dépendants de ce module';
 
 const DependentReposCount = ({data}) => ! data ? null : <BasicCard {...{title: l(title), infotip: l(infotip) , data}} />;
 

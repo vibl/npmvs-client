@@ -14,7 +14,7 @@ const markdownOptions = {
   ]
 };
 
-class RichTip extends React.Component {
+class MarkTip extends React.Component {
   state = {
     anchorEl: null,
     open: false,
@@ -42,24 +42,27 @@ class RichTip extends React.Component {
             aria-describedby={id}
             variant="contained"
             onMouseEnter={this.handleMouseEnter}
-            onMouseLeave={this.handleMouseLeave}
+            // onMouseLeave={this.handleMouseLeave}
           />
           <Popper
             id={id}
-            open={open} 
+            open={open}
             anchorEl={anchorEl}
             style={{zIndex: 9000}}
+            disablePortal={true}
+            keepMounted={true}
+            modifiers={{computeStyle: {gpuAcceleration: false}}}
           >
-            <Card {...{className}}>
+            <div {...{className}}>
               <Markdown
                 source={content}
                 {...markdownOptions}
               />
-            </Card>
+            </div>
           </Popper>
         </Fragment>
     );
   }
 }
 
-export default RichTip;
+export default MarkTip;

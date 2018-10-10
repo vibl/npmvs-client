@@ -6,6 +6,7 @@ export default  styled(Card)`
     align-items: center;
     margin: 0 .3rem .6rem;
     padding: .8rem .8rem 1rem 1rem;
+    overflow: visible;
     
     h2 {
       color: ${theme.palette.primary.main}; 

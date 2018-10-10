@@ -11,10 +11,13 @@ const Info = styled(HelpIcon)`
 const StyledRichTip = styled(RichTip)`
     background: white;
     font-family: "Roboto", sans-serif;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     color: #333;
     margin: 0;
     max-width: 20rem;
+    padding: 0.7rem;
+    z-index: 8000;
+    
     > div {
       margin: 0.6rem;
     }
@@ -27,9 +30,9 @@ const StyledRichTip = styled(RichTip)`
     }
 `;
 
-export default ({description}) => (
+export default ({infotip}) => (
   <StyledRichTip
     button={Info}
-    content={description}
+    content={infotip}
   />
 );

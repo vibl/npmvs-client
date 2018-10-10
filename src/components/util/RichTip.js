@@ -48,6 +48,7 @@ class RichTip extends React.Component {
             id={id}
             open={open} 
             anchorEl={anchorEl}
+            style={{zIndex: 9000}}
           >
             <Card {...{className}}>
               <Markdown

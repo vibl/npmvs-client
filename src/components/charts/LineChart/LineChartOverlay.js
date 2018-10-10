@@ -5,6 +5,7 @@ import {pure} from 'recompose';
 import {keys, last} from 'ramda';
 import {setFocus} from "../../../logic/focus"
 import fn from '../../../util/vibl-number';
+import {getCurrentLanguage} from '../../../util/localiz';
 
 const getStats = mem( (selection, data) => {
   let packName, result = {};
@@ -42,6 +43,7 @@ const Month = styled.p`
     color: #555;
     text-align: center;
     margin: 0;
+    text-transform: capitalize;
 `;
 const Table = styled.table`
     font-size: 14px;
@@ -71,7 +73,7 @@ const StatRow = ({packName, value}) => (
 );
 const getMonthTitle = (month) => {
   const date =  new Date(month);
-  return date.toLocaleDateString('en-US', {month: 'long', year: 'numeric'});
+  return date.toLocaleDateString(getCurrentLanguage(), {month: 'long', year: 'numeric'});
 };
 class LineChartOverlay extends PureComponent {
   render() {

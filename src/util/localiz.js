@@ -16,6 +16,8 @@ let
   currentLanguage,
   mainPageInstance;
 
+export const getCurrentLanguage = () => languages[currentLanguage];
+
 const getUserLanguage = () => {
   const lang = navigator.language.slice(0,2);
   return languages.indexOf(lang) || 0;

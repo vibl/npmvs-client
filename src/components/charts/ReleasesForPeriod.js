@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import l from '../../util/localiz';
 import {connectStatePure} from '../../util/utils';
-import ChartCard from '../card/ChartCard';
+import ChartCard from '../card/StyledChartCard';
 import Divchart from './Divchart/DivchartContainer';
-import ChartTitle from '../card/ChartTitle';
-import BlinkSlider from '../card/BlinkSlider';
+import SliderTitle from '../card/SliderTitle';
 import {mapObjIndexed} from 'ramda';
 const {isBlank} = require('../../util/vibl-fp');
 
-const description = `
+const infotip = `
 A high number shows that the project is somehow active (though keep in mind that quantity 
 does not always produce quality).
 
@@ -29,14 +28,6 @@ const sliderValues = [
 ];
 const displayFn = x => x;
 
-const SliderTitle = ({description, displayValue, value, onChange, sliderConfig}) => {
-  return (
-    <ChartTitle {...{description}}>
-      {l`Number of releases<>Nombre de releases`} <BlinkSlider
-      {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '5rem'}}}/>
-    </ChartTitle>
-  )
-};
 class ReleasesForPeriod extends Component {
   onChange = (event, state) => {
     this.props.setState(state);
@@ -48,7 +39,14 @@ class ReleasesForPeriod extends Component {
     const data = mapObjIndexed(x => x && x[state], rawData);
     return (
       <ChartCard>
-        <SliderTitle {...{description, value: state, displayValue: l(sliderValues[state]), onChange, sliderConfig}}/>
+        <SliderTitle {...{
+          textBeforeBlinker: l`Number of releases<>Nombre de releases`,
+          infotip: l(infotip),
+          value: state,
+          displayValue:l(sliderValues[state]),
+          sliderConfig,
+          sliderWidth: '6rem',
+          onChange}}/>
         <Divchart  {...{displayFn, data}}/>
       </ChartCard>
     );

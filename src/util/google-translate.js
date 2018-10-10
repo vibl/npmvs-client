@@ -25,14 +25,14 @@ function wrap(el, wrapper) {
 export const prepareTargetElement = (readme) => {
   if( readme.querySelector('.goog-trans-section') ) return null; // Target element has already been prepared.
   const doc = window.document;
-  const children = readme.children;
-  const elements = [...children].slice(1); //Todo: enlever tous les éléments jusqu'au premier h1 ou h2, au cas où ce n'est pas le premier élément.
+  const children = [...readme.children];
+  // const elements = [...children].slice(1); //Todo: enlever tous les éléments jusqu'au premier h1 ou h2, au cas où ce n'est pas le premier élément.
   const wrapper = doc.createElement('div');
   wrapper.classList.add('goog-trans-section');
   const control = doc.createElement('div');
   control.classList.add('goog-trans-control');
   wrapper.appendChild(control);
-  elements.forEach(el => wrapper.appendChild(el));
+  children.forEach(el => wrapper.appendChild(el));
   readme.appendChild(wrapper);
 };
 const loadGoogleTranslate = () => {

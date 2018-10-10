@@ -4,7 +4,7 @@ import BasicCard from "../card/BasicCard";
 import fn from '../../util/vibl-number';
 import {connectStatePure} from "../../util/utils";
 
-const description = `
+const infotip = `
 -> *(Number of closed issues)* <-
 
 -> divided by <-
@@ -28,7 +28,7 @@ const title = 'Percent of closed issues<>Pourcentage de tickets fermés';
 const displayFn = fn.significanPercentDisplay;
 
 const ClosedIssuesRatio = ({data}) => ! data ? null :
-  <BasicCard {...{title: l(title), description: l(description), displayFn, data}} />
+  <BasicCard {...{title: l(title), infotip: l(infotip), displayFn, data}} />
 
 const selectorFn = ({openIssuesCount, totalIssuesCount}) => (1 - openIssuesCount / totalIssuesCount) * 100;
 

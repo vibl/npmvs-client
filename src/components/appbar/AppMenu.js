@@ -14,10 +14,18 @@ const StyledMenu = styled(Menu)`
     font-size: 0.8rem;
     color: #802;
     
+    li {
+      height: 2.7rem;
+      line-height: unset;
+      padding: 0 !important;
+    }
   .button {
     display: flex;
     align-items: center;
     box-shadow: none;
+    height: 100%;
+    padding: 0 0.7rem;
+    width: 100%;
 
     .icon {
       width: 1.6rem;

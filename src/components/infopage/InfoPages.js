@@ -4,18 +4,15 @@ import {pure} from 'recompose';
 import styled from 'react-emotion';
 import {css} from 'emotion';
 import shallowEqual from 'fbjs/lib/shallowEqual'
-import {toHtmlClass} from '../../util/utils';
 import InfoPage from "./InfoPage";
 import {registerPopup} from '../util/popup-display-hide';
-const {toArray} = require('../../util/vibl-fp');
 
 const displayedInfoPage = (p) => {
   const {focus, visible} = p;
-   return ! focus ? null :
-     css`
+   return css`
       display: block;
 
-      .infopage.${toHtmlClass(focus)} {
+      .infopage:nth-of-type(${focus + 1}) {
         visibility: ${visible ? 'visible' : 'hidden' } !important;
       }`;
 };
@@ -35,20 +32,25 @@ class InfoPages extends Component {
     registerPopup('InfoPage');
   }
   render() {
-    const {infoPages, focus, visible} = this.props;
+    const {infoPages, focus, visible, selection} = this.props;
     return ! infoPages ? null : (
       <InfoPagesWrapper {...{focus, visible}}>
-        { toArray(infoPages, (data, packName) => (
-          <InfoPage
-            key={packName}
-            {...{packName, data}}
-          />
-        ))}
+        { selection.map( (packName) => {
+          const data = infoPages[packName];
+          return (
+            <InfoPage
+              key={packName}
+              {...{packName, data}}
+            />
+          )
+        }
+          )}
       </InfoPagesWrapper>
     )
   }
 }
 const mapStateToProps = (state) => ({
+  selection: state.selection,
   infoPages: state.components && state.components.InfoPages,
   focus: state.ui.focus,
   visible: state.ui.displayHide.InfoPage && state.ui.displayHide.InfoPage.visible,

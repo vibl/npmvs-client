@@ -123,9 +123,9 @@ const bindAllDeep = obj => {
   return mapIf(isPlainObject, bindAll, firstLevelBound);
 };
 const rangeStep = curry3((step, start, stop) => {
-  if (step === 0) return null
-  if (step > 0 && stop < start) return null
-  if (step < 0 && stop > start) return null
+  if (step === 0) return null;
+  if (step > 0 && stop < start) return null;
+  if (step < 0 && stop > start) return null;
   return map(
     (n) => start + step * n,
     range(0, (1 + (stop - start) / step) >>> 0)

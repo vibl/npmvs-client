@@ -2,14 +2,13 @@ import React, {Component} from 'react';
 import l from '../../util/localiz';
 import {connectStatePure, mem} from '../../util/utils';
 import fn from '../../util/vibl-number';
-import ChartCard from '../card/ChartCard';
+import ChartCard from '../card/StyledChartCard';
 import DivBarChart from './Divchart/DivchartContainer';
-import ChartTitle from '../card/ChartTitle';
-import BlinkSlider from '../card/BlinkSlider';
+import SliderTitle from '../card/SliderTitle';
 import {map, pipe, prop} from 'ramda';
 const {mapKeys} = require('../../util/vibl-fp');
 
-const description = `
+const infotip = `
 -> *(number of issues that stayed open for duration X)* <-
 
 -> divided by <-
@@ -73,14 +72,6 @@ const extractData = mem( (exponent, dist) => {
   }
   return Math.round(relevantCount / totalCount * 100);
 });
-const SliderTitle = ({description, value, displayValue, sliderConfig, onChange}) => {
-  return (
-    <ChartTitle {...{description}}>
-      {l`Issues resolved in less than<>Tickets résolus en moins de`} <BlinkSlider
-      {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '4rem'}}}/>
-    </ChartTitle>
-  );
-};
 class IssuesClosedInLessThanXdays extends Component {
   onChange = (event, state) => {
     this.props.setState(state);
@@ -93,13 +84,19 @@ class IssuesClosedInLessThanXdays extends Component {
     const sliderConfig = {min: 0, max: 9, step: 1};
     return (
       <ChartCard>
-        <SliderTitle {...{description: l(description), value: state, displayValue:l(labels[3**state]), sliderConfig, onChange}}/>
+        <SliderTitle {...{
+          textBeforeBlinker: l`Issues resolved in less than<>Tickets résolus en moins de`,
+          infotip: l(infotip),
+          value: state,
+          displayValue:l(labels[3**state]),
+          sliderConfig,
+          sliderWidth: '8rem',
+          onChange}}/>
         <DivBarChart {...{displayFn, data}}/>
       </ChartCard>
     );
   };
 }
-
 const selectorFn = ({issues_distribution}) => mapKeys( key => key/3600, issues_distribution);
 
 export default connectStatePure(IssuesClosedInLessThanXdays, selectorFn);

@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import {pure} from 'recompose';
 import l from '../../util/localiz';
-import ChartCard from '../card/ChartCard';
-import ChartTitle from '../card/ChartTitle';
-import BlinkSlider from '../card/BlinkSlider';
+import ChartCard from '../card/StyledChartCard';
+import SliderTitle from '../card/SliderTitle';
 import LineChart from "./LineChart/LineChartContainer";
 import styled from 'react-emotion';
 import {connect} from "react-redux";
@@ -15,7 +14,7 @@ import {connectStatePure, getComponentData, mem} from "../../util/utils";
 // import regression from 'regression';
 // const {multiply} = require('../../logic/vibl-fp');
 
-const description = `
+const infotip = `
 Values are adjusted for average number of days in a month.
 
 In other words, this chart displays what monthly downloads would be if each month lasted 30.41 days (365/12).
@@ -103,14 +102,6 @@ const sliderValues = [
   https://github.com/d3/d3-shape#curveBasis to filter noise)
   Use a zooming interface to allow users to see a 6 month or 2 years spans.
  */
-const SliderTitle = ({description, value, displayValue, sliderConfig, onChange}) => {
-  return (
-    <ChartTitle {...{description}}>
-      {l`Monthly downloads in the last <>Téléchargements mensuels depuis`} <BlinkSlider
-      {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '4rem'}}}/>
-    </ChartTitle>
-  );
-};
 const LineChartCard = styled(ChartCard)`
     display: flex;
     flex-direction: column;
@@ -132,7 +123,14 @@ class DownloadsSeries extends Component {
     const sliderConfig = {min: 0, max: 5, step: 1};
     return (
       <LineChartCard>
-        <SliderTitle {...{description: l(description), value: state, displayValue:l(sliderValues[state].label), sliderConfig, onChange}}/>
+        <SliderTitle {...{
+          textBeforeBlinker: l`Monthly downloads in the last <>Téléchargements mensuels depuis`,
+          infotip: l(infotip),
+          value: state,
+          displayValue:l(sliderValues[state].label),
+          sliderConfig,
+          sliderWidth: '8rem',
+          onChange}}/>
         <LineChart {...{data}}/>
       </LineChartCard>
     );

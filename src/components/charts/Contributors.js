@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import l from '../../util/localiz';
 import {connectStatePure, mem} from '../../util/utils';
-import ChartCard from '../card/ChartCard';
+import ChartCard from '../card/StyledChartCard';
 import Divchart from './Divchart/DivchartContainer';
-import ChartTitle from '../card/ChartTitle';
-import BlinkSlider from '../card/BlinkSlider';
+import SliderTitle from '../card/SliderTitle';
 const {transposeKeys} = require('../../util/vibl-fp');
 
-const description = `
+const infotip = `
 Contributors with one or two commits are not usually much involved in maintaining the project. 
 However, their number can skew the total count of contributors by a large margin.
 
@@ -23,32 +22,30 @@ comme mesure plus pertinente de la contribution.
 export const config = {
   dataPoint: 'contributors',
   extractFn: x => x,
-  description,
-};
-
-const SliderTitle = ({description, displayValue, value, onChange, sliderConfig}) => {
-  const valueSlider = <BlinkSlider
-    {...{value, displayValue, onChange, sliderConfig, popupStyle: {width: '5rem'}}}/>
-  return (
-    <ChartTitle {...{description: l(description)}}>
-      {l`Contributors with more than <>Contributeurs avec plus de`} {valueSlider} commits
-    </ChartTitle>
-  )
+  infotip,
 };
 class Contributors extends Component {
   onChange = (event, state) => {
      this.props.setState(state);
   };
   render() {
-    const {description} = config;
+    const {infotip} = config;
     const {onChange, props:{data, state}} = this;
     if( ! data ) return null;
     const thisData = transposeKeys(data);
     const minCommits = 2 ** state;
-    const sliderConfig = {min: 0, max: 10, step: 1};
+    const sliderConfig = {min: 0, max: 9, step: 1};
     return (
       <ChartCard>
-        <SliderTitle {...{description: l(description), value: state, displayValue: minCommits, onChange, sliderConfig}}/>
+        <SliderTitle {...{
+          textBeforeBlinker: l`Contributors with more than <>Contributeurs avec plus de`,
+          textAfterBlinker: 'commits',
+          infotip: l(infotip),
+          value: state,
+          displayValue:minCommits,
+          sliderConfig,
+          sliderWidth: '8rem',
+          onChange}}/>
         <Divchart  {...{config, data: thisData[minCommits]}}/>
       </ChartCard>
     );

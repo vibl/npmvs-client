@@ -14,11 +14,10 @@ const StyledWrapper = styled.div`
     flex: initial;
     height: 100px;
     position: fixed;
-    right: 2.5rem;
+    right: 0.2rem;
     top: 0.3rem;
-    width: 100px;
     z-index: 5000;
-    
+
     &.visible {
       visibility: visible;
       opacity: 1;
@@ -29,6 +28,9 @@ const StyledWrapper = styled.div`
       opacity: 0;
       transition: visibility 0s 1s, opacity 0.5s linear;
     }
+    .slider {
+      padding: 0 1rem;
+    }
 `;
 const makeGradient = fn => pipe(
   map(fn),
@@ -36,9 +38,9 @@ const makeGradient = fn => pipe(
   join(', '),
 );
 const gradientFn = {
-  hue: p => makeGradient(h => [h, p.saturation, p.lightness])(rangeStep(60, 0, 360)),
-  saturation: p => makeGradient(s => [p.hue, s, p.lightness])([0, 100]),
-  lightness: p => makeGradient(l => [p.hue, p.saturation, l])([0, 50, 100]),
+  hue: p => makeGradient(h => [h, p.saturation, p.lightness])(rangeStep(-60, 360, 0)),
+  saturation: p => makeGradient(s => [p.hue, s, p.lightness])([100, 0]),
+  lightness: p => makeGradient(l => [p.hue, p.saturation, l])([100, 50, 0]),
 };
 const GradientSlider = styled(Slider)`
     background: linear-gradient(to bottom, ${p => {/*debugger;*/ return gradientFn[p.id](p)}});
@@ -52,6 +54,7 @@ class ColorSlider extends PureComponent {
     const value = color[id];
     return (
       <GradientSlider
+        className="slider"
         value={value}
         aria-labelledby={label}
         onChange={this.handleChange}
@@ -93,7 +96,9 @@ const handleMouseEnter = () => {
 
 const ColorDialog = (props) => {
   return (
+
     <StyledWrapper
+      id="color-dialog"
       className={props.visible ? 'visible' : 'hidden'}
       visible={props.visible}
       onMouseEnter={handleMouseEnter}

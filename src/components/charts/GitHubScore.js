@@ -3,7 +3,7 @@ import l from '../../util/localiz';
 import BasicCard from "../card/BasicCard";
 import {connectStatePure} from "../../util/utils";
 
-const description = `
+const infotip = `
 -> = *forks* + *subscribers* + (*stars* / 5)  <-
 *Stars* count has a lower weight because it is much influenced by other factors 
 than quality (type of project, hype, apparences, wow factor, first impressions...) Besides, this number is on average 5 times higher than
@@ -34,7 +34,7 @@ Le décompte des *stars*, *subscribers* et *forks* apparaît dans la page d'info
 const title = 'GitHub score<>Score sur GitHub';
 
 const GitHubScore = ({data}) => ! data ? null :
-  <BasicCard {...{title: l(title), description: l(description), data}} />;
+  <BasicCard {...{title: l(title), infotip: l(infotip), data}} />;
 
 const selectorFn = ({starsCount, forksCount, subscribersCount }) =>
   Math.round(starsCount / 5 + forksCount + subscribersCount);

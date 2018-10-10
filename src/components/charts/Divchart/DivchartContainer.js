@@ -19,7 +19,7 @@ class Container extends PureComponent {
     let {data} = this.props;
     const {selection, displayFn} = this.props;
     if( isBlank(selection) || isBlank(data) ) return null;
-    const packages = this.packages = reverse(selection);
+    const packages = this.packages = selection;
     let max = 0, min = 0, absMin;
     data = packages.map(packName => {
       let value = data[packName];

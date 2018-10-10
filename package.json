@@ -54,11 +54,13 @@
     "redux-persist": "^5.10.0",
     "redux-saga": "^0.16.1",
     "remark-align": "^1.2.4",
+    "shallow-equal-explain": "0.0.4",
     "tuplemap": "^1.0.2",
     "unescape-html": "^1.1.0",
     "unfetch": "^4.0.1",
     "unist-util-visit": "^1.4.0",
     "victory": "^30.5.0",
+    "why-did-you-update": "^0.1.1",
     "xss": "^1.0.3"
   },
   "scripts": {

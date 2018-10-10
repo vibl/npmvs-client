@@ -1,13 +1,16 @@
 import store from "../data/store";
-import {last} from 'ramda';
-const {discard} = require('../util/vibl-fp');
 
-export const setFocus = (packName) => {
-  store.set({'ui:focus': packName});
+export const setFocus = (id) => {
+  let n =
+    typeof id === 'number'
+      ? id
+      : store.get().selection.indexOf(id);
+  if( n < 0 ) n = 0;
+  store.set({'ui:focus': n});
 };
-export const unsetFocus = (packName) => {
-  const selection = store.get().selection;
-  const newFocus = last(discard(packName, selection));
+export const unsetFocus = () => {
+  let newFocus = store.get().ui.focus - 1;
+  if( newFocus < 0 ) newFocus = 0;
   store.set({'ui:focus': newFocus});
 };
 

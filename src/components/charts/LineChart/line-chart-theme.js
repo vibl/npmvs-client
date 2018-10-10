@@ -67,10 +67,10 @@ export default {
     },
   },
   line: {
-    ...baseProps,
     style: {
       data: {
         fill: "transparent",
+        stroke: null,
         strokeWidth: 2
       },
     }

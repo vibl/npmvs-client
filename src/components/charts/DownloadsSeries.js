@@ -119,7 +119,7 @@ const LineChartCard = styled(ChartCard)`
     min-height: 12.5rem;
 `;
 
-const limitSize = (span, data) => map(d => d.downloads.slice(-span), data);
+const limitSize = mem( (span, data) => map(d => d.downloads.slice(-span), data) );
 
 class DownloadsSeries extends Component {
   onChange = (event, state) => {

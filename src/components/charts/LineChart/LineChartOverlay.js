@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PureComponent} from 'react';
 import styled from "react-emotion";
 import {mem, toHtmlClass} from '../../../util/utils';
 import {pure} from 'recompose';
@@ -73,22 +73,26 @@ const getMonthTitle = (month) => {
   const date =  new Date(month);
   return date.toLocaleDateString('en-US', {month: 'long', year: 'numeric'});
 };
-const LineChartOverlay = ({focusedMonth, data, selection, mousePosition, show}) => {
-  const stats = getStats(selection, data);
-  const months = keys(stats);
-  const month = focusedMonth
-    ? ( focusedMonth < months[0] ? months[0] : focusedMonth )
-    : last(months);
-  return (
-    <AbsoluteContainer id="line-chart-overlay" {...{mousePosition, show}}>
-      <Month>{getMonthTitle(month)}</Month>
-      <Table>
-        <tbody>
-        { stats[month].map(StatRow) }
-        </tbody>
-      </Table>
-    </AbsoluteContainer>
-  );
+class LineChartOverlay extends PureComponent {
+  render() {
+    const {focusedMonth, data, selection, mousePosition, show} = this.props;
+    const stats = getStats(selection, data);
+    const months = keys(stats);
+    const month = focusedMonth
+      ? ( focusedMonth < months[0] ? months[0] : focusedMonth )
+      : last(months);
+    return (
+      <AbsoluteContainer id="line-chart-overlay" {...{mousePosition, show}}>
+        <Month>{getMonthTitle(month)}</Month>
+        <Table>
+          <tbody>
+          { stats[month].map(StatRow) }
+          </tbody>
+        </Table>
+      </AbsoluteContainer>
+    );
 };
+}
 
-export default pure(LineChartOverlay);
+
+export default LineChartOverlay;

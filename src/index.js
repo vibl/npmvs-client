@@ -2,17 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
-import { injectGlobal } from 'emotion'
 
-injectGlobal`
-  * {
-    box-sizing: border-box;
-  }
-  body {
-    margin: 0;
-    padding: 0;
-  }
-`;
+// const whyDidYouUpdate = require('why-did-you-update');
+// whyDidYouUpdate(React);
 
 // Detect potentially avoidable rendering.
 // if (process.env.NODE_ENV !== 'production') {

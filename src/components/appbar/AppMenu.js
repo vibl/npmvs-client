@@ -2,7 +2,7 @@ import React from 'react';
 import styled from "react-emotion";
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
+import hamburgeMenuIcon from '../../assets/img/hamburger-menu-icon.png';
 import MenuItem from '@material-ui/core/MenuItem';
 import {disableBlinkerTarget, registerBlinkerTarget} from "../util/Blinker";
 import ColorDialogMenuEntry from '../color-dialog/ColorDialogMenuEntry';
@@ -11,8 +11,8 @@ import {registerPopup} from '../util/popup-display-hide';
 
 
 const StyledMenu = styled(Menu)`
-  font-size: 0.8rem;
-  color: #802;
+    font-size: 0.8rem;
+    color: #802;
     
   .button {
     display: flex;
@@ -50,8 +50,9 @@ class AppMenu extends React.Component {
     registerPopup('ColorDialog');
     registerBlinkerTarget({
       id: 'AppMenuButton',
-      selector: '#app-menu-button span:first-child',
-      rule: 'box-shadow: inset 0 0 2px 0 #802, 0 0 2px 0 #802',
+      css: `#app-menu-button { 
+              box-shadow: inset 0 0 2px 0 #802, 0 0 2px 0 #802
+            }`,
       pattern: '3x200+4000',
     });
   }
@@ -66,14 +67,14 @@ class AppMenu extends React.Component {
     const { anchorEl } = this.state;
     return (
       <div>
-        <Button
+        <div
           id="app-menu-button"
           aria-owns={anchorEl ? 'app-menu' : null}
           aria-haspopup="true"
           onClick={this.handleClick}
         >
-          <MenuIcon/>
-        </Button>
+          <img className="icon" src={hamburgeMenuIcon} alt="menu-icon"/>
+        </div>
         <StyledMenu
           id="app-menu"
           anchorEl={anchorEl}

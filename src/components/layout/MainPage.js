@@ -1,6 +1,5 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
-import store from '../../data/store';
 import AppBar from '../appbar/AppBar';
 import DashBoard from './DashBoard';
 import {updateSelectionFromHistory} from '../../logic/router';
@@ -9,8 +8,9 @@ import styled from 'react-emotion';
 import {localizInit} from "../../util/localiz";
 import Footer from "./Footer";
 
-const ContWrapper = styled.div`
+const StyledWrapper = styled.div`
    position: relative; // So that it can be InfoPages context for absolute positioning.
+   text-align: center;
 `;
 class MainPage extends PureComponent {
   componentDidMount() {
@@ -21,16 +21,16 @@ class MainPage extends PureComponent {
     return (
       <div>
         <AppBar/>
-        <ContWrapper>
+        <StyledWrapper>
           <DashBoard/>
           <InfoPages/>
-        </ContWrapper>
+        </StyledWrapper>
       <Footer/>
       </div>
     )
   }
 }
 const mapStateToProps = (state) => ({
-  userHasSeenAppMenu: state.session.user.hasSeenAppMenu,
+  userHasSeenAppMenu: state.userprefs.hasSeenAppMenu,
 });
 export default connect(mapStateToProps)(MainPage);

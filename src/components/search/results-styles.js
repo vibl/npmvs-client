@@ -1,6 +1,6 @@
 import styled from 'react-emotion';
 import Card from "@material-ui/core/Card";
-import {linearGradient} from "../../util/utils";
+import {simpleColorGradient} from "../../util/utils";
 
 export const NoResults = styled.div`
     background: white;
@@ -68,7 +68,7 @@ export const StyledContainer = styled(Card)`
           white-space: nowrap;
           
           > .button {
-            background: ${linearGradient('#AAA', 0.1, -0.3)};
+            background: ${simpleColorGradient('#AAA', 0.1, -0.3)};
             border-radius: 0.25rem;
             border: 1px solid #AAA;
             box-shadow: 0 0 2px 0 #AAA;

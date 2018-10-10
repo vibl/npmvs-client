@@ -34,7 +34,7 @@ export const switchLanguage = (arg) => {
   }
   const lang = languages[currentLanguage];
   if( lang === 'fr' ) loadGoogleTranslate();
-  store.set({session:{language: lang}});
+  store.set({userprefs:{language: lang}});
   // Will force-update the whole rendered tree
 // even if components in the middle of it
 // define a strict shouldComponentUpdate().
@@ -53,7 +53,7 @@ export const localiz = (...list) => {
   const base = versions.shift();
   dictionary[base] = versions;
 };
-export const getSessionLocale = () => store.get().session.language;
+export const getSessionLocale = () => store.get().userprefs.language;
 
 export const getFullDate = (date = new Date(), format = 'fullDateTime') => {
   return date.toLocaleString(getSessionLocale(), dateFormats[format]);

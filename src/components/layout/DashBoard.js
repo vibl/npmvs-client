@@ -36,6 +36,10 @@ const orderStyles = ({order}) => {
 const StyledGridItem = styled(Grid)`
   ${orderStyles}
 `;
+const StyledButton = styled(Button)`
+    display: inline-block;
+    text-transform: unset;
+`;
 const strToScreenCfg = str =>
   str.split(' ').reduce( (acc, val, i) => ({...acc, [screenSizes[i]]: parseInt(val)}), {});
 
@@ -54,7 +58,7 @@ const cards =
       });
 const DashBoard = ({data, selection}) => {
   return isBlank(data) || isBlank(selection)
-    ? <Button onClick={() => history.push('recharts,victory,react-vis')}>Charger des données de test</Button>
+    ? <StyledButton onClick={() => history.push('recharts,victory,react-vis')}>{l`Example: recharts vs victory vs react-vis<>Exemple: recharts vs victory vs react-vis`}</StyledButton>
     : (
     <StyledGrid
       container

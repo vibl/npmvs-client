@@ -1,29 +1,30 @@
 import store from "../data/store";
 import {selectionFromUrlPath} from './router';
-import {fetchDataForPackage} from '../data/get-data';
 import {setFocus, unsetFocus} from "../logic/focus";
-import {append, difference, last, map, pipe, values} from 'ramda';
-const {discard} = require('../util/vibl-fp').default;
+import fetchData from '../data/sources/source_npmvs.js';
+// import Spinner from '../components/appbar/Spinner';
+import {append, concat, difference, last, map, omit, pipe, values, without} from 'ramda';
 
-const add = async (packName) => {
-  store.set({selection: append(packName)});
-  await fetchDataForPackage(packName);
-  setFocus(packName);
+const addPackages = async (packNames) => {
+  store.set({'ui:spinner': true});
+  store.set({selection: concat(packNames)});
+  await Promise.all( packNames.map(packName => fetchData(packName)));
+  setFocus(packNames[0]);
+  store.set({'ui:spinner': false})
 };
-const remove = async (packName) => {
-  store.set({selection: discard(packName)});
-  if( store.get().ui.focus === packName ) {
-    const lastSelected = last(store.get().selection);
-    if( lastSelected ) {
-      setFocus(lastSelected);
-    }
-  }
-  unsetFocus(packName);
+const removePackages = async (packNames) => {
+  store.set({
+    selection: without(packNames),
+    components: map(omit(packNames)),
+  });
+  setFocus(0);
 };
 export const setSelection = (newSelection) => {
   const currentSelection = store.get().selection;
-  difference(currentSelection, newSelection).map(remove);
-  difference(newSelection, currentSelection).map(add);
+  const removedPackages =  difference(currentSelection, newSelection);
+  if( removedPackages.length > 0 ) removePackages(removedPackages);
+  const addedPackages = difference(newSelection, currentSelection);
+  if( addedPackages.length > 0 ) addPackages(addedPackages);
 };
 export const updateSelection = (path) => {
   const selection = selectionFromUrlPath(path);

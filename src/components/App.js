@@ -15,7 +15,7 @@ class App extends Component {
         <Store>
           <Head/>
           <AppStyles>
-            <Route path="/" component={MainPage}/>
+            <MainPage/>
           </AppStyles>
         </Store>
       </Router>

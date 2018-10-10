@@ -1,8 +1,9 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
 import styled from 'react-emotion';
 import {css} from 'emotion';
+import shallowEqual from 'fbjs/lib/shallowEqual'
 import {toHtmlClass} from '../../util/utils';
 import InfoPage from "./InfoPage";
 import {registerPopup} from '../util/popup-display-hide';
@@ -25,7 +26,11 @@ const InfoPagesWrapper = styled.div`
   }
   ${displayedInfoPage}
 `;
-class InfoPages extends PureComponent {
+class InfoPages extends Component {
+  shouldComponentUpdate(nextProps) {
+    return ( nextProps.visible !== this.props.visible )
+    || ( nextProps.visible === true && ! shallowEqual(this.props, nextProps) );
+  }
   componentDidMount() {
     registerPopup('InfoPage');
   }

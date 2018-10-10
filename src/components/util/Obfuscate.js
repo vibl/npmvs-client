@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import styled from 'react-emotion';
 import {css} from 'emotion';
 import { node, string, object, bool } from 'prop-types'
@@ -40,8 +40,10 @@ const createContactLink = (tel, email, headers) => {
   }
   return link
 };
-
-class Obfuscate extends Component {
+const StyledWrapper = styled.span`
+  ${ ({humanInteraction}) => ! humanInteraction && obfStyles}
+`;
+class Obfuscate extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -128,15 +130,8 @@ Obfuscate.propTypes = {
   facetime: string,
   email: string,
   headers: object,
-  obfuscate: bool,
   style: object,
   linkText: string,
 };
 
-Obfuscate.defaultProps = {
-  obfuscate: true,
-};
-const StyledWrapper = styled.span`
-  ${ ({humanInteraction}) => ! humanInteraction && obfStyles}
-`;
 export default Obfuscate;

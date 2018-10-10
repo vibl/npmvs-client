@@ -1,14 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {pure} from 'recompose';
+import Color from 'color';
 import classNames from 'classnames/dedupe';
 import MixedTupleMap from 'mixedtuplemap';
 import shallowEqual from 'fbjs/lib/shallowEqual'
-import Color from 'color';
 import memoize from './memoize-immutable';
 import store from '../data/store';
 import {keys, zipObj} from 'ramda';
-const {gradient, hsl, isBlank} = require('./vibl-fp');
+const {isBlank} = require('./vibl-fp');
 
 export const mem = memoize;
 export const memGC = fn => memoize(fn, {cache: new MixedTupleMap()});
@@ -26,39 +26,33 @@ export const getComponentData = mem(
     return acc;
   }
 );
+const setComponentState = mem(
+  (name) =>
+    (value) => store.set({[`userprefs:components:${name}`]: value})
+);
+
 export const connectState = (component, selectorFn) => {
   const mapStateToProps = (state, props) => {
-    const id = props.chartId;
-    let data = state.components[id];
+    const name = props.chartId;
+    let data = state.components[name];
     if( selectorFn) data = getComponentData(selectorFn, data);
     return {
       data,
       selection: state.selection,
-      state: state.session.components[id],
-      setState: (value) => store.set({session:{components:{[id]: value}}}),
+      state: state.userprefs.components[name],
+      setState: setComponentState(name),
     };
   };
   return connect(mapStateToProps)(component);
+  
 };
-// Ne marche pas en prendre car les noms sont minifiés !!!
+// Utiliser `component.name` ne marche pas en prod car les noms sont minifiés !!!
 export const connectStatePure = (component, selectorFn) => {
   const pureComponent = pure(component);
   return connectState(pureComponent, selectorFn);
 };
-const darken = (lightness) => lightness * 0.6;
 
-export const getPackageColors = mem( (colorObj, selection) => {
-  const {hues, hue: hueOffset, saturation, lightness} = colorObj;
-  return zipObj(selection, selection.map( (val, i) => {
-    const hue = hues[i] + hueOffset;
-    const baseColor = hsl(hue, saturation, lightness);
-    const colorDarker = hsl(hue, saturation, darken(lightness));
-    const lightGradient = gradient(baseColor, hsl(hue, saturation, lightness - 10));
-    return {...colorObj, hue, baseColor, colorDarker, lightGradient};
-  }));
-  }
-);
-export const linearGradient = (color, lighten1 = 0, lighten2 = 0) => {
+export const simpleColorGradient = (color, lighten1 = 0, lighten2 = 0) => {
   color = typeof color === 'string' ? Color(color) : color;
   const color1 = color.lighten(lighten1).hsl().string();
   const color2 = color.lighten(lighten2).hsl().string();

@@ -548,8 +548,8 @@ const orNull = (fn) => (arg) => fn(arg) || null;
 const viblPure = {
   added, allEquals, anyValue, appendStr, assocColpath, assocDotpath, assocDotPath: assocDotpath, areEquals, haveSameElements,
   bindAll, bindAllDeep, budge,
-  collect, combine, concatArray, concatLeft, curry2, curry3, curryFlip, deIndex,
-  discard, dissocAll, doesMatch,equals, equalsAny,
+  collect, combine, concatArray, concatLeft, curry2, curry3, curryFlip,
+  deIndex, discard, dissocAll, doesMatch,equals, equalsAny,
   fnOr, filterKeys, filterP, flipAll, from,
   geoMean, get, getColpath, getDotpath, getDotPath: getDotpath, getDotpathTreeFromDotpathList, gradient, hsl,
   ifDefinedElse, ident, indexByProp, indexValWithKey, indexValuesByDotpath, interleave, isBlank, isEmpty, isFunction,

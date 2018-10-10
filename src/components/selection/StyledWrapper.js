@@ -2,7 +2,6 @@ import styled from 'react-emotion'
 
 export default styled.div`
     display: flex;
-    color: ${ ({lightness}) => lightness > 50 ? 'black' : 'white' };
     
     .package {
       align-items: center;

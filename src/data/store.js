@@ -8,7 +8,7 @@ const {getColPath, transform} = require('../util/vibl-fp').default;
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['session', 'color'],
+  whitelist: ['userprefs'],
 };
 const reducer = (state, {payload}) => {
   let newState = payload ? transform(payload, state) : state;

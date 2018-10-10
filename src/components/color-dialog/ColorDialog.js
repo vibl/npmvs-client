@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 import Slider from '@material-ui/lab/Slider';
 import styled from 'react-emotion';
@@ -7,7 +7,6 @@ import {clearHideTimeout, hidePopupAfterTimeout} from '../util/popup-display-hid
 
 import {apply, join, map, pipe} from 'ramda';
 const {hsl, rangeStep} = require('../../util/vibl-fp');
-
 
 const StyledWrapper = styled.div`
     box-shadow: #999 0 0 0.7rem;
@@ -44,9 +43,9 @@ const gradientFn = {
 const GradientSlider = styled(Slider)`
     background: linear-gradient(to bottom, ${p => {/*debugger;*/ return gradientFn[p.id](p)}});
 `;
-class ColorSlider extends Component {
+class ColorSlider extends PureComponent {
   handleChange = (event, value) => {
-    store.set({color:{[this.props.id]: value} });
+    store.set({[`userprefs:color:${this.props.id}`]: value});
   };
   render() {
     const {id, color, label, max} = this.props;
@@ -55,7 +54,7 @@ class ColorSlider extends Component {
       <GradientSlider
         value={value}
         aria-labelledby={label}
-        onChange={this.handleChange.bind(this)}
+        onChange={this.handleChange}
         vertical
         min={0}
         max={max}
@@ -105,7 +104,7 @@ const ColorDialog = (props) => {
   );
 };
 const mapStateToProps = (state) => ({
-  color: state.color,
+  color: state.userprefs.color,
   visible: state.ui.displayHide.ColorDialog && state.ui.displayHide.ColorDialog.visible,
 });
 export default connect(mapStateToProps)(ColorDialog);

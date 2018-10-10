@@ -1,7 +1,5 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React, {PureComponent} from 'react';
 import styled from 'react-emotion';
-import store from '../../data/store';
 import PopSlider from "../card/PopSlider";
 import {registerBlinkerTarget, disableBlinkerTarget} from '../util/Blinker';
 
@@ -12,39 +10,31 @@ const StyledSpan = styled.span`
       //transition: box-shadow 1s;  // Uses too much cpu.
     }
 `;
-let blinkerTarget, blinkerIsRegistered;
-
-class BlinkSlider extends Component {
-
+class BlinkSlider extends PureComponent {
   componentDidMount() {
     registerBlinkerTarget({
       id: 'PopSlider',
-      selector: 'span.popslider.value',
-      rule: 'box-shadow: inset 0 0 2px 0 #ffffff, 0 0 2px 0 #ffffff !important',
+      css: `span.popslider.value { 
+              box-shadow: inset 0 0 2px 0 #ffffff, 0 0 2px 0 #ffffff !important; 
+            }`,
       pattern: '3x200+4000',
     });
   }
   handleMouseEnterSlider = () => {
-    store.set({'session:isNewbie': false});
     disableBlinkerTarget('PopSlider');
   };
- render() {
+  render() {
    const {value, displayValue, sliderConfig, onChange, popupStyle} = this.props;
     return (
       <StyledSpan>
         <PopSlider {...sliderConfig} {...{value, onChange, popupStyle, handleMouseEnterSlider: this.handleMouseEnterSlider}}>
-          {/*<HelpTooltip title={'Hover here'} group={'PopSlider'}>*/}
-            <span>
+          <span>
             {displayValue}
-            </span>
-          {/*</HelpTooltip>*/}
+          </span>
         </PopSlider>
       </StyledSpan>
     )
   }
 }
-const mapStateToProps = (state) => ({
-  isNewbie: state.session.isNewbie,
-});
-export default connect(mapStateToProps)(BlinkSlider);
+export default BlinkSlider;
 

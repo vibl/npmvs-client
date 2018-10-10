@@ -7,13 +7,13 @@ export default () => css`
  
   .label.column {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: stretch;
   }
   .data.column {
     flex: 1;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: stretch;
   }
   .label.row  {

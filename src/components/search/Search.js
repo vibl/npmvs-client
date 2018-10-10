@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {Configure, InstantSearch, connectRefinementList} from 'react-instantsearch-dom';
 import {clamp} from 'ramda';
 import SearchBox from './SearchBox';
@@ -7,7 +7,6 @@ import secrets from '../../data/secrets';
 import setNativeValue from "../util/setNativeValue";
 import {registerPopup, displayPopup, hidePopupAfterTimeout} from '../util/popup-display-hide';
 import {selectPackage} from '../../logic/router';
-
 
 const hitsPerPage = 20;
 const choiceKeys = {
@@ -23,7 +22,7 @@ const shouldFocus = path =>
   path.includes('/packages') ||
   path.replace(/\/[a-zA-Z-]+\/?/, '').length === 0;
 
-class Search extends Component {
+class Search extends PureComponent {
   wrapperRef = React.createRef();
   cursor = -1;
 
